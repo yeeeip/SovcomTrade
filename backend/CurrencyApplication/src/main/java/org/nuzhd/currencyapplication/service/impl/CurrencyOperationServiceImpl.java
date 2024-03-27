@@ -10,6 +10,8 @@ import org.nuzhd.currencyapplication.service.CurrencyOperationService;
 import org.nuzhd.currencyapplication.validation.ValidationService;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class CurrencyOperationServiceImpl implements CurrencyOperationService {
 
@@ -44,5 +46,10 @@ public class CurrencyOperationServiceImpl implements CurrencyOperationService {
         );
 
         return operation;
+    }
+
+    @Override
+    public List<CurrencyOperation> findAllByUser(AppUser user) {
+        return currencyOperationRepository.findAllByUser(user);
     }
 }

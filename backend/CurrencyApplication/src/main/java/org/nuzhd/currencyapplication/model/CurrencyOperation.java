@@ -15,7 +15,7 @@ public class CurrencyOperation {
     private Long id;
 
     @ManyToOne
-    private AppUser userId;
+    private AppUser user;
 
     @Enumerated(EnumType.ORDINAL)
     private OperationCode code;
@@ -45,7 +45,7 @@ public class CurrencyOperation {
     }
 
     public CurrencyOperation(AppUser user, OperationCode code, BankAccount debitAccountId, BankAccount creditAccountId, LocalDateTime deadline, BigDecimal course) {
-        this.userId = user;
+        this.user = user;
         this.code = code;
         this.debitAccountId = debitAccountId;
         this.creditAccountId = creditAccountId;
@@ -63,12 +63,12 @@ public class CurrencyOperation {
         this.id = id;
     }
 
-    public AppUser getUserId() {
-        return userId;
+    public AppUser getUser() {
+        return user;
     }
 
-    public void setUserId(AppUser userId) {
-        this.userId = userId;
+    public void setUser(AppUser userId) {
+        this.user = userId;
     }
 
     public OperationCode getCode() {

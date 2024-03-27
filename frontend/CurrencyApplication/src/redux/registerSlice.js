@@ -27,8 +27,13 @@ export const registerSlice = createSlice({
 			value: null,
 			valid: true,
 		},
-		secondName: {
+		middleName: {
 			value: null,
+			valid: true,
+		},
+		generalError: {
+			value: null,
+			valid: false,
 		},
 	},
 	reducers: {
@@ -36,40 +41,46 @@ export const registerSlice = createSlice({
 			state.email.value = action.payload
 		},
 		emailValid: (state, action) => {
-			state.email.valid = action
+			state.email.valid = action.payload
 		},
 		passwordChange: (state, action) => {
 			state.password.value = action.payload
 		},
 		passwordValid: (state, action) => {
-			state.password.valid = action
+			state.password.valid = action.payload
 		},
 		secondPasswordChange: (state, action) => {
 			state.secondPassword.value = action.payload
 		},
 		secondPasswordValid: (state, action) => {
-			state.secondPassword.valid = action
+			state.secondPassword.valid = action.payload
 		},
 		phoneChange: (state, action) => {
 			state.phone.value = action.payload
 		},
 		phoneValid: (state, action) => {
-			state.phone.valid = action
+			state.phone.valid = action.payload
 		},
 		firstNameChange: (state, action) => {
 			state.firstName.value = action.payload
 		},
 		firstNameValid: (state, action) => {
-			state.firstName.valid = action
+			state.firstName.valid = action.payload
 		},
 		secondNameChange: (state, action) => {
 			state.secondName.value = action.payload
 		},
 		secondNameValid: (state, action) => {
-			state.secondName.valid = action
+			state.secondName.valid = action.payload
 		},
 		middleNameChange: (state, action) => {
 			state.middleName.value = action.payload
+		},
+		generalErrorChange: (state, action) => {
+			state.generalError.value = action.payload
+		},
+		generalErrorValid: (state, action) => {
+			state.generalError.valid = action.payload
 		},
 	},
 })
@@ -87,6 +98,8 @@ export const {
 	secondNameChange,
 	secondNameValid,
 	middleNameChange,
+	generalErrorChange,
+	generalErrorValid,
 } = registerSlice.actions
 
 export default registerSlice.reducer

@@ -13,8 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
+<<<<<<< HEAD
+@RequestMapping("${application.base-path}/lk/{userId}/bank_accounts")
+@CrossOrigin
+=======
 @RequestMapping("${application.base-path}/lk/bank_accounts")
 @CrossOrigin("${application.frontend.base-path}")
+>>>>>>> 46176cab56526095874adc787b7ec21da4631f6e
 public class BankAccountController {
 
     private final AppUserRepository userRepository;
