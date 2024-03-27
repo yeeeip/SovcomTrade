@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${application.base-path}/lk/operations")
+@CrossOrigin("${application.frontend.base-path}")
 public class CurrencyOperationController {
 
     private final CurrencyOperationService operationService;

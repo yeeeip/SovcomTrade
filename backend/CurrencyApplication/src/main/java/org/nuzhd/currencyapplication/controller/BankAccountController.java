@@ -12,25 +12,14 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-<<<<<<< HEAD
-@RequestMapping("${application.base-path}/lk/{userId}/bank_accounts")
-@CrossOrigin
-=======
+
 @RequestMapping("${application.base-path}/lk/bank_accounts")
 @CrossOrigin("${application.frontend.base-path}")
->>>>>>> 46176cab56526095874adc787b7ec21da4631f6e
 public class BankAccountController {
-
-    private final AppUserRepository userRepository;
     private final BankAccountService bankAccountService;
 
-    private final AuthenticationService authenticationService;
-
-    public BankAccountController(AppUserRepository userRepository, BankAccountService bankAccountService, AuthenticationService authenticationService) {
-        this.userRepository = userRepository;
+    public BankAccountController(BankAccountService bankAccountService) {
         this.bankAccountService = bankAccountService;
-        this.authenticationService = authenticationService;
     }
 
     @GetMapping
