@@ -29,3 +29,5 @@ application:
   api:
     version: v1
   base-path: "/api/${application.api.version}"
+  frontend:
+    base-path: ${FRONTEND_BASE_PATH}

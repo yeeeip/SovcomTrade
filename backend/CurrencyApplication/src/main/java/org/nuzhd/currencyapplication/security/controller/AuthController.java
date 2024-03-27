@@ -12,15 +12,13 @@ import org.nuzhd.currencyapplication.security.user.service.AppUserService;
 import org.nuzhd.currencyapplication.security.user.service.AuthenticationService;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Locale;
 
 @RestController
 @RequestMapping("${application.base-path}/auth")
+@CrossOrigin("${application.frontend.base-path}")
 public class AuthController {
 
     private final AppUserService userService;

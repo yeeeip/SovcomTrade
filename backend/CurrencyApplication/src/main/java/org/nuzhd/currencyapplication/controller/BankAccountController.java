@@ -14,6 +14,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("${application.base-path}/lk/{userId}/bank_accounts")
+@CrossOrigin("${application.frontend.base-path}")
 public class BankAccountController {
 
     private final AppUserRepository userRepository;
