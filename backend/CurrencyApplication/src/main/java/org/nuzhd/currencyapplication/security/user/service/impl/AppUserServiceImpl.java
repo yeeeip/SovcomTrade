@@ -12,14 +12,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Locale;
-
 @Service
 public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
     private final AppUserRepository appUserRepository;
     private final PasswordEncoder encoder;
-
     private final ValidationService validationService;
 
     public AppUserServiceImpl(AppUserRepository appUserRepository, PasswordEncoder encoder, ValidationService validationService) {
@@ -29,9 +26,9 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
     }
 
     @Override
-    public AppUser createUser(UserRegistrationDTO userRegistrationDTO, Locale locale) {
+    public AppUser createUser(UserRegistrationDTO userRegistrationDTO) {
 
-        validationService.validateRegistration(userRegistrationDTO, locale);
+        validationService.validateRegistration(userRegistrationDTO);
 
         AppUser newUser = new AppUser(
                 userRegistrationDTO.email(),

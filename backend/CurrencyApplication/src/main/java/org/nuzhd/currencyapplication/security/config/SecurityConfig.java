@@ -1,29 +1,45 @@
 package org.nuzhd.currencyapplication.security.config;
 
+import org.nuzhd.currencyapplication.security.jwt.JwtAuthEntryPoint;
+import org.nuzhd.currencyapplication.security.jwt.JwtAuthenticationFilter;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
-import static org.springframework.security.config.Customizer.withDefaults;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
     @Value("${application.base-path}")
     private String basePath;
+    private final JwtAuthEntryPoint authEntryPoint;
 
-    @Value("${application.remember-me.key}")
-    private String rememberMeKey;
+    private JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    public SecurityConfig(JwtAuthEntryPoint authEntryPoint) {
+        this.authEntryPoint = authEntryPoint;
+    }
+
+    @Autowired
+    public void setJwtAuthenticationFilter(@Lazy JwtAuthenticationFilter jwtAuthenticationFilter) {
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return http
+        http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize
@@ -31,13 +47,15 @@ public class SecurityConfig {
                                 .permitAll()
                                 .anyRequest().authenticated()
                 )
-                .rememberMe(configurer ->
-                        configurer.key(rememberMeKey)
-                                .tokenValiditySeconds(30)
+                .exceptionHandling(customizer -> customizer.authenticationEntryPoint(authEntryPoint))
+                .sessionManagement(
+                        sessions -> sessions.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
-                .httpBasic(withDefaults())
-                .logout(logout -> logout.deleteCookies("JSESSIONID"))
-                .build();
+                .httpBasic(Customizer.withDefaults());
+
+        http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
+
+        return http.build();
     }
 
     @Bean
