@@ -24,8 +24,8 @@ logging:
     web: debug
 
 application:
-  remember-me:
-    key: ${REMEMBER_ME_SECRET_KEY}
+  jwt:
+    key: ${JWT_SECRET_KEY}
   api:
     version: v1
   base-path: "/api/${application.api.version}"
