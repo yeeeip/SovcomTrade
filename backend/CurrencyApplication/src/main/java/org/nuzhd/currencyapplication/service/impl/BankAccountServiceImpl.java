@@ -2,6 +2,7 @@ package org.nuzhd.currencyapplication.service.impl;
 
 import org.nuzhd.currencyapplication.dto.BankAccountCreateDTO;
 import org.nuzhd.currencyapplication.dto.BankAccountResponseDTO;
+import org.nuzhd.currencyapplication.exception.BankAccountNotFound;
 import org.nuzhd.currencyapplication.model.BankAccount;
 import org.nuzhd.currencyapplication.repo.BankAccountRepository;
 import org.nuzhd.currencyapplication.security.user.AppUser;
@@ -49,5 +50,11 @@ public class BankAccountServiceImpl implements BankAccountService {
                 .toList();
 
         return accounts;
+    }
+
+    @Override
+    public BankAccount findById(Long accountId) {
+        return bankAccountRepository.findById(accountId)
+                .orElseThrow(BankAccountNotFound::new);
     }
 }

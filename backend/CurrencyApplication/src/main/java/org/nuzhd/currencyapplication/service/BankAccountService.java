@@ -12,4 +12,6 @@ public interface BankAccountService {
     BankAccountResponseDTO createAccount(AppUser owner, BankAccountCreateDTO createDTO);
 
     List<BankAccountResponseDTO> findAllByOwnerId(Long ownerId);
+
+    BankAccount findById(Long accountId);
 }

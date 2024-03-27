@@ -1,7 +1,18 @@
 import React from "react"
 import styled from "styled-components"
 import { useDispatch, useSelector } from "react-redux"
+import {
+	emailValid,
+	passwordValid,
+	secondPasswordValid,
+	phoneValid,
+	firstNameValid,
+	secondNameValid,
+	generalErrorValid,
+	generalErrorChange,
+} from "../../../redux/registerSlice"
 
+import axios from "axios"
 const CustomButton = styled.button`
 	font-family: "TT Travels";
 	font-weight: 500;
@@ -35,6 +46,7 @@ export const Button = ({ href, content, target }) => {
 	const firstName = useSelector((state) => state.register.firstName?.value)
 	const secondName = useSelector((state) => state.register.secondName?.value)
 	const middleName = useSelector((state) => state.register.middleName?.value)
+	const dispatch = useDispatch()
 	const handleButtonClick = () => {
 		//if (!(isEmailValid && isPasswordRepeated && isPasswordValid)) return
 		switch (target) {
@@ -47,35 +59,98 @@ export const Button = ({ href, content, target }) => {
 						.then
 						//Ну тут короче да к апи запрос
 						()
-				} catch (err) {
-					console.error(err)
-				}
+				} catch (err) {}
 				break
 			case "registration":
-				try {
-					console.log(email, password, firstName, secondName, middleName, phone, secondPassword)
-					fetch("http://localhost:8080/api/v1/auth/register", {
-						mode: "no-cors",
-						method: "POST",
-						headers: {
-							"Content-Type": "application/json",
-						},
-						body: JSON.stringify({
-							"email": email,
-							"password": password,
-							"firstName": firstName,
-							"lastName": secondName,
-							"middleName": middleName,
-							"phoneNumber": phone,
-							"confirmPassword": secondPassword,
-						}),
-					}).then((response) => {
-						console.log(response)
-						if (response != 200) console.error("Ошибка апи")
+				console.log(
+					JSON.stringify({
+						email: email || "",
+						password: password || "",
+						firstName: firstName || "",
+						lastName: secondName || "",
+						middleName: middleName || "",
+						phoneNumber: phone || "",
+						confirmPassword: secondPassword || "",
 					})
-				} catch (err) {
-					console.error(err)
-				}
+				)
+				axios({
+					method: "post",
+					mode: "no-cors",
+					url: "https://91ed-95-26-80-238.ngrok-free.app/api/v1/auth/register",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					data: JSON.stringify({
+						email: email || "",
+						password: password || "",
+						firstName: firstName || "",
+						lastName: secondName || "",
+						middleName: middleName || "",
+						phoneNumber: phone || "",
+						confirmPassword: secondPassword || "",
+					}),
+				})
+					.then((response) => {
+						console.log(response)
+					})
+					.catch((err) => {
+						console.log(err)
+						let response = err.response.data
+						if (response.status != 400) {
+							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
+							dispatch(generalErrorValid(true))
+							setTimeout(() => {
+								dispatch(generalErrorChange(null))
+								dispatch(generalErrorValid(false))
+							}, 5000)
+						}
+						if (!response.errors) {
+							dispatch(generalErrorChange(response.detail))
+							dispatch(generalErrorValid(true))
+							return
+						}
+						response.errors.map((error) => {
+							switch (error.field) {
+								case "email":
+									dispatch(emailValid(error.defaultMessage))
+									setTimeout(() => {
+										dispatch(emailValid(true))
+									}, 15000)
+									break
+								case "password":
+									dispatch(passwordValid(error.defaultMessage))
+									setTimeout(() => {
+										dispatch(passwordValid(true))
+									}, 15000)
+									break
+								case "confirmPassword":
+									dispatch(secondPasswordValid(error.defaultMessage))
+									setTimeout(() => {
+										dispatch(secondPasswordValid(true))
+									}, 15000)
+									break
+								case "phoneNumber":
+									dispatch(phoneValid(error.defaultMessage))
+									setTimeout(() => {
+										dispatch(phoneValid(true))
+									}, 15000)
+									break
+								case "firstName":
+									dispatch(firstNameValid(error.defaultMessage))
+									setTimeout(() => {
+										dispatch(firstNameValid(true))
+									}, 15000)
+									break
+								case "lastName":
+									dispatch(secondNameValid(error.defaultMessage))
+									setTimeout(() => {
+										dispatch(secondNameValid(true))
+									}, 15000)
+									break
+							}
+						})
+					})
+
 				break
 		}
 	}

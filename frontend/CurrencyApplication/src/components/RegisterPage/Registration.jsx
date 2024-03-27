@@ -5,7 +5,7 @@ import { ExitButton } from "./styles/ExitButton"
 import { SmallButton } from "./styles/SmallButton"
 import { SmallGreyText } from "./styles/SmallGreyText"
 import { SliderProvider } from "./styles/Slider/SliderProvider"
-
+import { useSelector } from "react-redux"
 
 const CustomFormContainer = styled.div`
 	padding: 120px 400px 120px 124px;
@@ -48,11 +48,12 @@ const CustomContainer = styled.div`
 `
 
 function Registration() {
+	const generalError = useSelector((state) => state.register.generalError)
 	const data = [
 		[
 			{ target: "email", title: "Адрес электронной почты *" },
 			{ target: "password", title: "Пароль *" },
-			{ target: "passwordCheck", title: "Повторите пароль *" },
+			{ target: "secondPassword", title: "Повторите пароль *" },
 		],
 		[
 			{ target: "phone", title: "Номер телефона *" },
@@ -65,8 +66,11 @@ function Registration() {
 		<CustomContainer>
 			<CustomBGImage />
 			<CustomFormContainer>
-				<CustomTitle>Регистрация</CustomTitle>
-				<SliderProvider data={data} height={600} width={600} />
+				<div style={{ display: "flex", gap: "20px" }}>
+					<CustomTitle>Регистрация</CustomTitle>
+					{generalError.valid && <CustomTitle style={{ color: "red" }}>{generalError.value}</CustomTitle>}
+				</div>
+				<SliderProvider data={data} height={550} width={600} />
 
 				<Button href={"#"} content={"Зарегистрироваться"} target={"registration"} />
 				<CustomButtonBlock>

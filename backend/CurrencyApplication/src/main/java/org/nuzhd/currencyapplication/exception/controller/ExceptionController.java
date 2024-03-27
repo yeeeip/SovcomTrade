@@ -1,7 +1,6 @@
 package org.nuzhd.currencyapplication.exception.controller;
 
-import org.nuzhd.currencyapplication.exception.PasswordsDoNotMatchException;
-import org.nuzhd.currencyapplication.exception.UserAlreadyExistsException;
+import org.nuzhd.currencyapplication.exception.*;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ProblemDetail;
@@ -41,9 +40,12 @@ public class ExceptionController {
     }
 
     @ExceptionHandler(PasswordsDoNotMatchException.class)
-    public ResponseEntity<ProblemDetail> handlePasswordsDoNotMatchException(PasswordsDoNotMatchException ex) {
-        ProblemDetail problemDetail = ProblemDetail
-                .forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+    public ResponseEntity<ProblemDetail> handlePasswordsDoNotMatchException(PasswordsDoNotMatchException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("currency.user.create.error.passwords_do_not_match",
+                        new Object[0], locale)
+        );
 
         return ResponseEntity
                 .badRequest()
@@ -51,9 +53,12 @@ public class ExceptionController {
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)
-    public ResponseEntity<ProblemDetail> handleUserAlreadyExistsException(UserAlreadyExistsException ex) {
+    public ResponseEntity<ProblemDetail> handleUserAlreadyExistsException(UserAlreadyExistsException ex, Locale locale) {
         ProblemDetail problemDetail = ProblemDetail
-                .forStatusAndDetail(HttpStatus.BAD_REQUEST, ex.getMessage());
+                .forStatusAndDetail(HttpStatus.BAD_REQUEST,
+                        this.messageSource.getMessage("currency.user.create.error.already_exists",
+                                new Object[0], locale)
+                );
 
         return ResponseEntity
                 .badRequest()
@@ -77,6 +82,47 @@ public class ExceptionController {
                         HttpStatus.BAD_REQUEST,
                         this.messageSource.getMessage("currency.user.not_found", new Object[0], locale)
                 );
+
+        return ResponseEntity
+                .badRequest()
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(EqualAccountsException.class)
+    public ResponseEntity<ProblemDetail> handleEqualAccounts(EqualAccountsException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("currency.operation.create.error.equal_accounts", new Object[0], locale
+                )
+        );
+
+        return ResponseEntity
+                .badRequest()
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(PastDateException.class)
+    public ResponseEntity<ProblemDetail> handlePastDateException(PastDateException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("currency.operation.create.deadline_in_past",
+                        new Object[0], locale
+                )
+        );
+
+        return ResponseEntity
+                .badRequest()
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(BankAccountNotFound.class)
+    public ResponseEntity<ProblemDetail> handleAccountNotFound(BankAccountNotFound ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("currency.bank_account.not_found",
+                        new Object[0], locale
+                )
+        );
 
         return ResponseEntity
                 .badRequest()

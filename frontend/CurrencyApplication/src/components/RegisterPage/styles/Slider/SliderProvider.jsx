@@ -1,7 +1,8 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import { NextButton } from "./NextButton"
 import { PrevButton } from "./PrevButton"
+import { useDispatch, useSelector } from "react-redux"
 import { Input } from "../Input"
 const CustomSliderProvider = styled.div`
 	width: ${(props) => props.width + "px"};
@@ -29,7 +30,7 @@ const CustomSlider = styled.div`
 const CustomSlide = styled.div`
 	display: flex;
 	flex-direction: column;
-	gap: 25px 0;
+	gap: 10px 0;
 	height: 100%;
 	max-width: ${(props) => props.width + "px"};
 	min-width: ${(props) => props.width + "px"};
@@ -38,6 +39,9 @@ const CustomSlide = styled.div`
 
 export const SliderProvider = ({ data, width, height }) => {
 	let [offset, setOffset] = useState(0)
+
+	const register = useSelector((state) => state.register)
+
 	const getFullWidth = () => {
 		return width * (data.length - 1) + 50 * (data.length - 1)
 	}
@@ -64,7 +68,16 @@ export const SliderProvider = ({ data, width, height }) => {
 						return (
 							<CustomSlide key={index} width={width}>
 								{item.map((itemData, indexSecond) => {
-									return <Input target={itemData.target} title={itemData.title} key={indexSecond} />
+									console.log(typeof register[itemData.target]?.valid, register, itemData.target)
+									return (
+										<Input
+											target={itemData.target}
+											title={itemData.title}
+											key={indexSecond}
+											caution={typeof register[itemData.target]?.valid == "string"}
+											errorMessage={typeof register[itemData.target]?.valid == "string" ? register[itemData.target].valid : false}
+										/>
+									)
 								})}
 							</CustomSlide>
 						)
