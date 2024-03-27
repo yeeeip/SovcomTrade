@@ -1,13 +1,14 @@
-import { Button } from "./styles/Button"
-import { Input } from "./styles/Input"
 import styled from "styled-components"
-import registrationBG from "../images/registrationBG.jpg"
-import { BackButton } from "./styles/BackButton"
+import registrationBG from "../../images/registrationBG.jpg"
+import { Button } from "./styles/Button"
 import { ExitButton } from "./styles/ExitButton"
 import { SmallButton } from "./styles/SmallButton"
+import { SmallGreyText } from "./styles/SmallGreyText"
+import { SliderProvider } from "./styles/Slider/SliderProvider"
+
 
 const CustomFormContainer = styled.div`
-	padding: 120px 400px 120px 24px;
+	padding: 120px 400px 120px 124px;
 	width: 60%;
 	& > *:not(:last-child) {
 		margin-bottom: 25px;
@@ -27,6 +28,7 @@ const CustomButtonBlock = styled.div`
 	align-items: center;
 	width: 50%;
 	margin: 0 auto;
+	gap: 15px;
 `
 
 const CustomBGImage = styled.div`
@@ -40,27 +42,36 @@ const CustomContainer = styled.div`
 	display: flex;
 	width: 100%;
 	height: 100vh;
-	& > *:nth-child(2) {
-		margin: 115px 0 0 100px;
-	}
 	& > *:last-child {
 		margin: 115px 100px 0 0;
 	}
 `
 
 function Registration() {
+	const data = [
+		[
+			{ target: "email", title: "Адрес электронной почты *" },
+			{ target: "password", title: "Пароль *" },
+			{ target: "passwordCheck", title: "Повторите пароль *" },
+		],
+		[
+			{ target: "phone", title: "Номер телефона *" },
+			{ target: "firstName", title: "Имя *" },
+			{ target: "secondName", title: "Фамилия *" },
+			{ target: "middleName", title: "Отчество" },
+		],
+	]
 	return (
 		<CustomContainer>
 			<CustomBGImage />
-			<BackButton />
 			<CustomFormContainer>
 				<CustomTitle>Регистрация</CustomTitle>
-				<Input target={"email"} title={"Адрес электронной почты"} />
-				<Input target={"password"} title={"Пароль"} />
-				<Input target={"passwordCheck"} title={"Повторите пароль"} />
-				<Button href={"#"} content={"Зарегистрироваться"} target={"register"} />
+				<SliderProvider data={data} height={600} width={600} />
+
+				<Button href={"#"} content={"Зарегистрироваться"} target={"registration"} />
 				<CustomButtonBlock>
-					<SmallButton href={"#"} content={"Уже есть аккаунт? Войти"} />
+					<SmallGreyText>Уже есть аккаунт? </SmallGreyText>
+					<SmallButton href={"#"} content={"Войти"} />
 				</CustomButtonBlock>
 			</CustomFormContainer>
 			<ExitButton />

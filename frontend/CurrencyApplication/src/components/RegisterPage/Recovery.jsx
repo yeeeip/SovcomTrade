@@ -1,7 +1,7 @@
 import { Button } from "./styles/Button"
 import { Input } from "./styles/Input"
 import styled from "styled-components"
-import registrationBG from "../images/registrationBG.jpg"
+import registrationBG from "../../images/registrationBG.jpg"
 import { BackButton } from "./styles/BackButton"
 import { ExitButton } from "./styles/ExitButton"
 
@@ -57,7 +57,7 @@ function Recovery() {
 	return (
 		<CustomContainer>
 			<CustomBGImage />
-			<BackButton />
+			<BackButton href={"/"} />
 			<CustomFormContainer>
 				<CustomTitle>Восстановление пароля</CustomTitle>
 				<Input target={"email"} title={"Адрес электронной почты"} />

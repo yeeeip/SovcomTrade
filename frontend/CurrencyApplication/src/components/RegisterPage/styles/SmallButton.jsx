@@ -6,7 +6,8 @@ const CustomButton = styled.button`
 	font-size: 16px;
 	color: rgba(21, 25, 28, 0.5);
 
-	width: 100%;
+	width: fit-content;
+
 	text-align: center;
 	text-decoration: underline;
 
@@ -23,7 +24,8 @@ const CustomLinkButton = styled.a`
 	font-size: 16px;
 	color: rgba(21, 25, 28, 0.5);
 
-	width: 100%;
+	width: fit-content;
+
 	text-align: center;
 	text-decoration: underline;
 
