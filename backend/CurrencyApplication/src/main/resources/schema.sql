@@ -16,4 +16,18 @@ create table if not exists bank_account (
     owner_id bigserial references app_user (id),
     currency varchar not null,
     balance numeric(8,4) not null
-)
+);
+
+create table if not exists currency_operation (
+
+    id bigserial primary key,
+    user_id bigserial references app_user(id),
+    code integer not null,
+    created_at timestamp with time zone not null,
+    processed_at timestamp with time zone default null,
+    debit_account_id bigserial references bank_account(id),
+    credit_account_id bigserial references bank_account(id),
+    deadline timestamp with time zone not null,
+    status varchar not null
+
+);
