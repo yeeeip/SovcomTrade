@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: currency_app
+  datasource:
+    url: jdbc:postgresql://localhost:5432/${SPRING_DATASOURCE_DB_NAME}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: none
+  sql:
+    init:
+      mode: always
+
+
+logging:
+  level:
+    org:
+      springframework:
+        security: debug
+      hibernate:
+        sql: debug
+    web: debug
+
+application:
+  remember-me:
+    key: ${REMEMBER_ME_SECRET_KEY}
+  api:
+    version: v1
+  base-path: "/api/${application.api.version}"
