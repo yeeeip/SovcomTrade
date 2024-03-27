@@ -18,7 +18,7 @@ import java.util.Locale;
 
 @RestController
 @RequestMapping("${application.base-path}/auth")
-@CrossOrigin("${application.frontend.base-path}")
+@CrossOrigin
 public class AuthController {
 
     private final AppUserService userService;
