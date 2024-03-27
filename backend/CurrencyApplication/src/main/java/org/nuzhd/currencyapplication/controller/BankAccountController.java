@@ -3,8 +3,6 @@ package org.nuzhd.currencyapplication.controller;
 import org.nuzhd.currencyapplication.dto.BankAccountCreateDTO;
 import org.nuzhd.currencyapplication.dto.BankAccountResponseDTO;
 import org.nuzhd.currencyapplication.security.user.AppUser;
-import org.nuzhd.currencyapplication.security.user.repo.AppUserRepository;
-import org.nuzhd.currencyapplication.security.user.service.AuthenticationService;
 import org.nuzhd.currencyapplication.service.BankAccountService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -13,8 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+@RestController
 @RequestMapping("${application.base-path}/lk/bank_accounts")
-@CrossOrigin("${application.frontend.base-path}")
+@CrossOrigin
 public class BankAccountController {
     private final BankAccountService bankAccountService;
 
