@@ -5,7 +5,7 @@ import registrationBG from "./images/registrationBG.jpg"
 import { BackButton } from "./styles/BackButton"
 import { ExitButton } from "./styles/ExitButton"
 import { SmallButton } from "./styles/SmallButton"
-
+import { useDispatch, useSelector } from "react-redux"
 const CustomFormContainer = styled.div`
 	padding: 120px 400px 120px 24px;
 	width: 60%;
@@ -23,11 +23,11 @@ const CustomTitle = styled.p`
 `
 const CustomButtonBlock = styled.div`
 	display: flex;
-    justify-content: end;
-    align-items: center;
-    width: 100%;
-    padding-top: 20px;
-    margin: 0 auto;
+	justify-content: end;
+	align-items: center;
+	width: 100%;
+	padding-top: 20px;
+	margin: 0 auto;
 `
 
 const CustomBGImage = styled.div`
@@ -66,19 +66,35 @@ const CustomLinkButton = styled.a`
 	cursor: pointer;
 `
 
-function Entry () {
+function Entry() {
+	const generalError = useSelector((state) => state.register.generalError)
+	const register = useSelector((state) => state.register)
+
 	return (
 		<CustomContainer>
 			<CustomBGImage />
-			<BackButton />
+			<BackButton href={"/"} />
 			<CustomFormContainer>
-				<CustomTitle>Вход</CustomTitle>
-				<Input target={"email"} title={"Адрес электронной почты"} />
-				<Input target={"password"} title={"Пароль"} />
-				<Button href={"#"} content={"Войти"} target={"register"} />
+				<div style={{ display: "flex", gap: "20px" }}>
+					<CustomTitle>Вход</CustomTitle>
+					{generalError.valid && <CustomTitle style={{ color: "red" }}>{generalError.value}</CustomTitle>}
+				</div>
+				<Input
+					target={"email"}
+					title={"Адрес электронной почты"}
+					caution={typeof register.email.valid == "string"}
+					errorMessage={typeof register.email.valid == "string" ? register.email.valid : false}
+				/>
+				<Input
+					target={"password"}
+					title={"Пароль"}
+					caution={typeof register.password.valid == "string"}
+					errorMessage={typeof register.password.valid == "string" ? register.password.valid : false}
+				/>
+				<Button href={"#"} content={"Войти"} target={"login"} />
 				<CustomButtonBlock>
-					<SmallButton href={"#"} content={"Забыли пароль?"} />
-                    <SmallButton href={"#"} content={"Зарегистрироваться"} />
+					<SmallButton href={"/recovery"} content={"Забыли пароль?"} />
+					<SmallButton href={"/register"} content={"Зарегистрироваться"} />
 				</CustomButtonBlock>
 			</CustomFormContainer>
 			<ExitButton />
