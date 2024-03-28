@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import registrationBG from "../../images/registrationBG.jpg"
+import registrationBG from "./images/registrationBG.jpg"
 import { Button } from "./styles/Button"
 import { ExitButton } from "./styles/ExitButton"
 import { SmallButton } from "./styles/SmallButton"
