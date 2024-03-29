@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import { CurrencyModal } from "../CurrencyModal"
+
 
 const OptionLi = styled.li`
     margin-top: 15px;
@@ -24,8 +24,8 @@ const OptionSpan = styled.span`
 
 export const Option = ({title, handlefunc}) => {
     return(
-            <OptionLi onClick={handlefunc}> 
-                <OptionSpan >{title}</OptionSpan>
-            </OptionLi>
+        <OptionLi onClick={handlefunc}> 
+            <OptionSpan >{title}</OptionSpan>
+        </OptionLi>
     )
 }
