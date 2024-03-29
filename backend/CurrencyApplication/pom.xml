@@ -81,6 +81,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <mainClass>org.nuzhd.currencyapplication.CurrencyApplication</mainClass>
                     <imageName>currency_app</imageName>
                 </configuration>
             </plugin>

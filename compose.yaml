@@ -12,11 +12,14 @@ services:
   currency_app:
     depends_on:
       - database
-    image: currency_app:latest
+    image: currency_app
+    build:
+      dockerfile: backend/CurrencyApplication/Dockerfile
     environment:
       - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/${SPRING_DATASOURCE_DB_NAME}
       - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - APPLICATION_JWT_KEY=${JWT_SECRET_KEY}
     ports:
       - 8080:8080
     networks:
