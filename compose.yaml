@@ -12,7 +12,7 @@ services:
   currency_app:
     depends_on:
       - database
-    image: currency_app
+    image: currency_app_backend
     build:
       dockerfile: backend/CurrencyApplication/Dockerfile
     environment:
@@ -24,6 +24,18 @@ services:
       - 8080:8080
     networks:
       - app-net
+  frontend:
+    image: currency_app_frontend
+    depends_on:
+      - currency_app
+      - database
+    build:
+      dockerfile: frontend/CurrencyApplication/Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - app-net
+
 
 networks:
   app-net:
