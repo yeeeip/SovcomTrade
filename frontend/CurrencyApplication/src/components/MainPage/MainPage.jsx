@@ -5,11 +5,6 @@ import Scrin from "./img/scrin.svg"
 import Recommendations from "./ComponentMainPage/Recommendations.jsx"
 import Footer from "../Footer/Footer.jsx"
 
-const Line = styled.div`
-	width: 100%;
-	height: 2px;
-	background: rgba(21, 25, 28, 0.25);
-`
 const MainPageDiv = styled.div``
 const RateAndСhart = styled.div`
 	background: #f1f7ff;
@@ -24,7 +19,6 @@ const MainPage = () => {
 	return (
 		<MainPageDiv>
 			<Navbar />
-			<Line />
 			<RateAndСhart>
 				<LeftExchangeRate />
 				<RightChart>

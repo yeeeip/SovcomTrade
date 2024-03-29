@@ -68,7 +68,6 @@ export const SliderProvider = ({ data, width, height }) => {
 						return (
 							<CustomSlide key={index} width={width}>
 								{item.map((itemData, indexSecond) => {
-									console.log(typeof register[itemData.target]?.valid, register, itemData.target)
 									return (
 										<Input
 											target={itemData.target}

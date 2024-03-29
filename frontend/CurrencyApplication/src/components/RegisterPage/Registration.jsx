@@ -6,10 +6,12 @@ import { SmallButton } from "./styles/SmallButton"
 import { SmallGreyText } from "./styles/SmallGreyText"
 import { SliderProvider } from "./styles/Slider/SliderProvider"
 import { useSelector } from "react-redux"
+import { useLayoutEffect, useState } from "react"
 
 const CustomFormContainer = styled.div`
-	padding: 120px 400px 120px 124px;
 	width: 60%;
+	margin: 120px auto;
+	padding: 0 150px;
 	& > *:not(:last-child) {
 		margin-bottom: 25px;
 	}
@@ -47,7 +49,21 @@ const CustomContainer = styled.div`
 	}
 `
 
+function useWindowSize() {
+	const [size, setSize] = useState([0, 0])
+	useLayoutEffect(() => {
+		function updateSize() {
+			setSize([window.innerWidth, window.innerHeight])
+		}
+		window.addEventListener("resize", updateSize)
+		updateSize()
+		return () => window.removeEventListener("resize", updateSize)
+	}, [])
+	return size
+}
+
 function Registration() {
+	const [windowWidth, windowHeight] = useWindowSize()
 	const generalError = useSelector((state) => state.register.generalError)
 	const data = [
 		[
@@ -70,9 +86,10 @@ function Registration() {
 					<CustomTitle>Регистрация</CustomTitle>
 					{generalError.valid && <CustomTitle style={{ color: "red" }}>{generalError.value}</CustomTitle>}
 				</div>
-				<SliderProvider data={data} height={550} width={600} />
 
-				<Button href={"#"} content={"Зарегистрироваться"} target={"registration"} />
+				<SliderProvider data={data} height={windowHeight * 0.55} width={windowWidth * 0.6 - 300} />
+
+				<Button content={"Зарегистрироваться"} target={"register"} />
 				<CustomButtonBlock>
 					<SmallGreyText>Уже есть аккаунт? </SmallGreyText>
 					<SmallButton href={"#"} content={"Войти"} />
