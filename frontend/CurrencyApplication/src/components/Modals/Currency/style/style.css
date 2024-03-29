@@ -1,0 +1,79 @@
+
+
+.select-menu{
+    width: 380px;
+    margin: 140px auto;
+    
+}
+.select-menu-active{
+    width: 380px;
+    margin: 140px auto;
+}
+.select-btn{
+    display: flex;
+    height: 55px;
+    background: #fff;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 8px;
+    align-items: center;
+    cursor: pointer;
+    justify-content: space-between;
+    border: 2px solid #213A8B;
+    border-radius: 40px;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    font-family: "TT Travels";
+}
+.select-btn-acctive{
+    display: flex;
+    height: 55px;
+    background: #fff;
+    padding: 20px;
+    font-size: 18px;
+    font-weight: 400;
+    border-radius: 8px;
+    align-items: center;
+    cursor: pointer;
+    border: 2px solid #213A8B;
+    border-radius: 40px;
+    justify-content: space-between;
+    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    font-family: "TT Travels";
+}
+.arrow-active {
+    transform: scaleY(-1.5);
+}
+ .options{
+    position: relative;
+    padding: 20px;
+    margin-top: 10px;
+    border-radius: 8px;
+    background: #fff;
+    box-shadow: 0 0 3px rgba(0,0,0,0.1);
+    display: none;
+}
+.options-active{
+    display: block;
+}
+.option{
+    margin-top: 30px;
+    display: flex;
+    height: 55px;
+    cursor: pointer;
+    padding: 0 16px;
+    border-radius: 8px;
+    align-items: center;
+    background: #fff;
+    border: 2px solid #213A8B;
+    border-radius: 40px;
+}
+
+.option:hover{
+    background: #F2F2F2;
+}
+.option-text{
+    font-family: "TT Travels";
+    font-size: 18px;
+    color: #333;
+} 

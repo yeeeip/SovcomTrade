@@ -3,6 +3,7 @@ import Registration from "./components/RegisterPage/Registration.jsx"
 import { BrowserRouter, Route, Routes, Redirect } from "react-router-dom"
 import MainPage from "./components/MainPage/MainPage.jsx"
 import Entry from "./components/RegisterPage/Entry.jsx"
+import { CurrencyModal } from "./components/Modals/Currency/CurrencyModal.jsx"
 
 function App() {
 	return (
@@ -20,6 +21,8 @@ function App() {
 							<br />
 							<a href='/entry'>Entry</a>
 							<br />
+							<a href='/сurrencyModal'>CurrencyModal</a>
+							<br />
 						</>
 					}
 				/>
@@ -27,6 +30,7 @@ function App() {
 				<Route path='recovery' element={<Recovery />} />
 				<Route path='mainPage' element={<MainPage/>}/>
 				<Route path='entry' element={<Entry/>}/>
+				<Route path='сurrencyModal' element={<CurrencyModal/>}/>
 			</Routes>
 		</BrowserRouter>
 	)
