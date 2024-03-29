@@ -13,6 +13,7 @@ import {
 } from "../../../redux/registerSlice"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { setFirstName, setLastName, setMiddleName, setBankAccounts } from "../../../redux/loginSlice"
 
 const CustomButton = styled.button`
 	font-family: "TT Travels";
@@ -24,6 +25,11 @@ const CustomButton = styled.button`
 	text-align: center;
 	background: #000;
 	border-radius: 20px;
+
+	@media (max-width: 1200px) {
+		font-size: 20px;
+		padding: 15px;
+	}
 `
 const CustomLinkButton = styled.a`
 	display: block;
@@ -37,6 +43,10 @@ const CustomLinkButton = styled.a`
 	background: #000;
 	text-decoration: none;
 	border-radius: 20px;
+	@media (max-width: 1200px) {
+		font-size: 20px;
+		padding: 15px;
+	}
 `
 
 export const Button = ({ href, content, target }) => {
@@ -48,7 +58,7 @@ export const Button = ({ href, content, target }) => {
 	const secondName = useSelector((state) => state.register.secondName?.value)
 	const middleName = useSelector((state) => state.register.middleName?.value)
 	const dispatch = useDispatch()
-	const SERVER_URL = "https://502f-95-26-80-238.ngrok-free.app"
+	const SERVER_URL = "https://874f-95-26-80-238.ngrok-free.app"
 	let navigate = useNavigate()
 	const handleButtonClick = () => {
 		//if (!(isEmailValid && isPasswordRepeated && isPasswordValid)) return
@@ -159,9 +169,22 @@ export const Button = ({ href, content, target }) => {
 				})
 					.then((response) => {
 						console.log(response)
+						dispatch(setFirstName(response.data.user.first_name))
+						dispatch(setLastName(response.data.user.last_name))
+						dispatch(setMiddleName(response.data.user.middle_name || ""))
+						dispatch(setBankAccounts(response.data.user.user_accounts))
 						navigate("/mainPage", { replace: true })
 					})
 					.catch((err) => {
+						if (!err.response?.data) {
+							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
+							dispatch(generalErrorValid(true))
+							setTimeout(() => {
+								dispatch(generalErrorChange(null))
+								dispatch(generalErrorValid(false))
+							}, 5000)
+							return
+						}
 						let response = err.response.data
 						if (response.status != 400) {
 							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))

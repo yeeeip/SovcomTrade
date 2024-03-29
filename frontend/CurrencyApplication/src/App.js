@@ -4,37 +4,38 @@ import { BrowserRouter, Route, Routes, Redirect } from "react-router-dom"
 import MainPage from "./components/MainPage/MainPage.jsx"
 import Entry from "./components/RegisterPage/Entry.jsx"
 import { CurrencyModal } from "./components/Modals/Currency/CurrencyModal.jsx"
-import { OfferModal } from "./components/Modals/Offer/OfferModal.jsx"
+import { History } from "./components/HistoryPage/History.jsx"
+import { Button } from "./components/RegisterPage/styles/Button.jsx"
 
 function App() {
 	return (
 		<BrowserRouter basename='/'>
 			<Routes>
-			<Route
+				<Route
 					path='/'
 					element={
 						<>
-							<a href='/registration'>Registration</a>
+							<Button href={"/registration"} content={"registration"} />
 							<br />
-							<a href='/recovery'>Recovery</a>
+							<Button href={"/recovery"} content={"recovery"} />
 							<br />
-							<a href='/mainPage'>MainPage</a>
+							<Button href={"/mainPage"} content={"mainPage"} />
 							<br />
-							<a href='/entry'>Entry</a>
+							<Button href={"/entry"} content={"entry"} />
 							<br />
-							<a href='/сurrencyModal'>CurrencyModal</a>
+							<Button href={"/сurrencyModal"} content={"сurrencyModal"} />
 							<br />
-							<a href='/offerModal'>OfferModal</a>
+							<Button href={"/history"} content={"history"} />
 							<br />
 						</>
 					}
 				/>
 				<Route path='registration' element={<Registration />} />
 				<Route path='recovery' element={<Recovery />} />
-				<Route path='mainPage' element={<MainPage/>}/>
-				<Route path='entry' element={<Entry/>}/>
-				<Route path='сurrencyModal' element={<CurrencyModal/>}/>
-				<Route path='offerModal' element={<OfferModal/>}/>
+				<Route path='mainPage' element={<MainPage />} />
+				<Route path='entry' element={<Entry />} />
+				<Route path='сurrencyModal' element={<CurrencyModal />} />
+				<Route path='history' element={<History />} />
 			</Routes>
 		</BrowserRouter>
 	)
