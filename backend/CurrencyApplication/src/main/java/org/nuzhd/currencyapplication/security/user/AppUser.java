@@ -24,7 +24,7 @@ public class AppUser implements UserDetails {
     private String phoneNumber;
     private LocalDateTime createdAt;
     private Boolean isActive;
-    @OneToMany(mappedBy = "owner")
+    @OneToMany(mappedBy = "ownerId", fetch = FetchType.LAZY)
     private List<BankAccount> bankAccounts;
 
     public AppUser() {

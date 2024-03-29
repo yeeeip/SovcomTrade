@@ -31,3 +31,6 @@ application:
   base-path: "/api/${application.api.version}"
   frontend:
     base-path: ${FRONTEND_BASE_PATH}
+  cb:
+    xml-base-url: "http://www.cbr.ru/scripts"
+    json-base-url: "https://www.cbr-xml-daily.ru"

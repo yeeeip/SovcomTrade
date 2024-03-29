@@ -1,5 +1,6 @@
 package org.nuzhd.currencyapplication.security.user.service.impl;
 
+import org.nuzhd.currencyapplication.security.dto.AppUserResponseDTO;
 import org.nuzhd.currencyapplication.security.dto.AuthenticationResponseDTO;
 import org.nuzhd.currencyapplication.security.dto.UserLoginDTO;
 import org.nuzhd.currencyapplication.security.jwt.JwtUtils;
@@ -29,9 +30,21 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         );
 
         Authentication auth = authManager.authenticate(userToken);
-        String token = jwtUtils.generateJWT(((AppUser) auth.getPrincipal()));
 
-        return new AuthenticationResponseDTO(token);
+        AppUser authenticatedUser = (AppUser) auth.getPrincipal();
+
+        String token = jwtUtils.generateJWT(authenticatedUser);
+
+        AppUserResponseDTO userResponse = new AppUserResponseDTO(
+                authenticatedUser.getEmail(),
+                authenticatedUser.getFirstName(),
+                authenticatedUser.getLastName(),
+                authenticatedUser.getMiddleName(),
+                authenticatedUser.getBankAccounts(),
+                authenticatedUser.getPhoneNumber()
+        );
+
+        return new AuthenticationResponseDTO(token, userResponse);
     }
 
     public Long fetchUserIdFromAuthentication() {

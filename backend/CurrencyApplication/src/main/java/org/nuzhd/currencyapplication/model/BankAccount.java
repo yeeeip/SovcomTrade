@@ -1,7 +1,6 @@
 package org.nuzhd.currencyapplication.model;
 
 import jakarta.persistence.*;
-import org.nuzhd.currencyapplication.security.user.AppUser;
 
 import java.math.BigDecimal;
 
@@ -12,8 +11,7 @@ public class BankAccount {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private AppUser owner;
+    private Long ownerId;
 
     @Enumerated(EnumType.STRING)
     private Currency currency;
@@ -23,8 +21,8 @@ public class BankAccount {
     public BankAccount() {
     }
 
-    public BankAccount(AppUser owner, Currency currency, BigDecimal balance) {
-        this.owner = owner;
+    public BankAccount(Long ownerId, Currency currency, BigDecimal balance) {
+        this.ownerId = ownerId;
         this.currency = currency;
         this.balance = balance;
     }
@@ -37,12 +35,12 @@ public class BankAccount {
         this.id = id;
     }
 
-    public AppUser getOwner() {
-        return owner;
+    public Long getOwnerId() {
+        return ownerId;
     }
 
-    public void setOwner(AppUser owner) {
-        this.owner = owner;
+    public void setOwnerId(Long owner) {
+        this.ownerId = owner;
     }
 
     public Currency getCurrency() {

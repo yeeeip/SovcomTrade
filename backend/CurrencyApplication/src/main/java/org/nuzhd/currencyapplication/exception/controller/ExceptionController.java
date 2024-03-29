@@ -2,21 +2,21 @@ package org.nuzhd.currencyapplication.exception.controller;
 
 import org.nuzhd.currencyapplication.exception.*;
 import org.springframework.context.MessageSource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ProblemDetail;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.http.*;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.List;
 import java.util.Locale;
 
 @RestControllerAdvice
-public class ExceptionController {
+public class ExceptionController extends ResponseEntityExceptionHandler {
 
     private final MessageSource messageSource;
 
@@ -24,12 +24,13 @@ public class ExceptionController {
         this.messageSource = messageSource;
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ProblemDetail> handleValidationErrors(MethodArgumentNotValidException ex, Locale locale) {
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         List<ObjectError> errors = ex.getAllErrors();
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.BAD_REQUEST, messageSource.getMessage(
-                        "currency.user.create.validation_errors", new Object[0], locale
+                        "currency.user.create.validation_errors", new Object[0], request.getLocale()
                 )
         );
 
@@ -65,15 +66,15 @@ public class ExceptionController {
                 .body(problemDetail);
     }
 
-    @ExceptionHandler(BadCredentialsException.class)
-    public ResponseEntity<ProblemDetail> handleBadCredentialsException(BadCredentialsException ex) {
-        ProblemDetail problemDetail = ProblemDetail
-                .forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
-
-        return ResponseEntity
-                .status(401)
-                .body(problemDetail);
-    }
+//    @ExceptionHandler(BadCredentialsException.class)
+//    public ResponseEntity<ProblemDetail> handleBadCredentialsException(BadCredentialsException ex) {
+//        ProblemDetail problemDetail = ProblemDetail
+//                .forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
+//
+//        return ResponseEntity
+//                .status(401)
+//                .body(problemDetail);
+//    }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleUserNotFound(UsernameNotFoundException ex, Locale locale) {
@@ -126,6 +127,32 @@ public class ExceptionController {
 
         return ResponseEntity
                 .badRequest()
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(XMLParsingException.class)
+    public ResponseEntity<ProblemDetail> handleXMLParsingException(XMLParsingException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("app.internal.error",
+                        new Object[0], locale
+                )
+        );
+
+        return ResponseEntity
+                .internalServerError()
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(AuthenticationException.class)
+    public ResponseEntity<ProblemDetail> handleNotAuthenticatedResponse(AuthenticationException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.UNAUTHORIZED,
+                "ASDSAD"
+        );
+
+        return ResponseEntity
+                .status(401)
                 .body(problemDetail);
     }
 }

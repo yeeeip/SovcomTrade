@@ -36,9 +36,9 @@ public class BankAccountController {
     public ResponseEntity<BankAccountResponseDTO> createAccount(
             @RequestBody BankAccountCreateDTO createDTO,
             Authentication authentication) {
-        AppUser owner = (AppUser) authentication.getPrincipal();
+        Long ownerId = ((AppUser) (authentication.getPrincipal())).getId();
 
-        BankAccountResponseDTO account = bankAccountService.createAccount(owner, createDTO);
+        BankAccountResponseDTO account = bankAccountService.createAccount(ownerId, createDTO);
 
         return ResponseEntity
                 .ok()

@@ -1,6 +1,7 @@
 package org.nuzhd.currencyapplication.security.jwt;
 
 import io.jsonwebtoken.*;
+import org.nuzhd.currencyapplication.security.jwt.exception.InvalidJwtException;
 import org.nuzhd.currencyapplication.security.user.AppUser;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
@@ -14,7 +15,7 @@ public class JwtUtils {
 
     public String generateJWT(AppUser user) {
         String username = user.getUsername();
-        Date expirationDate = new Date(System.currentTimeMillis() + 1000 * 60 * 10);
+        Date expirationDate = new Date(System.currentTimeMillis() + 1000 * 60 * 30);
 
         String token = Jwts.builder()
                 .setSubject(username)
@@ -45,7 +46,7 @@ public class JwtUtils {
         } catch (ExpiredJwtException ex) {
             throw new AuthenticationCredentialsNotFoundException("JWT has expired");
         } catch (MalformedJwtException ex) {
-            throw new AuthenticationCredentialsNotFoundException("Invalid JWT");
+            throw new InvalidJwtException();
         }
         return true;
     }

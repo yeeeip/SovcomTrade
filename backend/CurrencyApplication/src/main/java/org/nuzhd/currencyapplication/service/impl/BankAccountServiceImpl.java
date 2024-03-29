@@ -5,7 +5,6 @@ import org.nuzhd.currencyapplication.dto.BankAccountResponseDTO;
 import org.nuzhd.currencyapplication.exception.BankAccountNotFound;
 import org.nuzhd.currencyapplication.model.BankAccount;
 import org.nuzhd.currencyapplication.repo.BankAccountRepository;
-import org.nuzhd.currencyapplication.security.user.AppUser;
 import org.nuzhd.currencyapplication.service.BankAccountService;
 import org.springframework.stereotype.Service;
 
@@ -22,17 +21,17 @@ public class BankAccountServiceImpl implements BankAccountService {
     }
 
     @Override
-    public BankAccountResponseDTO createAccount(AppUser owner, BankAccountCreateDTO createDTO) {
+    public BankAccountResponseDTO createAccount(Long ownerId, BankAccountCreateDTO createDTO) {
 
         BankAccount account = new BankAccount(
-                owner, createDTO.currency(), new BigDecimal("0.0")
+                ownerId, createDTO.currency(), new BigDecimal("0.0")
         );
 
         BankAccount result = this.bankAccountRepository.save(account);
 
         return new BankAccountResponseDTO(
                 result.getId(),
-                result.getOwner().getId(),
+                ownerId,
                 result.getCurrency(),
                 result.getBalance()
         );
@@ -44,7 +43,7 @@ public class BankAccountServiceImpl implements BankAccountService {
                 .findAllByOwnerId(ownerId)
                 .stream()
                 .map(acc -> new BankAccountResponseDTO(
-                                acc.getId(), acc.getOwner().getId(), acc.getCurrency(), acc.getBalance()
+                                acc.getId(), ownerId, acc.getCurrency(), acc.getBalance()
                         )
                 )
                 .toList();
