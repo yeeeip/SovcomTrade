@@ -10,7 +10,8 @@ const CustomSortButton = styled.button`
 	font-weight: 500;
 	color: ${(props) => (props.active ? "#1D1F2480" : "#213A8B")};
 	cursor: pointer;
+   transition:all .25s;
 `
-export const SortButton = ({ title, active }) => {
-	return <CustomSortButton active={active}>{title}</CustomSortButton>
+export const SortButton = ({ title, active, handlefunc}) => {
+	return <CustomSortButton active={active} onClick={handlefunc}>{title}</CustomSortButton>
 }
