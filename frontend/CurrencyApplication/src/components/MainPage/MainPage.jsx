@@ -4,6 +4,7 @@ import LeftExchangeRate from "./ComponentMainPage/LeftExchangeRate.jsx"
 import Scrin from "./img/scrin.svg"
 import Recommendations from "./ComponentMainPage/Recommendations.jsx"
 import Footer from "../Footer/Footer.jsx"
+import { Chart } from "./ComponentMainPage/Chart.jsx"
 
 const MainPageDiv = styled.div``
 const RateAndСhart = styled.div`
@@ -13,6 +14,8 @@ const RateAndСhart = styled.div`
 `
 const RightChart = styled.div`
 	margin-top: 105px;
+	width: 800px;
+	height: 400px;
 `
 
 const MainPage = () => {
@@ -22,7 +25,7 @@ const MainPage = () => {
 			<RateAndСhart>
 				<LeftExchangeRate />
 				<RightChart>
-					<img src={Scrin} />
+					<Chart style={{width:"800px", height:"500px"}}/>
 				</RightChart>
 			</RateAndСhart>
 			<Recommendations />
