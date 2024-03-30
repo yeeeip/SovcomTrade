@@ -4,22 +4,21 @@ import { NextButton } from "./NextButton"
 import { PrevButton } from "./PrevButton"
 
 const CustomSliderProvider = styled.div`
-	position: relative;
-	width: ${(props) => props.width + "px" || "100%"};
-	height: ${(props) => props.height + "px" || "100%"};
+		width: ${(props) => props.width + "px"};
+	height: ${(props) => props.height + "px"};
 	overflow: hidden;
-	margin-bottom: 30px;
+	position: relative;
+   margin-bottom: 30px;
 `
 const CustopSliderLine = styled.div`
-	position: absolute;
-	top: ${(props) => props.offset + "px" || "0"};
-	left: 0;
 	width: 100%;
 	height: 100%;
+	position: absolute;
+	top: 0;
+	left: ${(props) => props.offset + "px"};
+	display: flex;
+	gap: 0 50px;
 	transition: all 0.5s;
-	& > *:not(:last-child) {
-		margin-bottom: 16px;
-	}
 `
 
 export const SliderProvider = ({ children, height, width }) => {

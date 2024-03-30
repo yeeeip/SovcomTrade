@@ -5,11 +5,13 @@ import Scrin from "./img/scrin.svg"
 import Recommendations from "./ComponentMainPage/Recommendations.jsx"
 import Footer from "../Footer/Footer.jsx"
 
-const MainPageDiv = styled.div``
+const MainPageDiv = styled.div`
+	max-width: 1280px;
+	margin: 0 auto;
+`
 const RateAndСhart = styled.div`
-	background: #f1f7ff;
 	display: flex;
-	justify-content: space-around;
+	justify-content: space-between;
 `
 const RightChart = styled.div`
 	margin-top: 105px;
@@ -17,17 +19,19 @@ const RightChart = styled.div`
 
 const MainPage = () => {
 	return (
-		<MainPageDiv>
+		<>
 			<Navbar />
-			<RateAndСhart>
-				<LeftExchangeRate />
-				<RightChart>
-					<img src={Scrin} />
-				</RightChart>
-			</RateAndСhart>
-			<Recommendations />
+			<MainPageDiv>
+				<RateAndСhart>
+					<LeftExchangeRate />
+					<RightChart>
+						<img src={Scrin} />
+					</RightChart>
+				</RateAndСhart>
+				<Recommendations />
+			</MainPageDiv>
 			<Footer />
-		</MainPageDiv>
+		</>
 	)
 }
 

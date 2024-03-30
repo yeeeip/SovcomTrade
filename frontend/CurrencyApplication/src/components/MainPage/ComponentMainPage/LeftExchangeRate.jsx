@@ -7,7 +7,7 @@ import { SliderProvider } from "../style/Slider/SliderProvider"
 
 const LeftExchangeRateDiv = styled.div`
 	margin-top: 50px;
-	width: 20%;
+	width: 30%;
 	display: flex;
 	flex-direction: column;
 `
