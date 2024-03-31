@@ -18,7 +18,7 @@ const CustomOrderButton = styled.button`
 	}
 `
 const CustomList = styled.div`
-	display: ${(props) => (props.isOpen ? "flex" : "none")};
+	display: ${(props) => (props.isopen ? "flex" : "none")};
 	flex-direction: column;
 	padding: 0 16px;
 	border: 1px solid #213a8b99;
@@ -52,7 +52,7 @@ export const OrderButton = ({ created, expired }) => {
 				<span></span>
 				<span></span>
 			</CustomOrderButton>
-			<CustomList width={300} isOpen={isOpen}>
+			<CustomList width={300} isopen={isOpen}>
 				<CustomOption>
 					Дата создания: {new Date(created).getDate() < 10 ? "0" + new Date(created).getDate() : new Date(created).getDate()}.
 					{new Date(created).getMonth() + 1 < 10 ? "0" + (new Date(created).getMonth() + 1) : new Date(created).getMonth() + 1}.

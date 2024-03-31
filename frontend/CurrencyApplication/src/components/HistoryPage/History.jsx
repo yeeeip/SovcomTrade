@@ -6,6 +6,7 @@ import { SortButton } from "./styles/SortButton"
 import { Order } from "./styles/Order"
 import { Select } from "./styles/Select"
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
 
 const CustomHistoryMainBlock = styled.div`
 	padding: 64px 320px;
@@ -56,10 +57,12 @@ const CustomDateTitle = styled.p`
 `
 
 export const History = () => {
-	const SITE_URL = "https://0aec-95-26-80-219.ngrok-free.app"
+	const SITE_URL = "https://3e98-95-26-80-219.ngrok-free.app"
 	let [currentSort, setCurrentSort] = useState("Покупки")
-	let [currentCurrency, setCurrentCurrency] = useState("Юани (¥)")
+	let [currentCurrency, setCurrentCurrency] = useState("RUB")
 	let [orders, setOrders] = useState([])
+	let navigate = useNavigate()
+
 	useEffect(() => {
 		axios({
 			method: "GET",
@@ -74,6 +77,10 @@ export const History = () => {
 			})
 			.catch((err) => {
 				console.log(err)
+				if (err.response.status === 401) {
+					alert("Ваша сессия истекла. Войдите снова")
+					navigate("/entry", { replace: true })
+				}
 			})
 	}, [])
 	const handleCurrencyButton = (e) => {

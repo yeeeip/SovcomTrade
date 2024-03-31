@@ -1,31 +1,23 @@
 import styled from "styled-components"
 
-const BuyingSellingDiv = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 70px;
-    border: 2px solid #213A8B;
-    border-radius: 40px;
-    margin-bottom: 20px;
-    background: white;
-`
-const BuyingSellingA = styled.a`
-    color: #213A8B;
-    display: flex;
-    text-decoration: none;
-    font-family: "TT Travels";
-    padding: 27px 80px;
-    font-size: 21px;
+const BuyingSellingA = styled.button`
+	width: 100%;
+	border-radius: 40px;
+	background: white;
+	padding: 24px;
+	text-align: center;
+	color: #213a8b;
+	font-family: "TT Travels";
+	font-weight: 500;
+	text-decoration: none;
+	font-size: 24px;
+	border: 3px solid #213a8b99;
+	margin-bottom: 16px;
+	cursor: pointer;
 `
 
-const BuyingSelling = ({title, href}) => {
-    return(
-        <BuyingSellingDiv>
-            <BuyingSellingA href={href}>{title}</BuyingSellingA>
-        </BuyingSellingDiv>
-    )
+const BuyingSelling = ({ title, handlefunc }) => {
+	return <BuyingSellingA onClick={handlefunc}>{title}</BuyingSellingA>
 }
 
 export default BuyingSelling

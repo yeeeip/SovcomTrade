@@ -1,89 +1,122 @@
 import React from "react"
-import styled from "styled-components";
-import { useState } from "react";
-import { Select } from "./style/Select";
-import { Option } from "./style/Option";
-import Button from "./style/Button";
-import BackButton from "../img/back.svg";
+import styled from "styled-components"
+import { useState } from "react"
+import { Select } from "./style/Select"
+import { Option } from "./style/Option"
+import Button from "./style/Button"
 
 const CurrencyModalDivDiv = styled.div`
-	width: 100%;
-	height: 100%;
+	position: absolute;
+	top: ${(props) => (props.isModalActive ? "50%" : "-50%")};
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: fit-content;
+	height: fit-content;
+	border: 2px solid #213a8b99;
+	border-radius: 4px;
 	display: flex;
 	justify-content: center;
-	background: #F1F7FF;
+	background: #f1f7ff;
+	transition: all 0.5s;
 `
 const CurrencyModalDiv = styled.div`
-	width: 520px;
-    height: 355px;
-	margin-top: 150px;
+	padding: 30px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	flex-direction: column;
 `
 const Options = styled.ul`
-	position: relative;
-	padding-bottom: 10px;
-	width: 400px;
-    margin-top: 10px;
-    border-radius: 40px;
-    background: #1D1F241A;
-    box-shadow: 0 0 3px rgba(0,0,0,0.1);
-    display: block;
+	display: block;
+	width: 100%;
+	height: fit-content;
+	padding: 40px 0 8px 0;
+	margin-top: -35px;
+	border-radius: 16px;
+	background: #1d1f241a;
+	box-shadow: 0 0 3px rgba(0, 0, 0, 0.1);
+	& > *:not(:last-child) {
+		margin-bottom: 8px;
+	}
 `
 const TextAndBack = styled.div`
 	display: flex;
-	width: 400px;
 	align-items: center;
+	margin-bottom: 40px;
+	justify-content: space-between;
+	width: 100%;
 `
-const TitleH1 = styled.h1`
+const TitleH2 = styled.h2`
 	font-family: "TT Travels";
 	font-weight: 500;
-	font-size: 34px;
-	color: #213A8B;
+	font-size: 40px;
+	color: #213a8b;
+	width: fit-content;
 `
 const CurrencyModalSpan = styled.span`
-	width: 400px;
 	font-family: "TT Travels";
+	width: 100%;
+	margin-bottom: 24px;
 	font-weight: 500;
 	font-size: 24px;
-	color: #213A8B;
-	margin: 45px 0 20px 0;
+	color: #213a8b;
 `
+const CustomExitButton = styled.div`
+	width: 44px;
+	height: 44px;
+	z-index: 51;
+	position: relative;
+	cursor: pointer;
+	& > * {
+		width: 100%;
+		height: 2px;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background: #c7c8c9;
+	}
 
+	& > *:first-child {
+		transform: rotate(45deg);
+	}
+	& > *:last-child {
+		transform: rotate(-45deg);
+	}
+`
+export const CurrencyModal = ({ handleClose, isModalActive, updateCurr }) => {
+	const [isActive, setIsActive] = useState(false)
+	const [selectedOption, setSelectedOption] = useState("Выберите курс")
 
-export const CurrencyModal = () => {
-	const [isActive, setIsActive] = useState(false);
-	const [selectedOption, setSelectedOption] = useState('Выберите курс');
-	
 	const handleToggleMenu = () => {
-        setIsActive(!isActive);
-    };
+		setIsActive(!isActive)
+	}
 
-    const handleSelectOption = (optionText) => {
-        setSelectedOption(optionText);
-		setIsActive(false);
-    };
+	const handleSelectOption = (optionText) => {
+		setSelectedOption(optionText)
+		setIsActive(false)
+	}
 
-	return(
-		<CurrencyModalDivDiv>
+	return (
+		<CurrencyModalDivDiv isModalActive={isModalActive}>
 			<CurrencyModalDiv>
 				<TextAndBack>
-					<TitleH1>Открыть</TitleH1>
-					<a href=""><img style={{paddingLeft:"265px"}} src={BackButton}/></a>
+					<TitleH2>Открыть счет</TitleH2>
+					<CustomExitButton onClick={handleClose}>
+						<span></span>
+						<span></span>
+					</CustomExitButton>
 				</TextAndBack>
 				<CurrencyModalSpan>Валюта</CurrencyModalSpan>
-				<Select title={selectedOption} funcHandleToggleMenu={handleToggleMenu}/>
+				<Select title={selectedOption} funcHandleToggleMenu={handleToggleMenu} isActive={isActive} />
 				{isActive && (
 					<Options>
-						<Option title={"Рубли"} handlefunc={() => handleSelectOption('Рубли')} ></Option>
-						<Option title={"Дирхам"} handlefunc={() => handleSelectOption('Дирхам')}></Option>
-						<Option title={"Юань"} handlefunc={() => handleSelectOption('Юань')}></Option>
+						{selectedOption !== "Рубли" && <Option title={"Рубли"} handlefunc={() => handleSelectOption("Рубли")}></Option>}
+						{selectedOption !== "Дирхам" && <Option title={"Дирхам"} handlefunc={() => handleSelectOption("Дирхам")}></Option>}
+						{selectedOption !== "Юань" && <Option title={"Юань"} handlefunc={() => handleSelectOption("Юань")}></Option>}
 					</Options>
 				)}
-				<Button href={"#"} title={"Открыть счет"}/>
+				<Button href={"#"} title={"Открыть счет"} valueSelect={selectedOption} handlefunc={handleClose} updateCurr={updateCurr} />
 			</CurrencyModalDiv>
 		</CurrencyModalDivDiv>
-	)	
+	)
 }
