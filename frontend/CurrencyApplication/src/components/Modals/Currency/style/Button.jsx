@@ -25,6 +25,7 @@ const BuyingSellingA = styled.a`
 
 const Button = ({ title, valueSelect, handlefunc, updateCurr }) => {
 	let navigate = useNavigate()
+	let dispatch = useDispatch()
 	const SITE_URL = "https://3e98-95-26-80-219.ngrok-free.app"
 	switch (valueSelect) {
 		case "Дирхам":
@@ -51,7 +52,6 @@ const Button = ({ title, valueSelect, handlefunc, updateCurr }) => {
 			}),
 		})
 			.then((response) => {
-				console.log(response)
 				if (response.status === 200) {
 					updateCurr()
 					return handlefunc()
@@ -64,39 +64,34 @@ const Button = ({ title, valueSelect, handlefunc, updateCurr }) => {
 					navigate("/entry", { replace: true })
 				}
 				let response = err.response.data
-				if (!response.errors) {
-					dispatch(generalErrorChange(response.detail))
-					dispatch(generalErrorValid(true))
-					return
-				}
-				response.errors.map((error) => {
-					switch (error.field) {
-						case "debit_account_id":
-							dispatch(emailValid(error.defaultMessage))
-							setTimeout(() => {
-								dispatch(emailValid(true))
-							}, 15000)
-							break
-						case "credit_account_id":
-							dispatch(passwordValid(error.defaultMessage))
-							setTimeout(() => {
-								dispatch(passwordValid(true))
-							}, 15000)
-							break
-						case "course":
-							dispatch(secondPasswordValid(error.defaultMessage))
-							setTimeout(() => {
-								dispatch(secondPasswordValid(true))
-							}, 15000)
-							break
-						case "deadline":
-							dispatch(phoneValid(error.defaultMessage))
-							setTimeout(() => {
-								dispatch(phoneValid(true))
-							}, 15000)
-							break
-					}
-				})
+				// response.errors.map((error) => {
+				// 	switch (error.field) {
+				// 		case "debit_account_id":
+				// 			dispatch(emailValid(error.defaultMessage))
+				// 			setTimeout(() => {
+				// 				dispatch(emailValid(true))
+				// 			}, 15000)
+				// 			break
+				// 		case "credit_account_id":
+				// 			dispatch(passwordValid(error.defaultMessage))
+				// 			setTimeout(() => {
+				// 				dispatch(passwordValid(true))
+				// 			}, 15000)
+				// 			break
+				// 		case "course":
+				// 			dispatch(secondPasswordValid(error.defaultMessage))
+				// 			setTimeout(() => {
+				// 				dispatch(secondPasswordValid(true))
+				// 			}, 15000)
+				// 			break
+				// 		case "deadline":
+				// 			dispatch(phoneValid(error.defaultMessage))
+				// 			setTimeout(() => {
+				// 				dispatch(phoneValid(true))
+				// 			}, 15000)
+				// 			break
+				// 	}
+				// })
 			})
 	}
 	return (

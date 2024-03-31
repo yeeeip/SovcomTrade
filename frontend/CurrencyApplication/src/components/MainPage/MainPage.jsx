@@ -28,6 +28,7 @@ const RightChart = styled.div`
 
 const MainPage = () => {
 	const [isOfferModalActive, setIsOfferModalActive] = useState(false)
+	const [news, setNews] = useState([])
 	const [varForUpdate, setvarForUpdate] = useState(0)
 	const [isCurrencyModalActive, setIsCurrencyModalActive] = useState(false)
 	let navigate = useNavigate()
@@ -62,6 +63,26 @@ const MainPage = () => {
 				}
 			})
 	}, [varForUpdate])
+	useEffect(() => {
+		axios({
+			method: "get",
+			url: `${SITE_URL}/api/v1/lk/recommendations`,
+			headers: {
+				"ngrok-skip-browser-warning": true,
+				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+			},
+		})
+			.then((res) => {
+				let temp = []
+				for (let i = 0; i < res.data.length; i += 2) {
+					temp.push([res.data[i], res.data[i + 1]])
+				}
+				setNews(temp)
+			})
+			.catch((err) => {
+				console.error(err)
+			})
+	}, [])
 	return (
 		<>
 			<OfferModal isModalActive={isOfferModalActive} handleClose={handleOfferButtonClick} />
@@ -71,10 +92,10 @@ const MainPage = () => {
 				<RateAndСhart>
 					<LeftExchangeRate handleoffermodal={handleOfferButtonClick} handlecurrencymodal={handleCurrencyButtonClick} />
 					<RightChart>
-						<Chart/>
+						<Chart />
 					</RightChart>
 				</RateAndСhart>
-				<Recommendations />
+				<Recommendations data={news} />
 			</MainPageDiv>
 			<Footer />
 		</>
