@@ -1,5 +1,11 @@
+CREATE SEQUENCE app_user_seq INCREMENT 50;
+CREATE SEQUENCE bank_account_seq INCREMENT 50;
+CREATE SEQUENCE currency_operation_seq INCREMENT 50;
+CREATE SEQUENCE ai_recommendation_seq INCREMENT 50;
+CREATE SEQUENCE currency_news_seq INCREMENT 50;
+
 create table if not exists app_user(
-    id bigserial primary key,
+    id bigserial unique,
     email varchar(255) not null,
     password varchar(255) not null,
     first_name varchar(255) not null,
@@ -11,14 +17,14 @@ create table if not exists app_user(
 );
 
 create table if not exists bank_account (
-    id bigserial primary key,
-    owner_id bigserial references app_user (id),
+    id bigserial unique,
+    owner_id serial references app_user (id),
     currency varchar not null,
     balance numeric(12,4) not null
 );
 
 create table if not exists currency_news (
-    id bigserial primary key,
+    id bigserial unique,
     title varchar,
     short_desc varchar,
     currency varchar not null,
@@ -29,19 +35,19 @@ create table if not exists currency_news (
 );
 
 create table if not exists ai_recommendation (
-    id bigserial primary key,
-    news_id bigserial references currency_news(id),
+    id bigserial unique,
+    news_id serial references currency_news(id),
     forecast varchar
 );
 
 create table if not exists currency_operation (
-    id bigserial primary key,
-    user_id bigserial references app_user(id),
+    id bigserial unique,
+    user_id serial references app_user(id),
     code integer not null,
     created_at timestamp with time zone not null,
     processed_at timestamp with time zone default null,
-    debit_account_id bigserial references bank_account(id),
-    credit_account_id bigserial references bank_account(id),
+    debit_account_id serial references bank_account(id),
+    credit_account_id serial references bank_account(id),
     course numeric(8,4) not null,
     deadline timestamp with time zone not null,
     status varchar not null

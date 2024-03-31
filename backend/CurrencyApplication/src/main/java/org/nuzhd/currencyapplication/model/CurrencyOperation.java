@@ -14,6 +14,7 @@ public class CurrencyOperation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "currency_operation_seq", allocationSize = 1)
     private Long id;
 
     @ManyToOne(fetch = LAZY)

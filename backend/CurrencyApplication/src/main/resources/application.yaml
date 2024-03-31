@@ -22,6 +22,17 @@ spring:
     retry:
       backoff:
         initial-interval: 20000
+  mail:
+    host: smtp.gmail.com
+    username: sovcomtrade6@gmail.com
+    password: hlazehwmerlmyjwd
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
 
 logging:
   level:

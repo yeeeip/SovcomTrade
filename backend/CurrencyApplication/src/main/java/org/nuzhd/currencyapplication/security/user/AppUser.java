@@ -14,7 +14,8 @@ import java.util.List;
 public class AppUser implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "user_account_seq", allocationSize = 1)
     private Long id;
     private String email;
     private String password;

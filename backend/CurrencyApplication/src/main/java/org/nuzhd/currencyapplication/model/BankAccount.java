@@ -8,7 +8,8 @@ import java.math.BigDecimal;
 public class BankAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @SequenceGenerator(name = "bank_account_seq", allocationSize = 1)
     private Long id;
 
     private Long ownerId;

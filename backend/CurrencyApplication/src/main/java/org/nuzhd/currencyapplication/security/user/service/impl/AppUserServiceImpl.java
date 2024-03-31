@@ -5,6 +5,7 @@ import org.nuzhd.currencyapplication.security.dto.UserRegistrationDTO;
 import org.nuzhd.currencyapplication.security.user.AppUser;
 import org.nuzhd.currencyapplication.security.user.repo.AppUserRepository;
 import org.nuzhd.currencyapplication.security.user.service.AppUserService;
+import org.nuzhd.currencyapplication.security.user.service.EmailConfirmationTokenService;
 import org.nuzhd.currencyapplication.validation.ValidationService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,11 +17,15 @@ import org.springframework.stereotype.Service;
 public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
     private final AppUserRepository appUserRepository;
+
+    private final EmailConfirmationTokenService tokenService;
+
     private final PasswordEncoder encoder;
     private final ValidationService validationService;
 
-    public AppUserServiceImpl(AppUserRepository appUserRepository, PasswordEncoder encoder, ValidationService validationService) {
+    public AppUserServiceImpl(AppUserRepository appUserRepository, EmailConfirmationTokenService tokenService, PasswordEncoder encoder, ValidationService validationService) {
         this.appUserRepository = appUserRepository;
+        this.tokenService = tokenService;
         this.encoder = encoder;
         this.validationService = validationService;
     }
