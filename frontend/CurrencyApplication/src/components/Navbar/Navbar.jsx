@@ -6,9 +6,11 @@ import IconPersone from "./img/person.svg"
 const NavbarDiv = styled.div`
 	display: flex;
 	align-items: center;
-	justify-content: space-around;
+	justify-content: space-between;
 	padding: 20px 0;
 	background-color: #f1f7ff;
+	max-width: 1280px;
+	margin: 0 auto;
 `
 
 const Pages = styled.div`

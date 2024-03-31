@@ -87,7 +87,7 @@ function Registration() {
 					{generalError.valid && <CustomTitle style={{ color: "red" }}>{generalError.value}</CustomTitle>}
 				</div>
 
-				<SliderProvider data={data} height={windowHeight * 0.55} width={windowWidth * 0.6 - 300} />
+				<SliderProvider data={data} height={550} width={windowWidth * 0.6 - 300} />
 
 				<Button content={"Зарегистрироваться"} target={"register"} />
 				<CustomButtonBlock>

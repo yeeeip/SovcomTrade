@@ -143,5 +143,6 @@ table {
 html,
 body,
 #root {
+	background: #f1f7ff;
 	height: 100%;
 }

@@ -46,6 +46,6 @@ export const data = {
   ],
 };
 
-export function Chart() {
+export function ChartYuan() {
   return <Line  options={options} data={data} />;
 }

@@ -20,10 +20,12 @@ const BuyingSellingA = styled.a`
     font-size: 21px;
 `
 
+
 const BuyingSelling = ({title, href}) => {
     return(
         <BuyingSellingDiv>
             <BuyingSellingA href={href}>{title}</BuyingSellingA>
+
         </BuyingSellingDiv>
     )
 }
