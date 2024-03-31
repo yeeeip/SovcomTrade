@@ -76,7 +76,6 @@ export const Button = ({ href, content, target }) => {
 	const secondName = useSelector((state) => state.register.secondName?.value)
 	const middleName = useSelector((state) => state.register.middleName?.value)
 	const dispatch = useDispatch()
-	const SERVER_URL = "https://edd7-95-26-80-149.ngrok-free.app"
 	let navigate = useNavigate()
 	const handleButtonClick = () => {
 		switch (target) {
@@ -92,7 +91,7 @@ export const Button = ({ href, content, target }) => {
 				axios({
 					method: "post",
 					mode: "no-cors",
-					url: `${SERVER_URL}/api/v1/auth/register`,
+					url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/register`,
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -171,7 +170,7 @@ export const Button = ({ href, content, target }) => {
 				axios({
 					method: "post",
 					mode: "no-cors",
-					url: `${SERVER_URL}/api/v1/auth/login`,
+					url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/login`,
 					headers: {
 						"Content-Type": "application/json",
 					},

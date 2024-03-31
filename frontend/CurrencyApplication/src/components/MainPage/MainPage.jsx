@@ -46,7 +46,7 @@ const MainPage = () => {
 	useEffect(() => {
 		axios({
 			method: "GET",
-			url: `${SITE_URL}/api/v1/lk/bank_accounts`,
+			url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/lk/bank_accounts`,
 			headers: {
 				"ngrok-skip-browser-warning": true,
 				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -67,7 +67,7 @@ const MainPage = () => {
 	useEffect(() => {
 		axios({
 			method: "get",
-			url: `${SITE_URL}/api/v1/lk/recommendations`,
+			url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/lk/recommendations`,
 			headers: {
 				"ngrok-skip-browser-warning": true,
 				Authorization: `Bearer ${sessionStorage.getItem("token")}`,

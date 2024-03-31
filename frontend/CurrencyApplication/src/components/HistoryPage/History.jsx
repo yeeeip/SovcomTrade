@@ -57,7 +57,6 @@ const CustomDateTitle = styled.p`
 `
 
 export const History = () => {
-	const SITE_URL = "https://3e98-95-26-80-219.ngrok-free.app"
 	let [currentSort, setCurrentSort] = useState("Покупки")
 	let [currentCurrency, setCurrentCurrency] = useState("RUB")
 	let [orders, setOrders] = useState([])
@@ -66,7 +65,7 @@ export const History = () => {
 	useEffect(() => {
 		axios({
 			method: "GET",
-			url: `${SITE_URL}/api/v1/lk/operations`,
+			url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/lk/operations`,
 			headers: {
 				"ngrok-skip-browser-warning": true,
 				Authorization: `Bearer ${sessionStorage.getItem("token")}`,

@@ -42,7 +42,7 @@ const Button = ({ title, valueSelect, handlefunc, updateCurr }) => {
 	const handleButtonClick = () => {
 		axios({
 			method: "POST",
-			url: `${SITE_URL}/api/v1/lk/bank_accounts`,
+			url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/lk/bank_accounts`,
 			headers: {
 				"Content-Type": "application/json",
 				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
