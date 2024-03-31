@@ -33,7 +33,7 @@ public class ExchangeRatesJsonParser {
 
         JsonObject root = JsonParser.parseString(response.getBody()).getAsJsonObject();
 
-        LocalDateTime time = LocalDateTime.parse(root.get("Date").getAsString().substring(0,19));
+        LocalDateTime time = LocalDateTime.parse(root.get("Date").getAsString().substring(0, 19));
         Currency cur = Currency.valueOf(root
                 .get("Valute").getAsJsonObject()
                 .get(currency.name()).getAsJsonObject()

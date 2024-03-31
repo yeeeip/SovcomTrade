@@ -11,8 +11,10 @@ import {
 	generalErrorValid,
 	generalErrorChange,
 } from "../../../redux/registerSlice"
-
 import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import { setFirstName, setLastName, setMiddleName, setBankAccounts } from "../../../redux/loginSlice"
+
 const CustomButton = styled.button`
 	font-family: "TT Travels";
 	font-weight: 500;
@@ -23,6 +25,11 @@ const CustomButton = styled.button`
 	text-align: center;
 	background: #000;
 	border-radius: 20px;
+
+	@media (max-width: 1200px) {
+		font-size: 20px;
+		padding: 15px;
+	}
 `
 const CustomLinkButton = styled.a`
 	display: block;
@@ -36,6 +43,10 @@ const CustomLinkButton = styled.a`
 	background: #000;
 	text-decoration: none;
 	border-radius: 20px;
+	@media (max-width: 1200px) {
+		font-size: 20px;
+		padding: 15px;
+	}
 `
 
 export const Button = ({ href, content, target }) => {
@@ -47,6 +58,8 @@ export const Button = ({ href, content, target }) => {
 	const secondName = useSelector((state) => state.register.secondName?.value)
 	const middleName = useSelector((state) => state.register.middleName?.value)
 	const dispatch = useDispatch()
+	const SERVER_URL = "https://874f-95-26-80-238.ngrok-free.app"
+	let navigate = useNavigate()
 	const handleButtonClick = () => {
 		//if (!(isEmailValid && isPasswordRepeated && isPasswordValid)) return
 		switch (target) {
@@ -61,22 +74,11 @@ export const Button = ({ href, content, target }) => {
 						()
 				} catch (err) {}
 				break
-			case "registration":
-				console.log(
-					JSON.stringify({
-						email: email || "",
-						password: password || "",
-						firstName: firstName || "",
-						lastName: secondName || "",
-						middleName: middleName || "",
-						phoneNumber: phone || "",
-						confirmPassword: secondPassword || "",
-					})
-				)
+			case "register":
 				axios({
 					method: "post",
 					mode: "no-cors",
-					url: "https://91ed-95-26-80-238.ngrok-free.app/api/v1/auth/register",
+					url: `${SERVER_URL}/api/v1/auth/register`,
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -91,10 +93,9 @@ export const Button = ({ href, content, target }) => {
 					}),
 				})
 					.then((response) => {
-						console.log(response)
+						navigate("/login", { replace: true })
 					})
 					.catch((err) => {
-						console.log(err)
 						let response = err.response.data
 						if (response.status != 400) {
 							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
@@ -151,6 +152,70 @@ export const Button = ({ href, content, target }) => {
 						})
 					})
 
+				break
+			case "login":
+				console.log(SERVER_URL)
+				axios({
+					method: "post",
+					mode: "no-cors",
+					url: `${SERVER_URL}/api/v1/auth/login`,
+					headers: {
+						"Content-Type": "application/json",
+					},
+					data: JSON.stringify({
+						email: email || "",
+						password: password || "",
+					}),
+				})
+					.then((response) => {
+						console.log(response)
+						dispatch(setFirstName(response.data.user.first_name))
+						dispatch(setLastName(response.data.user.last_name))
+						dispatch(setMiddleName(response.data.user.middle_name || ""))
+						dispatch(setBankAccounts(response.data.user.user_accounts))
+						navigate("/mainPage", { replace: true })
+					})
+					.catch((err) => {
+						if (!err.response?.data) {
+							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
+							dispatch(generalErrorValid(true))
+							setTimeout(() => {
+								dispatch(generalErrorChange(null))
+								dispatch(generalErrorValid(false))
+							}, 5000)
+							return
+						}
+						let response = err.response.data
+						if (response.status != 400) {
+							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
+							dispatch(generalErrorValid(true))
+							setTimeout(() => {
+								dispatch(generalErrorChange(null))
+								dispatch(generalErrorValid(false))
+							}, 5000)
+						}
+						if (!response.errors) {
+							dispatch(generalErrorChange(response.detail))
+							dispatch(generalErrorValid(true))
+							return
+						}
+						response.errors.map((error) => {
+							switch (error.field) {
+								case "email":
+									dispatch(emailValid(error.defaultMessage))
+									setTimeout(() => {
+										dispatch(emailValid(true))
+									}, 15000)
+									break
+								case "password":
+									dispatch(passwordValid(error.defaultMessage))
+									setTimeout(() => {
+										dispatch(passwordValid(true))
+									}, 15000)
+									break
+							}
+						})
+					})
 				break
 		}
 	}

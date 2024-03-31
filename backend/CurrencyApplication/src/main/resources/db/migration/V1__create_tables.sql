@@ -17,6 +17,23 @@ create table if not exists bank_account (
     balance numeric(12,4) not null
 );
 
+create table if not exists currency_news (
+    id bigserial primary key,
+    title varchar,
+    short_desc varchar,
+    currency varchar not null,
+    publication_date timestamp with time zone,
+    news_url varchar,
+    analyzed boolean not null,
+    image_url varchar
+);
+
+create table if not exists ai_recommendation (
+    id bigserial primary key,
+    news_id bigserial references currency_news(id),
+    forecast varchar
+);
+
 create table if not exists currency_operation (
     id bigserial primary key,
     user_id bigserial references app_user(id),
@@ -25,6 +42,7 @@ create table if not exists currency_operation (
     processed_at timestamp with time zone default null,
     debit_account_id bigserial references bank_account(id),
     credit_account_id bigserial references bank_account(id),
+    course numeric(8,4) not null,
     deadline timestamp with time zone not null,
     status varchar not null
 );

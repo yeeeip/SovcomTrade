@@ -7,6 +7,8 @@ import org.nuzhd.currencyapplication.security.user.AppUser;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import static jakarta.persistence.FetchType.LAZY;
+
 @Entity(name = "currency_operation")
 public class CurrencyOperation {
 
@@ -14,7 +16,7 @@ public class CurrencyOperation {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = LAZY)
     private AppUser user;
 
     @Enumerated(EnumType.ORDINAL)
@@ -28,11 +30,11 @@ public class CurrencyOperation {
 
     @ManyToOne
     @JsonProperty(value = "debit_account_id")
-    private BankAccount debitAccountId; // Счет списания
+    private BankAccount debitAccount; // Счет списания
 
     @ManyToOne
     @JsonProperty(value = "credit_account_id")
-    private BankAccount creditAccountId; // Счет зачисления
+    private BankAccount creditAccount; // Счет зачисления
 
     private LocalDateTime deadline;
 
@@ -44,11 +46,11 @@ public class CurrencyOperation {
     public CurrencyOperation() {
     }
 
-    public CurrencyOperation(AppUser user, OperationCode code, BankAccount debitAccountId, BankAccount creditAccountId, LocalDateTime deadline, BigDecimal course) {
+    public CurrencyOperation(AppUser user, OperationCode code, BankAccount debitAccount, BankAccount creditAccount, LocalDateTime deadline, BigDecimal course) {
         this.user = user;
         this.code = code;
-        this.debitAccountId = debitAccountId;
-        this.creditAccountId = creditAccountId;
+        this.debitAccount = debitAccount;
+        this.creditAccount = creditAccount;
         this.deadline = deadline;
         this.course = course;
         this.createdAt = LocalDateTime.now();
@@ -95,20 +97,20 @@ public class CurrencyOperation {
         this.processedAt = processedAt;
     }
 
-    public BankAccount getDebitAccountId() {
-        return debitAccountId;
+    public BankAccount getDebitAccount() {
+        return debitAccount;
     }
 
-    public void setDebitAccountId(BankAccount debitAccountId) {
-        this.debitAccountId = debitAccountId;
+    public void setDebitAccount(BankAccount debitAccountId) {
+        this.debitAccount = debitAccountId;
     }
 
-    public BankAccount getCreditAccountId() {
-        return creditAccountId;
+    public BankAccount getCreditAccount() {
+        return creditAccount;
     }
 
-    public void setCreditAccountId(BankAccount creditAccountId) {
-        this.creditAccountId = creditAccountId;
+    public void setCreditAccount(BankAccount creditAccountId) {
+        this.creditAccount = creditAccountId;
     }
 
     public LocalDateTime getDeadline() {

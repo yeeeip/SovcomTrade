@@ -28,6 +28,10 @@ const CustomInput = styled.input`
 	&:focus {
 		outline: none;
 	}
+	@media (max-width: 1200px) {
+		font-size: 20px;
+		padding: 10px;
+	}
 `
 
 const CustomInputField = styled.div`
@@ -35,6 +39,9 @@ const CustomInputField = styled.div`
 	flex-direction: column;
 	& > *:not(:last-child) {
 		margin-bottom: 16px;
+		@media (max-width: 1200px) {
+			margin-bottom: 8px;
+		}
 	}
 `
 

@@ -1,10 +1,11 @@
 package org.nuzhd.currencyapplication.util;
 
 import org.nuzhd.currencyapplication.dto.CurrencyRateResponseDTO;
+import org.nuzhd.currencyapplication.dto.CurrencyRatesDynamicResponseDTO;
 import org.nuzhd.currencyapplication.exception.XMLParsingException;
 import org.nuzhd.currencyapplication.model.Currency;
-import org.nuzhd.currencyapplication.model.CurrencyExchangeRate;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -21,6 +22,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Component
@@ -29,7 +31,8 @@ public class ExchangeRatesXMLParser {
     @Value("${application.cb.xml-base-url}")
     private String baseUrl;
 
-    public List<CurrencyRateResponseDTO> parseExchangeRatesForPeriod(LocalDateTime startDate, LocalDateTime endDate, Currency currency) {
+    @Cacheable(value = "exchange_rates", key = "{#startDate, #endDate, #currency.name()}")
+    public CurrencyRatesDynamicResponseDTO parseExchangeRatesForPeriod(LocalDateTime startDate, LocalDateTime endDate, Currency currency) {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
         DocumentBuilder builder;
@@ -66,17 +69,17 @@ public class ExchangeRatesXMLParser {
             throw new RuntimeException(e);
         }
 
-        List<CurrencyRateResponseDTO> dtos = mapToDTO(doc);
+        CurrencyRatesDynamicResponseDTO dtos = mapToDTO(doc);
 
         return dtos;
     }
 
-    private List<CurrencyRateResponseDTO> mapToDTO(Document doc) {
+    private CurrencyRatesDynamicResponseDTO mapToDTO(Document doc) {
 
-        List<CurrencyExchangeRate> rates = new ArrayList<>();
+        List<CurrencyRatesDynamicResponseDTO> rates = new ArrayList<>();
 
         NodeList nodes = doc.getElementsByTagName("Record");
-
+        List<CurrencyRateResponseDTO> rateDtos = new ArrayList<>();
         for (int i = 0; i < nodes.getLength(); i++) {
             Node node = nodes.item(i);
 
@@ -85,7 +88,7 @@ public class ExchangeRatesXMLParser {
                 DateTimeFormatter f = DateTimeFormatter.ofPattern("dd.MM.yyyy");
                 LocalDateTime date = LocalDate.parse(el.getAttribute("Date"), f).atStartOfDay();
 
-                rates.add(new CurrencyExchangeRate(
+                rateDtos.add(new CurrencyRateResponseDTO(
                                 date,
                                 Currency.fromCode(el.getAttribute("Id")),
                                 BigDecimal.valueOf(
@@ -102,13 +105,23 @@ public class ExchangeRatesXMLParser {
 
         }
 
-        List<CurrencyRateResponseDTO> result = rates.stream()
-                .map(r -> new CurrencyRateResponseDTO(
-                        r.getTime(),
-                        r.getCurrency(),
-                        r.getCurUnitRate()
-                ))
-                .toList();
+        BigDecimal max = rateDtos
+                .stream()
+                .map(CurrencyRateResponseDTO::curUnitRate)
+                .max(BigDecimal::compareTo)
+                .get();
+
+        BigDecimal min = rateDtos
+                .stream()
+                .map(CurrencyRateResponseDTO::curUnitRate)
+                .min(Comparator.naturalOrder())
+                .get();
+
+        CurrencyRatesDynamicResponseDTO result = new CurrencyRatesDynamicResponseDTO(
+                min,
+                max,
+                rateDtos
+        );
 
         return result;
     }

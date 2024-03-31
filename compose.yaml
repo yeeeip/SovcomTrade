@@ -1,0 +1,42 @@
+services:
+  database:
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=${SPRING_DATASOURCE_DB_NAME}
+      - POSTGRES_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - POSTGRES_USER=${SPRING_DATASOURCE_USERNAME}
+    ports:
+      - 5432:5432
+    networks:
+      - app-net
+  currency_app:
+    depends_on:
+      - database
+    image: currency_app_backend
+    build:
+      dockerfile: backend/CurrencyApplication/Dockerfile
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://database:5432/${SPRING_DATASOURCE_DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${SPRING_DATASOURCE_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${SPRING_DATASOURCE_PASSWORD}
+      - APPLICATION_JWT_KEY=${JWT_SECRET_KEY}
+    ports:
+      - 8080:8080
+    networks:
+      - app-net
+  frontend:
+    image: currency_app_frontend
+    depends_on:
+      - currency_app
+      - database
+    build:
+      dockerfile: frontend/CurrencyApplication/Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - app-net
+
+
+networks:
+  app-net:
+    driver: bridge

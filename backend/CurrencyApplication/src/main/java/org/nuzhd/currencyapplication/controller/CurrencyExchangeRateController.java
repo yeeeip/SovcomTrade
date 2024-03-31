@@ -1,6 +1,7 @@
 package org.nuzhd.currencyapplication.controller;
 
 import org.nuzhd.currencyapplication.dto.CurrencyRateResponseDTO;
+import org.nuzhd.currencyapplication.dto.CurrencyRatesDynamicResponseDTO;
 import org.nuzhd.currencyapplication.model.Currency;
 import org.nuzhd.currencyapplication.util.ExchangeRatesJsonParser;
 import org.nuzhd.currencyapplication.util.ExchangeRatesXMLParser;
@@ -10,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 @RestController
 @RequestMapping("${application.base-path}/daily_rates")
@@ -26,7 +26,7 @@ public class CurrencyExchangeRateController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CurrencyRateResponseDTO>> fetchExchangeRatesForPeriod(
+    public ResponseEntity<CurrencyRatesDynamicResponseDTO> fetchExchangeRatesForPeriod(
             @RequestParam("start_date") String startDate,
             @RequestParam("end_date") String endDate,
             @RequestParam("cur") Currency currency) {
@@ -36,7 +36,7 @@ public class CurrencyExchangeRateController {
         LocalDateTime from = LocalDate.parse(startDate, formatter).atStartOfDay();
         LocalDateTime to = LocalDate.parse(endDate, formatter).atStartOfDay();
 
-        List<CurrencyRateResponseDTO> xChangeRates = ratesParser.parseExchangeRatesForPeriod(from, to, currency);
+        CurrencyRatesDynamicResponseDTO xChangeRates = ratesParser.parseExchangeRatesForPeriod(from, to, currency);
 
         return ResponseEntity
                 .ok(xChangeRates);
