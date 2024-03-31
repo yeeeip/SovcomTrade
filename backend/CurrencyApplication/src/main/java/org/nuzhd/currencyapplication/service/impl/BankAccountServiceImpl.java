@@ -6,6 +6,8 @@ import org.nuzhd.currencyapplication.exception.BankAccountNotFound;
 import org.nuzhd.currencyapplication.model.BankAccount;
 import org.nuzhd.currencyapplication.repo.BankAccountRepository;
 import org.nuzhd.currencyapplication.service.BankAccountService;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -20,6 +22,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         this.bankAccountRepository = bankAccountRepository;
     }
 
+    @CachePut(value = "bank_accounts")
     @Override
     public BankAccountResponseDTO createAccount(Long ownerId, BankAccountCreateDTO createDTO) {
 
@@ -37,6 +40,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         );
     }
 
+    @Cacheable(value = "bank_accounts")
     @Override
     public List<BankAccountResponseDTO> findAllByOwnerId(Long ownerId) {
         List<BankAccountResponseDTO> accounts = bankAccountRepository
@@ -51,6 +55,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         return accounts;
     }
 
+    @Cacheable(value = "bank_accounts")
     @Override
     public BankAccount findById(Long accountId) {
         return bankAccountRepository.findById(accountId)

@@ -1,6 +1,7 @@
 package org.nuzhd.currencyapplication.service.impl;
 
 import org.nuzhd.currencyapplication.dto.CurrencyOperationCreateDTO;
+import org.nuzhd.currencyapplication.dto.CurrencyOperationResponseDTO;
 import org.nuzhd.currencyapplication.model.BankAccount;
 import org.nuzhd.currencyapplication.model.CurrencyOperation;
 import org.nuzhd.currencyapplication.repo.CurrencyOperationRepository;
@@ -49,7 +50,20 @@ public class CurrencyOperationServiceImpl implements CurrencyOperationService {
     }
 
     @Override
-    public List<CurrencyOperation> findAllByUser(AppUser user) {
-        return currencyOperationRepository.findAllByUser(user);
+    public List<CurrencyOperationResponseDTO> findAllByUser(AppUser user) {
+        List<CurrencyOperation> operations = currencyOperationRepository.findAllByUser(user);
+
+        List<CurrencyOperationResponseDTO> dtos = operations.stream()
+                .map(op -> new CurrencyOperationResponseDTO(
+                        op.getId(),
+                        op.getDebitAccount(),
+                        op.getCreditAccount(),
+                        op.getCreatedAt(),
+                        op.getCode(),
+                        op.getProcessedAt(),
+                        op.getStatus()
+                )).toList();
+
+        return dtos;
     }
 }

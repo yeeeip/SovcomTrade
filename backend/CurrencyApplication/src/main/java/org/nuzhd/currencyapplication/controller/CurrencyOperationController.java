@@ -2,6 +2,7 @@ package org.nuzhd.currencyapplication.controller;
 
 import jakarta.validation.Valid;
 import org.nuzhd.currencyapplication.dto.CurrencyOperationCreateDTO;
+import org.nuzhd.currencyapplication.dto.CurrencyOperationResponseDTO;
 import org.nuzhd.currencyapplication.model.CurrencyOperation;
 import org.nuzhd.currencyapplication.security.user.AppUser;
 import org.nuzhd.currencyapplication.service.CurrencyOperationService;
@@ -34,10 +35,10 @@ public class CurrencyOperationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CurrencyOperation>> getUserOperations(Authentication authentication) {
+    public ResponseEntity<List<CurrencyOperationResponseDTO>> getUserOperations(Authentication authentication) {
         AppUser user = (AppUser) authentication.getPrincipal();
 
-        List<CurrencyOperation> operations = operationService.findAllByUser(user);
+        List<CurrencyOperationResponseDTO> operations = operationService.findAllByUser(user);
 
         return ResponseEntity
                 .ok(operations);
