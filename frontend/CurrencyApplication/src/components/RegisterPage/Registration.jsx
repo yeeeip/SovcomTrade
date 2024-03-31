@@ -23,14 +23,14 @@ const CustomTitle = styled.p`
 	font-family: "TT Travels";
 	font-weight: 500;
 	font-size: 32px;
+	@media (max-width: 1100px) {
+		font-size: 26px;
+	}
 `
 const CustomButtonBlock = styled.div`
 	display: flex;
-	justify-content: center;
+	justify-content: space-around;
 	align-items: center;
-	width: 50%;
-	margin: 0 auto;
-	gap: 15px;
 `
 
 const CustomBGImage = styled.div`

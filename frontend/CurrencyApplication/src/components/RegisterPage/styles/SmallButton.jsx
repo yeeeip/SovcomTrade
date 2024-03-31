@@ -33,6 +33,15 @@ const CustomLinkButton = styled.a`
 	border: none;
 
 	cursor: pointer;
+	@media (max-width: 1200px) {
+		font-size: 14px;
+	}
+	@media (max-width: 950px) {
+		font-size: 12px;
+	}
+	@media (max-width: 410px) {
+		margin-bottom: 15px;
+	}
 `
 
 export const SmallButton = ({ href, content }) => {

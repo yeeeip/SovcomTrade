@@ -25,6 +25,19 @@ const CustomArrow = styled.a`
 	& > *:nth-child(2) {
 		transform: rotate(45deg);
 	}
+	@media (max-width: 1100px) {
+		& > * {
+			width: 35px;
+		}
+	}
+	@media (max-width: 900px) {
+		& > * {
+			width: 28px;
+		}
+	}
+	@media (max-width: 768px) {
+		margin: 40px 0px 0 0;
+	}
 `
 
 export const ExitButton = () => {

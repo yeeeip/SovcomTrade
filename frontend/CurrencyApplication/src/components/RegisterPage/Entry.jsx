@@ -7,7 +7,7 @@ import { ExitButton } from "./styles/ExitButton"
 import { SmallButton } from "./styles/SmallButton"
 import { useDispatch, useSelector } from "react-redux"
 const CustomFormContainer = styled.div`
-	padding: 120px 400px 120px 24px;
+	padding: 120px 100px 120px 24px;
 	width: 60%;
 	& > *:not(:last-child) {
 		margin-bottom: 25px;
@@ -15,11 +15,40 @@ const CustomFormContainer = styled.div`
 	& > *:first-child {
 		margin-bottom: 42px;
 	}
+	@media (max-width: 1100px) {
+		margin-bottom: 20px;
+	}
+	@media (max-width: 768px) {
+		padding: 50px 0px 0px 0px;
+		width: 85%;
+		& > *:first-child {
+			margin-bottom: 25px;
+		}
+		& > *:not(:last-child) {
+			margin-bottom: 15px;
+		}
+	}
+`
+const CustomTitleDiv = styled.div`
+	display: "flex";
+	gap: "20px";
+	@media (max-width: 768px) {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
 `
 const CustomTitle = styled.p`
 	font-family: "TT Travels";
 	font-weight: 500;
 	font-size: 32px;
+	color: #213A8B;
+	@media (max-width: 1100px) {
+		font-size: 30px;
+	}
+	@media (max-width: 900px) {
+		font-size: 26px;
+	}
 `
 const CustomButtonBlock = styled.div`
 	display: flex;
@@ -28,6 +57,10 @@ const CustomButtonBlock = styled.div`
 	width: 100%;
 	padding-top: 20px;
 	margin: 0 auto;
+	@media (max-width: 410px) {
+		flex-direction: column;
+		padding-top: 0px;
+	}
 `
 
 const CustomBGImage = styled.div`
@@ -36,6 +69,9 @@ const CustomBGImage = styled.div`
 	background-repeat: no-repeat;
 	background-position: center;
 	background-size: cover;
+	@media (max-width: 768px) {
+		display: none;
+	}
 `
 const CustomContainer = styled.div`
 	display: flex;
@@ -46,6 +82,16 @@ const CustomContainer = styled.div`
 	}
 	& > *:last-child {
 		margin: 115px 100px 0 0;
+	}
+	@media (max-width: 768px) {
+		& > *:nth-child(2) {
+			margin: 46px 0 0 18px;
+		}
+	}
+	@media (max-width: 768px) {
+		& > *:last-child {
+			margin: 40px 0px 0 0;
+		}
 	}
 `
 const CustomLinkButton = styled.a`
@@ -76,10 +122,10 @@ function Entry() {
 			<CustomBGImage />
 			<BackButton href={"/"} />
 			<CustomFormContainer>
-				<div style={{ display: "flex", gap: "20px" }}>
+				<CustomTitleDiv>
 					<CustomTitle>Вход</CustomTitle>
 					{generalError.valid && <CustomTitle style={{ color: "red" }}>{generalError.value}</CustomTitle>}
-				</div>
+				</CustomTitleDiv>
 				<Input
 					target={"email"}
 					title={"Адрес электронной почты"}

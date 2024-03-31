@@ -25,6 +25,14 @@ const CustomButton = styled.button`
 		transform: rotate(30deg);
 		top: 61%;
 	}
+	@media (max-width: 1100px) {
+		top: 180px;
+		width: 40px;
+		height: 40px;
+		* {
+		width: 20px;
+		}
+	}
 `
 export const PrevButton = ({ handlefunc, boxheight }) => {
 	return (
