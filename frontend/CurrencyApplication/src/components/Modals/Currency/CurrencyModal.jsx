@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Select } from "./style/Select"
 import { Option } from "./style/Option"
 import Button from "./style/Button"
+import { DoneComponent } from "./style/DoneComponent"
 
 const CurrencyModalDivDiv = styled.div`
 	position: absolute;
@@ -12,15 +13,16 @@ const CurrencyModalDivDiv = styled.div`
 	transform: translate(-50%, -50%);
 	width: fit-content;
 	height: fit-content;
-	border: 2px solid #213a8b99;
-	border-radius: 4px;
+
 	display: flex;
 	justify-content: center;
-	background: #f1f7ff;
 	transition: all 0.5s;
 `
 const CurrencyModalDiv = styled.div`
 	padding: 30px;
+	border: 2px solid #213a8b99;
+	background: #f1f7ff;
+	border-radius: 4px;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -85,6 +87,7 @@ const CustomExitButton = styled.div`
 `
 export const CurrencyModal = ({ handleClose, isModalActive, updateCurr }) => {
 	const [isActive, setIsActive] = useState(false)
+	const [swap, setSwap] = useState(true)
 	const [selectedOption, setSelectedOption] = useState("Выберите курс")
 
 	const handleToggleMenu = () => {
@@ -95,28 +98,33 @@ export const CurrencyModal = ({ handleClose, isModalActive, updateCurr }) => {
 		setSelectedOption(optionText)
 		setIsActive(false)
 	}
-
+	const SwapModals = () => {
+		setSwap(!swap)
+	}
 	return (
 		<CurrencyModalDivDiv isModalActive={isModalActive}>
-			<CurrencyModalDiv>
-				<TextAndBack>
-					<TitleH2>Открыть счет</TitleH2>
-					<CustomExitButton onClick={handleClose}>
-						<span></span>
-						<span></span>
-					</CustomExitButton>
-				</TextAndBack>
-				<CurrencyModalSpan>Валюта</CurrencyModalSpan>
-				<Select title={selectedOption} funcHandleToggleMenu={handleToggleMenu} isActive={isActive} />
-				{isActive && (
-					<Options>
-						{selectedOption !== "Рубли" && <Option title={"Рубли"} handlefunc={() => handleSelectOption("Рубли")}></Option>}
-						{selectedOption !== "Дирхам" && <Option title={"Дирхам"} handlefunc={() => handleSelectOption("Дирхам")}></Option>}
-						{selectedOption !== "Юань" && <Option title={"Юань"} handlefunc={() => handleSelectOption("Юань")}></Option>}
-					</Options>
-				)}
-				<Button href={"#"} title={"Открыть счет"} valueSelect={selectedOption} handlefunc={handleClose} updateCurr={updateCurr} />
-			</CurrencyModalDiv>
+			{swap && (
+				<CurrencyModalDiv>
+					<TextAndBack>
+						<TitleH2>Открыть счет</TitleH2>
+						<CustomExitButton onClick={handleClose}>
+							<span></span>
+							<span></span>
+						</CustomExitButton>
+					</TextAndBack>
+					<CurrencyModalSpan>Валюта</CurrencyModalSpan>
+					<Select title={selectedOption} funcHandleToggleMenu={handleToggleMenu} isActive={isActive} />
+					{isActive && (
+						<Options>
+							{selectedOption !== "Рубли" && <Option title={"Рубли"} handlefunc={() => handleSelectOption("Рубли")}></Option>}
+							{selectedOption !== "Дирхам" && <Option title={"Дирхам"} handlefunc={() => handleSelectOption("Дирхам")}></Option>}
+							{selectedOption !== "Юань" && <Option title={"Юань"} handlefunc={() => handleSelectOption("Юань")}></Option>}
+						</Options>
+					)}
+					<Button href={"#"} title={"Открыть счет"} valueSelect={selectedOption} handlefunc={SwapModals} updateCurr={updateCurr} />
+				</CurrencyModalDiv>
+			)}
+			{!swap && <DoneComponent text={"Ваш счет успешно создан."} handleClose={handleClose} />}
 		</CurrencyModalDivDiv>
 	)
 }

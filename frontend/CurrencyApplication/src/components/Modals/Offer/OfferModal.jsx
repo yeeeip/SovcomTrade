@@ -7,6 +7,7 @@ import Button from "./style/Button"
 import { Input } from "./style/Input"
 import { useState } from "react"
 import { useSelector } from "react-redux"
+import { DoneComponent } from "./style/DoneComponent"
 
 const OfferModalDiv = styled.div`
 	position: absolute;
@@ -15,15 +16,16 @@ const OfferModalDiv = styled.div`
 	transform: translate(-50%, -50%);
 	width: fit-content;
 	height: fit-content;
-	border: 2px solid #213a8b99;
-	border-radius: 4px;
+
 	display: flex;
 	z-index: 50;
 	justify-content: center;
-	background: #f1f7ff;
 	transition: all 0.5s;
 `
 const OfferModalDivDiv = styled.div`
+	border: 2px solid #213a8b99;
+	border-radius: 4px;
+	background: #f1f7ff;
 	width: fit-content;
 	height: fit-content;
 	padding: 30px;
@@ -116,6 +118,7 @@ const CustomExitButton = styled.div`
 	}
 `
 export const OfferModal = ({ isModalActive, handleClose }) => {
+	const [swap, setSwap] = useState(true)
 	const bankAccounts = useSelector((state) => state.login.bankAccounts) || []
 	const modals = useSelector((state) => state.modals) || []
 
@@ -147,97 +150,103 @@ export const OfferModal = ({ isModalActive, handleClose }) => {
 	const handleValueInput = (e) => {
 		setValue(e.target.value)
 	}
-
+	const SwapModals = () => {
+		setSwap(!swap)
+	}
 	return (
 		<OfferModalDiv isModalActive={isModalActive}>
-			<OfferModalDivDiv>
-				<TitleAndBack>
-					<TitleH1>Заявка на покупку/продажу от дд.мм.гг</TitleH1>
-					<CustomExitButton onClick={handleClose}>
-						<span></span>
-						<span></span>
-					</CustomExitButton>
-				</TitleAndBack>
-				<IntputsDiv>
-					<LeftIntputsDiv>
-						<IntputsSpan style={{ marginTop: "70px" }}>Списать</IntputsSpan>
-						<Select
-							title={`${selectedOptionWriteOff.bigDecimal || "Выберите счет"} ${selectedOptionWriteOff.currency || ""}`}
-							funcHandleToggleMenu={handleToggleMenuWriteOff}
-							caution={typeof modals.offerCreditAccountError == "string"}
-							errorMessage={typeof modals.offerCreditAccountError == "string" ? register.offerCreditAccountError : false}
-						/>
-						{isActiveWriteOff && (
-							<Options>
-								{bankAccounts.map((item, index) => {
-									if (selectedOptionWriteOff.id != item.id)
-										return (
-											<Option
-												key={index}
-												title={`${item.bigDecimal} ${item.currency}`}
-												handlefunc={() => handleSelectOptionWriteOff(item)}
-											/>
-										)
-								})}
-							</Options>
-						)}
+			{swap && (
+				<OfferModalDivDiv>
+					<TitleAndBack>
+						<TitleH1>Заявка на покупку/продажу от дд.мм.гг</TitleH1>
+						<CustomExitButton onClick={handleClose}>
+							<span></span>
+							<span></span>
+						</CustomExitButton>
+					</TitleAndBack>
+					<IntputsDiv>
+						<LeftIntputsDiv>
+							<IntputsSpan style={{ marginTop: "70px" }}>Списать</IntputsSpan>
+							<Select
+								title={`${selectedOptionWriteOff.bigDecimal || "Выберите счет"} ${selectedOptionWriteOff.currency || ""}`}
+								funcHandleToggleMenu={handleToggleMenuWriteOff}
+								caution={typeof modals.offerCreditAccountError == "string"}
+								errorMessage={typeof modals.offerCreditAccountError == "string" ? register.offerCreditAccountError : false}
+							/>
+							{isActiveWriteOff && (
+								<Options>
+									{bankAccounts.map((item, index) => {
+										if (selectedOptionWriteOff.id != item.id)
+											return (
+												<Option
+													key={index}
+													title={`${item.bigDecimal} ${item.currency}`}
+													handlefunc={() => handleSelectOptionWriteOff(item)}
+												/>
+											)
+									})}
+								</Options>
+							)}
 
-						<IntputsSpan style={{ marginTop: "30px" }}>Зачислить</IntputsSpan>
-						<Select
-							title={`${selectedOptionToEnroll.bigDecimal || "Выберите счет"} ${selectedOptionToEnroll.currency || ""}`}
-							funcHandleToggleMenu={handleToggleMenuToEnroll}
-							caution={typeof modals.offerDebitAccountError == "string"}
-							errorMessage={typeof modals.offerDebitAccountError == "string" ? register.offerDebitAccountError : false}
-						/>
-						{isActiveToEnroll && (
-							<Options>
-								{bankAccounts.map((item, index) => {
-									if (selectedOptionToEnroll.id != item.id)
-										return (
-											<Option
-												key={index}
-												title={`${item.bigDecimal} ${item.currency}`}
-												handlefunc={() => handleSelectOptionToEnroll(item)}
-											/>
-										)
-								})}
-							</Options>
-						)}
+							<IntputsSpan style={{ marginTop: "30px" }}>Зачислить</IntputsSpan>
+							<Select
+								title={`${selectedOptionToEnroll.bigDecimal || "Выберите счет"} ${selectedOptionToEnroll.currency || ""}`}
+								funcHandleToggleMenu={handleToggleMenuToEnroll}
+								caution={typeof modals.offerDebitAccountError == "string"}
+								errorMessage={typeof modals.offerDebitAccountError == "string" ? register.offerDebitAccountError : false}
+							/>
+							{isActiveToEnroll && (
+								<Options>
+									{bankAccounts.map((item, index) => {
+										if (selectedOptionToEnroll.id != item.id)
+											return (
+												<Option
+													key={index}
+													title={`${item.bigDecimal} ${item.currency}`}
+													handlefunc={() => handleSelectOptionToEnroll(item)}
+												/>
+											)
+									})}
+								</Options>
+							)}
 
-						<Button
-							href={"#"}
-							title={"Создать заявку"}
-							data={{ credit: selectedOptionWriteOff, debit: selectedOptionToEnroll, curs: curs, value: value }}
-						/>
-					</LeftIntputsDiv>
+							<Button
+								href={"#"}
+								title={"Создать заявку"}
+								data={{ credit: selectedOptionWriteOff, debit: selectedOptionToEnroll, curs: curs, value: value }}
+								handlefunc={SwapModals}
+							/>
+						</LeftIntputsDiv>
 
-					<RightIntputsDiv>
-						<IntputsSpan style={{ marginTop: "70px" }}>Желаемый курс</IntputsSpan>
-						<Input
-							title={"Введите сумму*"}
-							handlefunc={handleCursInput}
-							caution={typeof modals.offerCursError == "string"}
-							errorMessage={typeof modals.offerCursError == "string" ? register.offerCursError : false}
-						/>
+						<RightIntputsDiv>
+							<IntputsSpan style={{ marginTop: "70px" }}>Желаемый курс</IntputsSpan>
+							<Input
+								title={"Введите сумму*"}
+								handlefunc={handleCursInput}
+								caution={typeof modals.offerCursError == "string"}
+								errorMessage={typeof modals.offerCursError == "string" ? register.offerCursError : false}
+							/>
 
-						<IntputsSpan style={{ marginTop: "30px" }}>Сумма списания</IntputsSpan>
-						<Input
-							title={"Введите сумму*"}
-							handlefunc={handleValueInput}
-							caution={typeof modals.offerValueError == "string"}
-							errorMessage={typeof modals.offerValueError == "string" ? register.offerValueError : false}
-						/>
-						<SumA href='#'>Списать всю сумму (число)</SumA>
-						<IntputsSpan style={{ marginTop: "30px" }}>Срок заявки</IntputsSpan>
-						<Input
-							title={"ДД-ММ-ГГГГ Часы:Минуты:Секуды"}
-							handlefunc={handleValueInput}
-							caution={typeof modals.offerTimeError == "string"}
-							errorMessage={typeof modals.offerTimeError == "string" ? register.offerTimeError : false}
-						/>
-					</RightIntputsDiv>
-				</IntputsDiv>
-			</OfferModalDivDiv>
+							<IntputsSpan style={{ marginTop: "30px" }}>Сумма списания</IntputsSpan>
+							<Input
+								title={"Введите сумму*"}
+								handlefunc={handleValueInput}
+								caution={typeof modals.offerValueError == "string"}
+								errorMessage={typeof modals.offerValueError == "string" ? register.offerValueError : false}
+							/>
+							<SumA href='#'>Списать всю сумму (число)</SumA>
+							<IntputsSpan style={{ marginTop: "30px" }}>Срок заявки</IntputsSpan>
+							<Input
+								title={"ДД-ММ-ГГГГ Часы:Минуты:Секуды"}
+								handlefunc={handleValueInput}
+								caution={typeof modals.offerTimeError == "string"}
+								errorMessage={typeof modals.offerTimeError == "string" ? register.offerTimeError : false}
+							/>
+						</RightIntputsDiv>
+					</IntputsDiv>
+				</OfferModalDivDiv>
+			)}
+			{!swap && <DoneComponent text={"Ваша заявка успешно создана"} handleClose={handleClose} />}
 		</OfferModalDiv>
 	)
 }

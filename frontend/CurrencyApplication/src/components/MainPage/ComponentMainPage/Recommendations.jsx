@@ -2,6 +2,7 @@ import styled from "styled-components"
 import RecommendationsInput from "../style/RecommendationsInput"
 import Slide from "../style/Slide"
 import { RecomendationSliderProvider } from "../style/newsSlider/RecomendationSliderProvider"
+import { useEffect } from "react"
 
 const RecommendationsDiv = styled.div`
 	width: 100%;
@@ -20,35 +21,19 @@ const SlideDiv = styled.div`
 	justify-content: center;
 	gap: 32px;
 `
-const Recommendations = () => {
+const Recommendations = ({ data }) => {
 	return (
 		<RecommendationsDiv>
 			<RecommendationsInput title={"Рекомендации по продаже/покупке валют"} />
 			<RecomendationSliderProvider width={1280} height={512}>
-				<SlideDiv>
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-				</SlideDiv>
-				<SlideDiv>
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-				</SlideDiv>
-				<SlideDiv>
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-				</SlideDiv>
-				<SlideDiv>
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-				</SlideDiv>
-				<SlideDiv>
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-				</SlideDiv>
-				<SlideDiv>
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-					<Slide href={"#"} titleOne={"Заголовок"} titleTwo={"аннотация еще какой-то текст желательно в 2 строчки"} />
-				</SlideDiv>
+				{data.map((item, index) => {
+					return (
+						<SlideDiv>
+							<Slide href={item[0].news.newsUrl} titleOne={item[0].news.title} titleTwo={item[0].news.shortDesc} dopInfo={item[0].forecast} />
+							<Slide href={item[1].news.newsUrl} titleOne={item[1].news.title} titleTwo={item[1].news.shortDesc} dopInfo={item[1].forecast} />
+						</SlideDiv>
+					)
+				})}
 			</RecomendationSliderProvider>
 		</RecommendationsDiv>
 	)
