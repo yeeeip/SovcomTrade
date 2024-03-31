@@ -12,6 +12,16 @@ spring:
   sql:
     init:
       mode: always
+  ai:
+    openai:
+      api-key: ${OPENAI_KEY}
+      chat:
+        options:
+          model: gpt-3.5-turbo
+          temperature: 0.2
+    retry:
+      backoff:
+        initial-interval: 20000
 
 logging:
   level:
@@ -31,3 +41,5 @@ application:
   cb:
     xml-base-url: "http://www.cbr.ru/scripts"
     json-base-url: "https://www.cbr-xml-daily.ru"
+  invest-com:
+    base-url: "https://ru.investing.com"
