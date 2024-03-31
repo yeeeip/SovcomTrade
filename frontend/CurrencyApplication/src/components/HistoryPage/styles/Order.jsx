@@ -19,6 +19,16 @@ const CustomMainInfoBlock = styled.div`
 	width: 100%;
 	padding: 20px;
 `
+const CustomOrderStatusThing = styled.div`
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: -4px;
+	width: 4px;
+	height: 80%;
+	border-radius: 4px;
+	background: ${(props) => (props.state === "ACTIVE" ? "#dacc51" : props.state === "SUCCESSFUL" ? "#61D6C0" : "#DA5155")};
+`
 const CustomMainInfo = styled.div`
 	display: flex;
 	flex-direction: column;
@@ -114,6 +124,7 @@ export const Order = ({ state, typeOperation, idOperation, currency = "dh", crea
 					<OrderButton created={created} expired={expired} />
 				</div>
 			</CustomMainInfoBlock>
+			<CustomOrderStatusThing state={state} />
 		</CustomOrderBlock>
 	)
 }

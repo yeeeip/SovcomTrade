@@ -15,7 +15,7 @@ const CustomValue = styled.div`
 	align-items: center;
 `
 const CustomList = styled.div`
-	display: ${(props) => (props.isSelecting ? "flex" : "none")};
+	display: ${(props) => (props.isselecting ? "flex" : "none")};
 	flex-direction: column;
 	padding: 0 16px;
 	border: 1px solid #213a8b99;
@@ -82,9 +82,13 @@ export const Select = ({ title, data = [], width }) => {
 					<span></span>
 				</CustomArrow>
 			</CustomValue>
-			<CustomList isSelecting={isSelecting} width={width}>
-				{data.map((item) => {
-					return <CustomOption onClick={handleSelect}>{item}</CustomOption>
+			<CustomList isselecting={isSelecting} width={width}>
+				{data.map((item, index) => {
+					return (
+						<CustomOption key={index} onClick={handleSelect}>
+							{item}
+						</CustomOption>
+					)
 				})}
 			</CustomList>
 		</CustomSelect>

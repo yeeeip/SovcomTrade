@@ -14,13 +14,6 @@ const CustomHistoryMainBlock = styled.div`
 	background: #f1f7ff;
 `
 
-const CustomGrid = styled.div`
-	display: grid;
-	width: 100%;
-	height: 100%;
-	grid-template-columns: 40% 60%;
-	gap: 0 80px;
-`
 const CustomTitle = styled.p`
 	font-size: 40px;
 	font-family: "TT Travels";
@@ -77,7 +70,6 @@ export const History = () => {
 			},
 		})
 			.then((response) => {
-				console.log(response)
 				setOrders(response.data)
 			})
 			.catch((err) => {
@@ -106,59 +98,52 @@ export const History = () => {
 		<div style={{ height: "100%" }}>
 			<Navbar />
 			<CustomHistoryMainBlock>
-				<CustomGrid>
-					<CustomTitle>Уведомления</CustomTitle>
-					<div style={{ width: "100%", display: "flex", alignItems: "end", flexDirection: "column", gap: "60px 0" }}>
-						<CustomButtonsBlock>
-							<Button content={"Юани (¥)"} active={currentCurrency === "CNY"} handlefunc={handleCurrencyButton} />
-							<Button content={"Дирхам (DH)"} active={currentCurrency === "AED"} handlefunc={handleCurrencyButton} />
-							<Button content={"Рубли (Р)"} active={currentCurrency === "RUB"} handlefunc={handleCurrencyButton} />
-						</CustomButtonsBlock>
-						<CustomHistoryHeader>
-							<CustomSortButtonsBlock>
-								<SortButton title={"Покупки"} active={currentSort === "Покупки"} handlefunc={handleSortButton} />
-								<SortButton title={"Продажи"} active={currentSort === "Продажи"} handlefunc={handleSortButton} />
-							</CustomSortButtonsBlock>
-							<Select title={"Март"} data={["Текущая неделя", "Март", "3 месяца", "2024 год", "Указать период"]} width={170} />
-						</CustomHistoryHeader>
-						<CustomHistoryList>
-							<CustomDateTitle>Сегодня</CustomDateTitle>
-							{orders.map((item) => {
-								if (
-									(item.code === "BUY_FOREIGN_RUB" || item.code === "CONVERSION") &&
-									currentSort === "Покупки" &&
-									currentCurrency === item.credit_account_id.currency
-								) {
-									return (
-										<Order
-											created={item.created_at}
-											expired={item.processedAt}
-											state={item.status}
-											typeOperation={item.code}
-											idOperation={item.id}
-											currency={item.credit_account_id.currency}
-										/>
-									)
-								} else if (
-									item.code === "SELL_FOREIGN_RUB" &&
-									currentSort === "Продажи" &&
-									currentCurrency === item.credit_account_id.currency
-								) {
-									return (
-										<Order
-											created={item.created_at}
-											expired={item.processedAt}
-											state={item.status}
-											typeOperation={item.code}
-											idOperation={item.id}
-											currency={item.credit_account_id.currency}
-										/>
-									)
-								}
-							})}
-						</CustomHistoryList>
-					</div>
-				</CustomGrid>
+				<div style={{ width: "100%", display: "flex", alignItems: "end", flexDirection: "column", gap: "60px 0" }}>
+					<CustomButtonsBlock>
+						<Button content={"Юани (¥)"} active={currentCurrency === "CNY"} handlefunc={handleCurrencyButton} />
+						<Button content={"Дирхам (DH)"} active={currentCurrency === "AED"} handlefunc={handleCurrencyButton} />
+						<Button content={"Рубли (Р)"} active={currentCurrency === "RUB"} handlefunc={handleCurrencyButton} />
+					</CustomButtonsBlock>
+					<CustomHistoryHeader>
+						<CustomSortButtonsBlock>
+							<SortButton title={"Покупки"} active={currentSort === "Покупки"} handlefunc={handleSortButton} />
+							<SortButton title={"Продажи"} active={currentSort === "Продажи"} handlefunc={handleSortButton} />
+						</CustomSortButtonsBlock>
+						<Select title={"Март"} data={["Текущая неделя", "Март", "3 месяца", "2024 год", "Указать период"]} width={170} />
+					</CustomHistoryHeader>
+					<CustomHistoryList>
+						<CustomDateTitle>Сегодня</CustomDateTitle>
+						{orders.map((item) => {
+							if (
+								(item.code === "BUY_FOREIGN_RUB" || item.code === "CONVERSION") &&
+								currentSort === "Покупки" &&
+								currentCurrency === item.credit_account_id.currency
+							) {
+								return (
+									<Order
+										created={item.created_at}
+										expired={item.processedAt}
+										state={item.status}
+										typeOperation={item.code}
+										idOperation={item.id}
+										currency={item.credit_account_id.currency}
+									/>
+								)
+							} else if (item.code === "SELL_FOREIGN_RUB" && currentSort === "Продажи" && currentCurrency === item.credit_account_id.currency) {
+								return (
+									<Order
+										created={item.created_at}
+										expired={item.processedAt}
+										state={item.status}
+										typeOperation={item.code}
+										idOperation={item.id}
+										currency={item.credit_account_id.currency}
+									/>
+								)
+							}
+						})}
+					</CustomHistoryList>
+				</div>
 			</CustomHistoryMainBlock>
 		</div>
 	)

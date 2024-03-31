@@ -170,7 +170,6 @@ export const Button = ({ href, content, target }) => {
 					}),
 				})
 					.then((response) => {
-						console.log(response)
 						dispatch(setFirstName(response.data.user.first_name))
 						dispatch(setLastName(response.data.user.last_name))
 						dispatch(setMiddleName(response.data.user.middle_name || ""))
