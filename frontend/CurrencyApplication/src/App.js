@@ -4,9 +4,9 @@ import { BrowserRouter, Route, Routes, Redirect } from "react-router-dom"
 import MainPage from "./components/MainPage/MainPage.jsx"
 import Entry from "./components/RegisterPage/Entry.jsx"
 import { CurrencyModal } from "./components/Modals/Currency/CurrencyModal.jsx"
+import { OfferModal } from "./components/Modals/Offer/OfferModal.jsx"
 import { History } from "./components/HistoryPage/History.jsx"
 import { Button } from "./components/RegisterPage/styles/Button.jsx"
-import { OfferModal } from "./components/Modals/Offer/OfferModal.jsx"
 
 function App() {
 	return (
@@ -26,7 +26,7 @@ function App() {
 							<br />
 							<Button href={"/сurrencyModal"} content={"сurrencyModal"} />
 							<br />
-							<Button href={"/offerModal"} content={"OfferModal"} />
+							<Button href={"/offerModal"} content={"offerModal"} />
 							<br />
 							<Button href={"/history"} content={"history"} />
 							<br />
