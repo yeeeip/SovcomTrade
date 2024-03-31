@@ -16,6 +16,22 @@ const CustomTitle = styled.p`
 	font-weight: normal;
 	font-size: 24px;
 	color: ${(props) => (props.caution === true ? "#DA5155" : "#213A8B")};
+	@media (max-width: 1200px) {
+		font-size: 20px;
+		padding: 10px;
+	}
+	@media (max-width: 1100px) {
+		font-size: 16px;
+		padding: 8px;
+	}
+	@media (max-width: 900px) {
+		font-size: 13px;
+		padding: 6px;
+	}
+	@media (max-width: 285px) {
+		font-size: 11px;
+		padding: 6px;
+	}
 `
 
 const CustomInput = styled.input`
@@ -28,9 +44,16 @@ const CustomInput = styled.input`
 	&:focus {
 		outline: none;
 	}
-	@media (max-width: 1200px) {
-		font-size: 20px;
+	@media (max-width: 1100px) {
+		font-size: 16px;
 		padding: 10px;
+	}@media (max-width: 900px) {
+		font-size: 13px;
+		padding: 8px;
+	}
+	@media (max-width: 285px) {
+		font-size: 11px;
+		padding: 5px;
 	}
 `
 
@@ -41,6 +64,9 @@ const CustomInputField = styled.div`
 		margin-bottom: 16px;
 		@media (max-width: 1200px) {
 			margin-bottom: 8px;
+		}
+		@media (max-width: 1100px) {
+			margin-bottom: 0px;
 		}
 	}
 `

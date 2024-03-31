@@ -22,7 +22,7 @@ const CustomButton = styled.button`
 	padding: 30px;
 	width: 100%;
 	text-align: center;
-	background: #000;
+	background: #213A8B;
 	border-radius: 20px;
 	cursor: pointer;
 	user-select: none;
@@ -30,6 +30,14 @@ const CustomButton = styled.button`
 	@media (max-width: 1200px) {
 		font-size: 20px;
 		padding: 15px;
+	}
+	@media (max-width: 1100px) {
+		font-size: 16px;
+		padding: 13px;
+	}
+	@media (max-width: 950px) {
+		font-size: 14px;
+		padding: 10px;
 	}
 `
 const CustomLinkButton = styled.a`
@@ -41,7 +49,7 @@ const CustomLinkButton = styled.a`
 	padding: 30px;
 	width: 100%;
 	text-align: center;
-	background: #000;
+	background: #213A8B;
 	text-decoration: none;
 	border-radius: 20px;
 	cursor: pointer;
@@ -49,6 +57,13 @@ const CustomLinkButton = styled.a`
 	@media (max-width: 1200px) {
 		font-size: 20px;
 		padding: 15px;
+	}@media (max-width: 900px) {
+		font-size: 17px;
+		padding: 13px;
+	}
+	@media (max-width: 285px) {
+		font-size: 13px;
+		padding: 10px;
 	}
 `
 

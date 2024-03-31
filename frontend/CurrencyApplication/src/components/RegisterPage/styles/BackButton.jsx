@@ -28,6 +28,20 @@ const CustomArrow = styled.a`
 		top: 60%;
 		transform: rotate(45deg);
 	}
+	@media (max-width: 900px) {
+		max-width: 34px;
+		max-height: 34px;
+		& > * {
+			width: 10px;
+		}
+	}
+	@media (max-width: 900px) {
+		max-width: 34px;
+		max-height: 34px;
+		& > * {
+			width: 10px;
+		}
+	}
 `
 
 export const BackButton = ({ href }) => {
