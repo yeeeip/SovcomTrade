@@ -1,6 +1,6 @@
 package org.nuzhd.currencyapplication.security.config;
 
-import org.nuzhd.currencyapplication.security.jwt.JwtAuthEntryPoint;
+import org.nuzhd.currencyapplication.security.jwt.AuthExceptionHandler;
 import org.nuzhd.currencyapplication.security.jwt.JwtAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,11 +24,11 @@ public class SecurityConfig {
 
     @Value("${application.base-path}")
     private String basePath;
-    private final JwtAuthEntryPoint authEntryPoint;
+    private final AuthExceptionHandler authEntryPoint;
 
     private JwtAuthenticationFilter jwtAuthenticationFilter;
 
-    public SecurityConfig(JwtAuthEntryPoint authEntryPoint) {
+    public SecurityConfig(AuthExceptionHandler authEntryPoint) {
         this.authEntryPoint = authEntryPoint;
     }
 
@@ -43,7 +43,11 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authorize ->
                         authorize
-                                .requestMatchers(basePath + "/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/error")
+                                .requestMatchers(basePath + "/auth/**",
+                                        "/swagger-ui/**",
+                                        "/v3/api-docs/**"
+                                        //"/error"
+                                )
                                 .permitAll()
                                 .anyRequest().authenticated()
                 )

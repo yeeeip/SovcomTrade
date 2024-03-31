@@ -1,9 +1,10 @@
 package org.nuzhd.currencyapplication.exception.controller;
 
 import org.nuzhd.currencyapplication.exception.*;
+import org.nuzhd.currencyapplication.security.jwt.exception.InvalidJwtException;
 import org.springframework.context.MessageSource;
 import org.springframework.http.*;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -65,16 +66,6 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 .badRequest()
                 .body(problemDetail);
     }
-
-//    @ExceptionHandler(BadCredentialsException.class)
-//    public ResponseEntity<ProblemDetail> handleBadCredentialsException(BadCredentialsException ex) {
-//        ProblemDetail problemDetail = ProblemDetail
-//                .forStatusAndDetail(HttpStatus.UNAUTHORIZED, ex.getMessage());
-//
-//        return ResponseEntity
-//                .status(401)
-//                .body(problemDetail);
-//    }
 
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ProblemDetail> handleUserNotFound(UsernameNotFoundException ex, Locale locale) {
@@ -144,8 +135,20 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
                 .body(problemDetail);
     }
 
-    @ExceptionHandler(AuthenticationException.class)
-    public ResponseEntity<ProblemDetail> handleNotAuthenticatedResponse(AuthenticationException ex, Locale locale) {
+    @ExceptionHandler(InvalidJwtException.class)
+    public ResponseEntity<ProblemDetail> handleInvalidJWT(InvalidJwtException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.UNAUTHORIZED,
+                "ASDSAD"
+        );
+
+        return ResponseEntity
+                .status(401)
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(AuthenticationCredentialsNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleAuthenticationCredentialsNotFound(AuthenticationCredentialsNotFoundException ex, Locale locale) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.UNAUTHORIZED,
                 "ASDSAD"

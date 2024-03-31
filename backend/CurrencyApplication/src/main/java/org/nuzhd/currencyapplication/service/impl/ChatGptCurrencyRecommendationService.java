@@ -74,8 +74,6 @@ public class ChatGptCurrencyRecommendationService implements AIRecommendationSer
 
     @Override
     public List<CurrencyAIRecommendation> generateRecommendationsForAllNews() {
-//        List<CurrencyNews>
-
         return null;
     }
 
