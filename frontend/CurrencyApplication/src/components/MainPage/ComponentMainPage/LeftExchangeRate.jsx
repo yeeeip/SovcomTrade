@@ -17,20 +17,20 @@ const Greeting = styled.h1`
 	font-size: 34px;
 	margin-bottom: 30px;
 `
-const LeftExchangeRate = () => {
+const LeftExchangeRate = ({ handlecurrencymodal, handleoffermodal }) => {
 	let bankAccounts = useSelector((state) => state.login.bankAccounts) || []
 	return (
 		<LeftExchangeRateDiv>
 			<Greeting>Добрый день</Greeting>
 
-			<ButtonOpen href={"#"} title={"Открыть счет  +"} />
+			<ButtonOpen title={"Открыть счет  +"} handlefunc={handlecurrencymodal} />
 			<SliderProvider height={302}>
 				{bankAccounts.map((item) => {
-					return <CurrencyCell key={item.id} currency={item.currency} balance={item.balance} />
+					return <CurrencyCell key={item.id} currency={item.currency} balance={item.bigDecimal} />
 				})}
 			</SliderProvider>
 
-			<BuyingSelling href={"#"} title={"Покупка / продажа"} />
+			<BuyingSelling title={"Покупка / продажа"} handlefunc={handleoffermodal} />
 		</LeftExchangeRateDiv>
 	)
 }

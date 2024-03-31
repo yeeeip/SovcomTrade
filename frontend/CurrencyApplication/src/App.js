@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes, Redirect } from "react-router-dom"
 import MainPage from "./components/MainPage/MainPage.jsx"
 import Entry from "./components/RegisterPage/Entry.jsx"
 import { CurrencyModal } from "./components/Modals/Currency/CurrencyModal.jsx"
+import { OfferModal } from "./components/Modals/Offer/OfferModal.jsx"
 import { History } from "./components/HistoryPage/History.jsx"
 import { Button } from "./components/RegisterPage/styles/Button.jsx"
 
@@ -25,6 +26,8 @@ function App() {
 							<br />
 							<Button href={"/сurrencyModal"} content={"сurrencyModal"} />
 							<br />
+							<Button href={"/offerModal"} content={"offerModal"} />
+							<br />
 							<Button href={"/history"} content={"history"} />
 							<br />
 						</>
@@ -35,6 +38,7 @@ function App() {
 				<Route path='mainPage' element={<MainPage />} />
 				<Route path='entry' element={<Entry />} />
 				<Route path='сurrencyModal' element={<CurrencyModal />} />
+				<Route path='offerModal' element={<OfferModal />} />
 				<Route path='history' element={<History />} />
 			</Routes>
 		</BrowserRouter>

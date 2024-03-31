@@ -66,6 +66,7 @@ const CustomLinkButton = styled.a`
 	cursor: pointer;
 `
 
+
 function Entry() {
 	const generalError = useSelector((state) => state.register.generalError)
 	const register = useSelector((state) => state.register)

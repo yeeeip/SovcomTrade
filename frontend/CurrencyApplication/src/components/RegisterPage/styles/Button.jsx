@@ -61,20 +61,16 @@ export const Button = ({ href, content, target }) => {
 	const secondName = useSelector((state) => state.register.secondName?.value)
 	const middleName = useSelector((state) => state.register.middleName?.value)
 	const dispatch = useDispatch()
-	const SERVER_URL = "https://0aec-95-26-80-219.ngrok-free.app"
+	const SERVER_URL = "https://3e98-95-26-80-219.ngrok-free.app"
 	let navigate = useNavigate()
 	const handleButtonClick = () => {
-		//if (!(isEmailValid && isPasswordRepeated && isPasswordValid)) return
 		switch (target) {
 			case "password recovery":
 				try {
 					fetch("/recovery", {
 						method: "post",
 						body: email,
-					})
-						.then
-						//Ну тут короче да к апи запрос
-						()
+					}).then()
 				} catch (err) {}
 				break
 			case "register":
@@ -173,7 +169,6 @@ export const Button = ({ href, content, target }) => {
 						dispatch(setFirstName(response.data.user.first_name))
 						dispatch(setLastName(response.data.user.last_name))
 						dispatch(setMiddleName(response.data.user.middle_name || ""))
-						dispatch(setBankAccounts(response.data.user.user_accounts))
 						sessionStorage.setItem("token", response.data.jwtToken)
 						sessionStorage.setItem("loginTime", new Date())
 						navigate("/mainPage", { replace: true })
