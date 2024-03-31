@@ -4,6 +4,7 @@ import org.nuzhd.currencyapplication.dto.CurrencyOperationCreateDTO;
 import org.nuzhd.currencyapplication.dto.CurrencyOperationResponseDTO;
 import org.nuzhd.currencyapplication.model.BankAccount;
 import org.nuzhd.currencyapplication.model.CurrencyOperation;
+import org.nuzhd.currencyapplication.model.OperationCode;
 import org.nuzhd.currencyapplication.repo.CurrencyOperationRepository;
 import org.nuzhd.currencyapplication.security.user.AppUser;
 import org.nuzhd.currencyapplication.service.BankAccountService;
@@ -12,6 +13,8 @@ import org.nuzhd.currencyapplication.validation.ValidationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static org.nuzhd.currencyapplication.model.Currency.RUB;
 
 @Service
 public class CurrencyOperationServiceImpl implements CurrencyOperationService {
@@ -36,9 +39,19 @@ public class CurrencyOperationServiceImpl implements CurrencyOperationService {
         BankAccount debitAccount = accountService.findById(createDTO.debitAccountId());
         BankAccount creditAccount = accountService.findById(createDTO.creditAccountId());
 
+        OperationCode code;
+
+        if (debitAccount.getCurrency() == RUB && creditAccount.getCurrency() != RUB) {
+            code = OperationCode.BUY_FOREIGN_RUB;
+        } else if (debitAccount.getCurrency() != RUB && creditAccount.getCurrency() == RUB) {
+            code = OperationCode.SELL_FOREIGN_RUB;
+        } else {
+            code = OperationCode.CONVERSION;
+        }
+
         CurrencyOperation operation = currencyOperationRepository.save(
                 new CurrencyOperation(user,
-                        createDTO.code(),
+                        code,
                         debitAccount,
                         creditAccount,
                         createDTO.deadline(),

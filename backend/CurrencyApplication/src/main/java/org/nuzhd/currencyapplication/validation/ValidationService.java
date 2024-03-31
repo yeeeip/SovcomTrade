@@ -1,23 +1,23 @@
 package org.nuzhd.currencyapplication.validation;
 
 import org.nuzhd.currencyapplication.dto.CurrencyOperationCreateDTO;
-import org.nuzhd.currencyapplication.exception.EqualAccountsException;
-import org.nuzhd.currencyapplication.exception.PasswordsDoNotMatchException;
-import org.nuzhd.currencyapplication.exception.PastDateException;
-import org.nuzhd.currencyapplication.exception.UserAlreadyExistsException;
+import org.nuzhd.currencyapplication.exception.*;
 import org.nuzhd.currencyapplication.security.dto.UserRegistrationDTO;
 import org.nuzhd.currencyapplication.security.user.repo.AppUserRepository;
+import org.nuzhd.currencyapplication.service.BankAccountService;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Locale;
 
 @Service
 public class ValidationService {
     private final AppUserRepository userRepository;
+    private final BankAccountService bankAccountService;
 
-    public ValidationService(AppUserRepository userRepository) {
+    public ValidationService(AppUserRepository userRepository, BankAccountService bankAccountService) {
         this.userRepository = userRepository;
+        this.bankAccountService = bankAccountService;
     }
 
     public void validateRegistration(UserRegistrationDTO userRegistrationDTO) {
@@ -37,6 +37,20 @@ public class ValidationService {
 
         if (LocalDateTime.now().isAfter(request.deadline())) {
             throw new PastDateException();
+        }
+
+        if (bankAccountService.findById(request.creditAccountId()).getCurrency()
+                .equals(bankAccountService.findById(request.debitAccountId()).getCurrency())
+        ) {
+            throw new EqualCurrencyException();
+        }
+
+        if (request.course().compareTo(BigDecimal.ZERO) < 0) {
+            throw new NegativeCourseException();
+        }
+
+        if (request.price().compareTo(BigDecimal.ZERO) < 0) {
+            throw new NegativePriceException();
         }
     }
 

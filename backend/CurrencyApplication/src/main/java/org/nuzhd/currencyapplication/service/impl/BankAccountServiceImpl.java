@@ -1,5 +1,6 @@
 package org.nuzhd.currencyapplication.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.nuzhd.currencyapplication.dto.BankAccountCreateDTO;
 import org.nuzhd.currencyapplication.dto.BankAccountResponseDTO;
 import org.nuzhd.currencyapplication.exception.BankAccountNotFound;
@@ -22,6 +23,7 @@ public class BankAccountServiceImpl implements BankAccountService {
         this.bankAccountRepository = bankAccountRepository;
     }
 
+    @Transactional
     @CachePut(value = "bank_accounts")
     @Override
     public BankAccountResponseDTO createAccount(Long ownerId, BankAccountCreateDTO createDTO) {

@@ -35,7 +35,7 @@ public class AppUser implements UserDetails {
         this.createdAt = LocalDateTime.now();
         this.email = email;
         this.password = password;
-        this.isActive = true; // TODO: Сменить на false для механизма подтверждения
+        this.isActive = false; // TODO: Сменить на false для механизма подтверждения
     }
 
     public AppUser(String email, String password, String firstName, String lastName, String phoneNumber) {
@@ -45,7 +45,7 @@ public class AppUser implements UserDetails {
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.createdAt = LocalDateTime.now();
-        this.isActive = true;
+        this.isActive = false;
     }
 
     public Long getId() {

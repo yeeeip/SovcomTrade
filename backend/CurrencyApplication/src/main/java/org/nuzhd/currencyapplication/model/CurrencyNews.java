@@ -9,6 +9,7 @@ public class CurrencyNews {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "currency_news_seq", allocationSize = 1)
     private Long id;
 
     private String title;

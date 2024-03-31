@@ -7,10 +7,12 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 @SpringBootApplication
 @EnableScheduling
+@EnableAsync
 public class CurrencyApplication {
 
     public static void main(String[] args) {
@@ -32,8 +34,8 @@ public class CurrencyApplication {
                 newsService.parseForCurrencyAndSave(Currency.AED);
                 newsService.parseForCurrencyAndSave(Currency.CNY);
             }
-            aiRecommendationService.generateRecommendationsForCurrency(Currency.AED);
-            aiRecommendationService.generateRecommendationsForCurrency(Currency.CNY);
+//            aiRecommendationService.generateRecommendationsForCurrency(Currency.AED);
+//            aiRecommendationService.generateRecommendationsForCurrency(Currency.CNY);
         };
     }
 }

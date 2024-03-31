@@ -11,9 +11,9 @@ import org.nuzhd.currencyapplication.security.dto.UserRegistrationDTO;
 import org.nuzhd.currencyapplication.security.user.AppUser;
 import org.nuzhd.currencyapplication.security.user.service.AppUserService;
 import org.nuzhd.currencyapplication.security.user.service.AuthenticationService;
+import org.nuzhd.currencyapplication.security.user.service.EmailConfirmationTokenService;
 import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -24,9 +24,12 @@ public class AuthController {
     private final AppUserService userService;
     private final AuthenticationService authService;
 
-    public AuthController(AppUserService userService, AuthenticationService authService) {
+    private final EmailConfirmationTokenService tokenService;
+
+    public AuthController(AppUserService userService, AuthenticationService authService, EmailConfirmationTokenService tokenService) {
         this.userService = userService;
         this.authService = authService;
+        this.tokenService = tokenService;
     }
 
     @ApiResponses({
@@ -63,5 +66,16 @@ public class AuthController {
         return ResponseEntity
                 .ok()
                 .body(response);
+    }
+
+    @GetMapping("/confirm")
+    public ResponseEntity<String> confirmToken(
+            @RequestParam("token") String token
+    ) {
+
+        tokenService.confirmToken(token);
+
+        return ResponseEntity
+                .ok("Ваша почта успешно подтверждена");
     }
 }

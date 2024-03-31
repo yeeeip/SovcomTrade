@@ -32,7 +32,6 @@ public class CurrencyNewsHTMLParser {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("Parsing from " + doc.baseUri());
 
         List<CurrencyNews> news = new ArrayList<>();
 

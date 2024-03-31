@@ -29,6 +29,11 @@ public class ChatGptCurrencyRecommendationService implements AIRecommendationSer
     }
 
     @Override
+    public List<CurrencyAIRecommendation> findAll() {
+        return aiRecommendationRepository.findAll();
+    }
+
+    @Override
     public List<CurrencyAIRecommendation> generateRecommendationsForCurrency(Currency currency) {
         List<CurrencyNews> curNews = newsService.findAllByCurrency(currency);
 
@@ -56,25 +61,20 @@ public class ChatGptCurrencyRecommendationService implements AIRecommendationSer
                         news,
                         resp.getResult().getOutput().getContent()
                 );
+
+                aiRecommendationRepository.save(rec);
             } else {
                 rec = findByNews(news);
             }
             recommendations.add(rec);
         }
 
-        List<CurrencyAIRecommendation> savedRecommendations = saveAll(recommendations);
-
-        return savedRecommendations;
+        return recommendations;
     }
 
     @Override
     public CurrencyAIRecommendation findByNews(CurrencyNews news) {
         return aiRecommendationRepository.findByNews(news);
-    }
-
-    @Override
-    public List<CurrencyAIRecommendation> generateRecommendationsForAllNews() {
-        return null;
     }
 
     public List<CurrencyAIRecommendation> saveAll(List<CurrencyAIRecommendation> recommendations) {

@@ -12,6 +12,5 @@ public interface AIRecommendationService {
 
     CurrencyAIRecommendation findByNews(CurrencyNews news);
 
-    List<CurrencyAIRecommendation> generateRecommendationsForAllNews();
-
+    List<CurrencyAIRecommendation> findAll();
 }

@@ -1,10 +1,12 @@
 package org.nuzhd.currencyapplication.controller;
 
-import org.nuzhd.currencyapplication.model.Currency;
 import org.nuzhd.currencyapplication.model.CurrencyAIRecommendation;
 import org.nuzhd.currencyapplication.service.AIRecommendationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -20,11 +22,9 @@ public class AIRecommendationController {
     }
 
     @GetMapping
-    public ResponseEntity<List<CurrencyAIRecommendation>> getAllRecommendationsForCurrency(
-            @RequestParam("cur") Currency currency
-    ) {
+    public ResponseEntity<List<CurrencyAIRecommendation>> getAllRecommendationsForCurrency() {
         List<CurrencyAIRecommendation> recommendations = recommendationService
-                .generateRecommendationsForCurrency(currency);
+                .findAll();
 
         return ResponseEntity
                 .ok(recommendations);

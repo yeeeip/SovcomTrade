@@ -139,7 +139,7 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     public ResponseEntity<ProblemDetail> handleInvalidJWT(InvalidJwtException ex, Locale locale) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.UNAUTHORIZED,
-                "ASDSAD"
+                "ERROR"
         );
 
         return ResponseEntity
@@ -151,11 +151,102 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
     public ResponseEntity<ProblemDetail> handleAuthenticationCredentialsNotFound(AuthenticationCredentialsNotFoundException ex, Locale locale) {
         ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
                 HttpStatus.UNAUTHORIZED,
-                "ASDSAD"
+                "ERROR"
         );
 
         return ResponseEntity
                 .status(401)
                 .body(problemDetail);
     }
+
+    @ExceptionHandler(TokenExpiredException.class)
+    public ResponseEntity<ProblemDetail> handleTokenExpired(TokenExpiredException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("currency.user.confirm.token_expired",
+                        new Object[0],
+                        locale
+                )
+        );
+
+        return ResponseEntity
+                .status(400)
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(TokenAlreadyConfirmedException.class)
+    public ResponseEntity<ProblemDetail> handleTokenConfirmed(TokenAlreadyConfirmedException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("currency.user.confirm.already_confirmed",
+                        new Object[0],
+                        locale
+                )
+        );
+
+        return ResponseEntity
+                .status(400)
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(TokenNotFoundException.class)
+    public ResponseEntity<ProblemDetail> handleTokenNotFound(TokenNotFoundException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("currency.user.confirm.token_not_found",
+                        new Object[0],
+                        locale
+                )
+        );
+
+        return ResponseEntity
+                .status(400)
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(EqualCurrencyException.class)
+    public ResponseEntity<ProblemDetail> handleEqualCurrency(EqualCurrencyException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("currency.operation.equal_currencies",
+                        new Object[0],
+                        locale
+                )
+        );
+
+        return ResponseEntity
+                .status(400)
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(NegativeCourseException.class)
+    public ResponseEntity<ProblemDetail> handleNegativeCourse(NegativeCourseException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("currency.operation.course_not_negative",
+                        new Object[0],
+                        locale
+                )
+        );
+
+        return ResponseEntity
+                .status(400)
+                .body(problemDetail);
+    }
+
+    @ExceptionHandler(NegativePriceException.class)
+    public ResponseEntity<ProblemDetail> handleNegativePrice(NegativePriceException ex, Locale locale) {
+        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
+                HttpStatus.BAD_REQUEST,
+                this.messageSource.getMessage("currency.operation.price.not_null",
+                        new Object[0],
+                        locale
+                )
+        );
+
+        return ResponseEntity
+                .status(400)
+                .body(problemDetail);
+    }
+
 }

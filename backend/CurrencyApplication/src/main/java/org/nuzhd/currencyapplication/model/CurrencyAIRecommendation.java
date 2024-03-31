@@ -7,6 +7,7 @@ public class CurrencyAIRecommendation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "ai_recommendation_seq", allocationSize = 1)
     private Long id;
 
     @OneToOne
