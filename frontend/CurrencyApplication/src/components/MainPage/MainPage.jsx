@@ -41,7 +41,7 @@ const MainPage = () => {
 	const updateCurr = () => {
 		setvarForUpdate(Math.random())
 	}
-	const SITE_URL = "https://3e98-95-26-80-219.ngrok-free.app"
+	const SITE_URL = "https://edd7-95-26-80-149.ngrok-free.app"
 	const dispatch = useDispatch()
 	useEffect(() => {
 		axios({
@@ -53,6 +53,7 @@ const MainPage = () => {
 			},
 		})
 			.then((response) => {
+				console.log(response)
 				dispatch(setBankAccounts(response.data))
 			})
 			.catch((err) => {
