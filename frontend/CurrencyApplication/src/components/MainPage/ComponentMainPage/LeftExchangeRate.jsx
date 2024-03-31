@@ -19,7 +19,6 @@ const Greeting = styled.h1`
 `
 const LeftExchangeRate = () => {
 	let bankAccounts = useSelector((state) => state.login.bankAccounts) || []
-	console.log(bankAccounts)
 	return (
 		<LeftExchangeRateDiv>
 			<Greeting>Добрый день</Greeting>

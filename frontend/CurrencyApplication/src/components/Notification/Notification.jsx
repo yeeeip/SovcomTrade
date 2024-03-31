@@ -1,0 +1,140 @@
+import React from "react"
+import styled from "styled-components"
+import rub from "../HistoryPage/img/rub.png"
+import dh from "../HistoryPage/img/dh.png"
+import y from "../HistoryPage/img/y.png"
+const CustomNotification = styled.div`
+	position: fixed;
+	top: 0;
+	right: 0;
+	width: 40%;
+	height: 100%;
+	background: #fdfdfd;
+	border: 2px solid #213a8b33;
+	display: ${(props) => (props.active ? "flex" : "none")};
+	flex-direction: column;
+	padding: 0 16px;
+	z-index: 50;
+`
+const CustomNotifHeader = styled.div`
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin: 15px 0;
+`
+const CustomNotifTitle = styled.p`
+	font-family: "TT Travels";
+	font-size: 24px;
+	font-weight: 500;
+	color: #213a8b;
+`
+const CustomNotifList = styled.div`
+	display: flex;
+	flex-direction: column;
+	gap: 15px 0;
+`
+const CustomNotif = styled.div`
+	position: relative;
+	display: flex;
+	align-items: center;
+	gap: 0 20px;
+	padding: 16px;
+	border: 2px solid #213a8b33;
+	border-radius: 16px;
+`
+const CustomNotifStatusThing = styled.div`
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: -4px;
+	width: 4px;
+	height: 80%;
+	border-radius: 4px;
+	background: ${(props) => (props.state === "ACTIVE" ? "#dacc51" : props.state === "SUCCESSFUL" ? "#61D6C0" : "#DA5155")};
+`
+const CustomNotifImg = styled.img`
+	width: 36px;
+	height: 36px;
+	background: url(${(props) => props.bg}) cover no-repeat;
+`
+const CustomNotifInfo = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	gap: 8px 0;
+`
+const CustomNotifID = styled.p`
+	font-family: "TT Travels";
+	font-size: 16px;
+	color: #1d1f2480;
+`
+const CustomNotifStatus = styled.p`
+	font-family: "TT Travels";
+	font-size: 16px;
+	color: #213a8b;
+`
+const CustomNotifDelete = styled.p`
+	font-family: "TT Travels";
+	font-size: 16px;
+	color: #213a8b;
+	text-align: center;
+	text-decoration: underline;
+	cursor: pointer;
+`
+const CustomExitButton = styled.div`
+	width: 44px;
+	height: 44px;
+	z-index: 51;
+	position: relative;
+	cursor: pointer;
+	& > * {
+		width: 100%;
+		height: 2px;
+		position: absolute;
+		top: 50%;
+		transform: translateY(-50%);
+		background: #c7c8c9;
+	}
+
+	& > *:first-child {
+		transform: rotate(45deg);
+	}
+	& > *:last-child {
+		transform: rotate(-45deg);
+	}
+`
+const CustomInfoText = styled.p`
+	font-family: "TT Travels";
+	font-size: 20px;
+	color: #213a8b;
+	text-align: center;
+`
+export const Notification = ({ active, handlefunc, data = [1] }) => {
+	return (
+		<CustomNotification active={active}>
+			<CustomNotifHeader>
+				<CustomNotifTitle>Уведомления</CustomNotifTitle>
+				<CustomExitButton onClick={handlefunc}>
+					<span></span>
+					<span></span>
+				</CustomExitButton>
+			</CustomNotifHeader>
+			<CustomNotifList>
+				{data.map((item, index) => {
+					return (
+						<CustomNotif>
+							<CustomNotifImg src={rub} />
+							<CustomNotifInfo>
+								<CustomNotifID>Операция от 20.03.2024</CustomNotifID>
+								<CustomNotifStatus>Состояние: одобрена</CustomNotifStatus>
+							</CustomNotifInfo>
+							<CustomNotifStatusThing />
+						</CustomNotif>
+					)
+				})}
+				{data.length === 0 && <CustomInfoText>Уведомлений нет</CustomInfoText>}
+				{data.length !== 0 && <CustomNotifDelete>Удалить все уведомления</CustomNotifDelete>}
+			</CustomNotifList>
+		</CustomNotification>
+	)
+}

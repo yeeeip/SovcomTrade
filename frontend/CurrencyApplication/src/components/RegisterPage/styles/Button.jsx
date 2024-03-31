@@ -14,7 +14,6 @@ import {
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { setFirstName, setLastName, setMiddleName, setBankAccounts } from "../../../redux/loginSlice"
-
 const CustomButton = styled.button`
 	font-family: "TT Travels";
 	font-weight: 500;
@@ -25,6 +24,8 @@ const CustomButton = styled.button`
 	text-align: center;
 	background: #000;
 	border-radius: 20px;
+	cursor: pointer;
+	user-select: none;
 
 	@media (max-width: 1200px) {
 		font-size: 20px;
@@ -43,6 +44,8 @@ const CustomLinkButton = styled.a`
 	background: #000;
 	text-decoration: none;
 	border-radius: 20px;
+	cursor: pointer;
+	user-select: none;
 	@media (max-width: 1200px) {
 		font-size: 20px;
 		padding: 15px;
@@ -58,7 +61,7 @@ export const Button = ({ href, content, target }) => {
 	const secondName = useSelector((state) => state.register.secondName?.value)
 	const middleName = useSelector((state) => state.register.middleName?.value)
 	const dispatch = useDispatch()
-	const SERVER_URL = "https://874f-95-26-80-238.ngrok-free.app"
+	const SERVER_URL = "https://0aec-95-26-80-219.ngrok-free.app"
 	let navigate = useNavigate()
 	const handleButtonClick = () => {
 		//if (!(isEmailValid && isPasswordRepeated && isPasswordValid)) return
@@ -154,7 +157,6 @@ export const Button = ({ href, content, target }) => {
 
 				break
 			case "login":
-				console.log(SERVER_URL)
 				axios({
 					method: "post",
 					mode: "no-cors",
@@ -168,11 +170,12 @@ export const Button = ({ href, content, target }) => {
 					}),
 				})
 					.then((response) => {
-						console.log(response)
 						dispatch(setFirstName(response.data.user.first_name))
 						dispatch(setLastName(response.data.user.last_name))
 						dispatch(setMiddleName(response.data.user.middle_name || ""))
 						dispatch(setBankAccounts(response.data.user.user_accounts))
+						sessionStorage.setItem("token", response.data.jwtToken)
+						sessionStorage.setItem("loginTime", new Date())
 						navigate("/mainPage", { replace: true })
 					})
 					.catch((err) => {

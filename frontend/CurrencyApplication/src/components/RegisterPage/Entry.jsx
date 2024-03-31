@@ -23,7 +23,7 @@ const CustomTitle = styled.p`
 `
 const CustomButtonBlock = styled.div`
 	display: flex;
-	justify-content: end;
+	justify-content: space-around;
 	align-items: center;
 	width: 100%;
 	padding-top: 20px;

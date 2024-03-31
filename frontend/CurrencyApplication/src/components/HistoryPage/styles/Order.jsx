@@ -2,6 +2,8 @@ import React from "react"
 import styled from "styled-components"
 import { OrderButton } from "./OrderButton"
 import rub from "../img/rub.png"
+import dh from "../img/dh.png"
+import y from "../img/y.png"
 const CustomOrderBlock = styled.div`
 	display: flex;
 	align-items: center;
@@ -16,6 +18,16 @@ const CustomMainInfoBlock = styled.div`
 	justify-content: space-between;
 	width: 100%;
 	padding: 20px;
+`
+const CustomOrderStatusThing = styled.div`
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	left: -4px;
+	width: 4px;
+	height: 80%;
+	border-radius: 4px;
+	background: ${(props) => (props.state === "ACTIVE" ? "#dacc51" : props.state === "SUCCESSFUL" ? "#61D6C0" : "#DA5155")};
 `
 const CustomMainInfo = styled.div`
 	display: flex;
@@ -54,29 +66,65 @@ const CustomStatus = styled.p`
 		display: block;
 		width: 18px;
 		height: 18px;
-		background: #dacc51;
+		background: ${(props) => (props.state === "ACTIVE" ? "#dacc51" : props.state === "SUCCESSFUL" ? "#61D6C0" : "#DA5155")};
 		border-radius: 50%;
 	}
 `
-export const Order = () => {
+export const Order = ({ state, typeOperation, idOperation, currency = "dh", created, expired }) => {
+	let stateText = null
+	let currencyIcon = null
+	switch (currency) {
+		case "RUB":
+			currencyIcon = rub
+			break
+		case "AED":
+			currencyIcon = dh
+			break
+		case "CNY":
+			currencyIcon = y
+			break
+	}
+	switch (typeOperation) {
+		case "BUY_FOREIGN_RUB":
+			typeOperation = "Покупка за рубли"
+			break
+		case "SELL_FOREIGN_RUB":
+			typeOperation = "Продажа за рубли"
+			break
+		case "CONVERSION":
+			typeOperation = "Конверсия"
+			break
+	}
+	switch (state) {
+		case "ACTIVE":
+			stateText = "Активна"
+			break
+		case "SUCCESSFUL":
+			stateText = "Исполнена"
+			break
+		case "EXPIRED":
+			stateText = "Просрочена"
+			break
+	}
 	return (
 		<CustomOrderBlock>
-			<img src={rub} alt='' style={{ padding: "0 0 0 15px" }} />
+			<img src={currencyIcon} alt='' style={{ padding: "0 0 0 15px" }} />
 			<CustomMainInfoBlock>
 				<CustomMainInfo>
-					<CustomIDInfo>Номер операции: 564697391</CustomIDInfo>
-					<CustomType>Тип: Конверсия в рубли</CustomType>
+					<CustomIDInfo>Номер операции: {idOperation}</CustomIDInfo>
+					<CustomType>Тип: {typeOperation}</CustomType>
 				</CustomMainInfo>
 				<div style={{ display: "flex", alignItems: "center", gap: "0 20px" }}>
 					<CustomStatusBlock>
 						<CustomStatusTitle>Статус заявки</CustomStatusTitle>
-						<CustomStatus>
-							Активная <span></span>
+						<CustomStatus state={state}>
+							{stateText} <span></span>
 						</CustomStatus>
 					</CustomStatusBlock>
-					<OrderButton />
+					<OrderButton created={created} expired={expired} />
 				</div>
 			</CustomMainInfoBlock>
+			<CustomOrderStatusThing state={state} />
 		</CustomOrderBlock>
 	)
 }

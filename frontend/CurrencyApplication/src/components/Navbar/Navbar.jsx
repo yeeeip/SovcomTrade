@@ -1,7 +1,9 @@
-import React from "react"
+import React, { useState } from "react"
 import styled from "styled-components"
 import SC from "./img/SC.png"
 import IconPersone from "./img/person.svg"
+import notif from "./img/notif.svg"
+import { Notification } from "../Notification/Notification"
 
 const NavbarDiv = styled.div`
 	display: flex;
@@ -59,7 +61,7 @@ const Name = styled.a`
 	font-size: 16px;
 `
 const NameImg = styled.img`
-	margin: 10px;
+	margin: 0 10px;
 	width: 35px;
 	height: 35px;
 `
@@ -68,7 +70,16 @@ const Line = styled.div`
 	height: 2px;
 	background: rgba(21, 25, 28, 0.25);
 `
+const NotifImg = styled.img`
+	margin: 0 20px;
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+`
+
 const Navbar = () => {
+	const [isNotifAcive, setIsNotifActive] = useState(false)
+	const handleNotifButton = () => setIsNotifActive(!isNotifAcive)
 	return (
 		<>
 			<NavbarDiv>
@@ -81,11 +92,13 @@ const Navbar = () => {
 					<Page href='#'>Уведомления</Page>
 				</Pages>
 				<UserName>
+					<NotifImg src={notif} onClick={handleNotifButton} />
 					<Name href='#'>Имя</Name>
 					<NameImg src={IconPersone} />
 				</UserName>
 			</NavbarDiv>
 			<Line />
+			<Notification active={isNotifAcive} handlefunc={handleNotifButton} />
 		</>
 	)
 }
