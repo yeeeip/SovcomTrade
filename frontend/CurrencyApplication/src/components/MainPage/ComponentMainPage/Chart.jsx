@@ -3,9 +3,10 @@ import { useState } from "react"
 import { ChartDirhams } from "../style/Charts/ChartDirhams"
 import { ChartYuan } from "../style/Charts/ChartYuan"
 const ChartDiv = styled.div`
+    width: 100%;
 `
 const ButtonDiv = styled.div`
-display: flex;
+    display: flex;
 `
 const ButtonDirhamsActive = styled.a`
     font-family: TT Travels;

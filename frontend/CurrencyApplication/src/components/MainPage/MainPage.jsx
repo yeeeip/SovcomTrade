@@ -11,6 +11,7 @@ import axios from "axios"
 import { OfferModal } from "../Modals/Offer/OfferModal.jsx"
 import { useNavigate } from "react-router-dom"
 import { CurrencyModal } from "../Modals/Currency/CurrencyModal.jsx"
+import { Chart } from "./ComponentMainPage/Chart.jsx"
 
 const MainPageDiv = styled.div`
 	max-width: 1280px;
@@ -22,6 +23,7 @@ const RateAndСhart = styled.div`
 `
 const RightChart = styled.div`
 	margin-top: 105px;
+	width: 60%;
 `
 
 const MainPage = () => {
@@ -69,7 +71,7 @@ const MainPage = () => {
 				<RateAndСhart>
 					<LeftExchangeRate handleoffermodal={handleOfferButtonClick} handlecurrencymodal={handleCurrencyButtonClick} />
 					<RightChart>
-						<img src={Scrin} />
+						<Chart/>
 					</RightChart>
 				</RateAndСhart>
 				<Recommendations />
