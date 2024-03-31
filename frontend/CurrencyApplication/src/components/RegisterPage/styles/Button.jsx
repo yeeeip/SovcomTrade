@@ -76,7 +76,7 @@ export const Button = ({ href, content, target }) => {
 	const secondName = useSelector((state) => state.register.secondName?.value)
 	const middleName = useSelector((state) => state.register.middleName?.value)
 	const dispatch = useDispatch()
-	const SERVER_URL = "https://3e98-95-26-80-219.ngrok-free.app"
+	const SERVER_URL = "https://edd7-95-26-80-149.ngrok-free.app"
 	let navigate = useNavigate()
 	const handleButtonClick = () => {
 		switch (target) {

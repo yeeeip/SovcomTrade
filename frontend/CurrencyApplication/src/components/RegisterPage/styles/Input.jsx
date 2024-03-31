@@ -41,6 +41,7 @@ const CustomInput = styled.input`
 	font-family: "TT Travels";
 	font-weight: normal;
 	font-size: 24px;
+	color: #213A8B;
 	&:focus {
 		outline: none;
 	}
