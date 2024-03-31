@@ -72,6 +72,7 @@ export function ChartYuan() {
 					const month = date.getMonth() + 1
 					return `${day < 10 ? "0" + day : day}.${month < 10 ? "0" + month : month}`
 				}
+				const SITE_URL = "https://edd7-95-26-80-149.ngrok-free.app"
 				const start_date = new Date()
 					.subtractDays(9)
 					.toLocaleDateString()
@@ -86,21 +87,19 @@ export function ChartYuan() {
 
 				const response = await axios({
 					method: "get",
-					url: `https://3e98-95-26-80-219.ngrok-free.app/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=CNY`,
+					url: `${SITE_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=CNY`,
 					headers: {
 						"Content-Type": "application/json",
 						"ngrok-skip-browser-warning": true,
 						Authorization: `Bearer ${sessionStorage.getItem("token")}`,
 					},
 				})
-				console.log(response.data.rates)
 				const data = response.data
 				const labels = data.rates.map((entry) => formDate(entry.time))
 				const values = data.rates.map((entry) => entry.cur_unit_rate)
 
-				priceChange = data.rates[6].cur_unit_rate - data.rates[5].cur_unit_rate
-				dayUpdateCourse = new Date(data.rates[6].time).toLocaleDateString()
-				console.log(priceChange.toFixed(2))
+				priceChange = data.rates[response.data.rates.length - 1].cur_unit_rate - data.rates[response.data.rates.length - 2].cur_unit_rate
+				dayUpdateCourse = new Date(data.rates[response.data.rates.length - 1].time).toLocaleDateString()
 				setChartData({
 					labels,
 					datasets: [

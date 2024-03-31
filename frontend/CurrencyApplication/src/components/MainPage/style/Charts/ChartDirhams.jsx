@@ -83,24 +83,22 @@ export function ChartDirhams() {
 					.split("")
 					.map((item) => (item === "." ? "/" : item))
 					.join("")
-
+				const SITE_URL = "https://edd7-95-26-80-149.ngrok-free.app"
 				const response = await axios({
 					method: "get",
-					url: `https://3e98-95-26-80-219.ngrok-free.app/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=AED`,
+					url: `${SITE_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=AED`,
 					headers: {
 						"Content-Type": "application/json",
 						"ngrok-skip-browser-warning": true,
 						Authorization: `Bearer ${sessionStorage.getItem("token")}`,
 					},
 				})
-				console.log(response.data.rates)
 				const data = response.data
 				const labels = data.rates.map((entry) => formDate(entry.time))
 				const values = data.rates.map((entry) => entry.cur_unit_rate)
 
-				priceChange = data.rates[6].cur_unit_rate - data.rates[5].cur_unit_rate
-				dayUpdateCourse = new Date(data.rates[6].time).toLocaleDateString()
-				console.log(priceChange.toFixed(2))
+				priceChange = data.rates[response.data.rates.length - 1].cur_unit_rate - data.rates[response.data.rates.length - 2].cur_unit_rate
+				dayUpdateCourse = new Date(data.rates[response.data.rates.length - 1].time).toLocaleDateString()
 				setChartData({
 					labels,
 					datasets: [
