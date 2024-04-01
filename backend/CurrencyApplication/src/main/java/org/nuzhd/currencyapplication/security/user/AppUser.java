@@ -35,7 +35,18 @@ public class AppUser implements UserDetails {
         this.createdAt = LocalDateTime.now();
         this.email = email;
         this.password = password;
-        this.isActive = false; // TODO: Сменить на false для механизма подтверждения
+        this.isActive = false;
+    }
+
+    public AppUser(String email, String password, String firstName, String lastName, String middleName, String phoneNumber) {
+        this.email = email;
+        this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.middleName = middleName;
+        this.phoneNumber = phoneNumber;
+        this.createdAt = LocalDateTime.now();
+        this.isActive = false;
     }
 
     public AppUser(String email, String password, String firstName, String lastName, String phoneNumber) {

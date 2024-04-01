@@ -57,8 +57,10 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
                 encoder.encode(userRegistrationDTO.password()),
                 userRegistrationDTO.firstName(),
                 userRegistrationDTO.lastName(),
+                userRegistrationDTO.middleName(),
                 userRegistrationDTO.phoneNumber()
         );
+
         AppUser savedUser = appUserRepository.save(newUser);
 
         List<BankAccount> userAccounts = List.of(
