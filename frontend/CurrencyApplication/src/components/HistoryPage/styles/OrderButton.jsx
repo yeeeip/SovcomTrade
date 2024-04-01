@@ -16,6 +16,9 @@ const CustomOrderButton = styled.button`
 		background: #1d1f2433;
 		border-radius: 50%;
 	}
+	@media (max-width: 1400px) {
+		padding: 13px;
+	}
 `
 const CustomList = styled.div`
 	display: ${(props) => (props.isopen ? "flex" : "none")};

@@ -14,8 +14,12 @@ const LeftExchangeRateDiv = styled.div`
 const Greeting = styled.h1`
 	font-family: "TT Travels";
 	color: #213a8b;
+	font-weight: 500;
 	font-size: 34px;
 	margin-bottom: 30px;
+	@media (max-width: 1400px) {
+		font-size: 30px;
+	}
 `
 const LeftExchangeRate = ({ handlecurrencymodal, handleoffermodal }) => {
 	let bankAccounts = useSelector((state) => state.login.bankAccounts) || [];

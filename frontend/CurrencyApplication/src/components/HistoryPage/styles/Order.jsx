@@ -11,6 +11,13 @@ const CustomOrderBlock = styled.div`
 	border-radius: 16px;
 	border: 2px solid #213a8b33;
 `
+const CustomOrderBlockImg = styled.img`
+	padding: 0 0 0 15px;
+	@media (max-width: 1400px) {
+		width: 65px;
+		height: 55px;
+	}
+`
 
 const CustomMainInfoBlock = styled.div`
 	display: flex;
@@ -54,6 +61,9 @@ const CustomStatusTitle = styled.p`
 	font-family: "TT Travels";
 	font-size: 16px;
 	color: #1d1f2480;
+	@media (max-width: 1400px) {
+		font-size: 14px;
+	}
 `
 const CustomStatus = styled.p`
 	display: flex;
@@ -68,6 +78,9 @@ const CustomStatus = styled.p`
 		height: 18px;
 		background: ${(props) => (props.state === "ACTIVE" ? "#dacc51" : props.state === "SUCCESSFUL" ? "#61D6C0" : "#DA5155")};
 		border-radius: 50%;
+	}
+	@media (max-width: 1400px) {
+		font-size: 17px;
 	}
 `
 export const Order = ({ state, typeOperation, idOperation, currency = "dh", created, expired }) => {
@@ -108,7 +121,7 @@ export const Order = ({ state, typeOperation, idOperation, currency = "dh", crea
 	}
 	return (
 		<CustomOrderBlock>
-			<img src={currencyIcon} alt='' style={{ padding: "0 0 0 15px" }} />
+			<CustomOrderBlockImg src={currencyIcon} alt=''/>
 			<CustomMainInfoBlock>
 				<CustomMainInfo>
 					<CustomIDInfo>Номер операции: {idOperation}</CustomIDInfo>

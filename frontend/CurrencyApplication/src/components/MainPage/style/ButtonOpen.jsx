@@ -14,6 +14,10 @@ const BuyingSellingA = styled.button`
 	border: 3px solid #213a8b99;
 	margin-bottom: 16px;
 	cursor: pointer;
+	@media (max-width: 1400px) {
+		padding: 16px;
+		font-size: 20px;
+	}
 `
 
 const BuyingSelling = ({ title, handlefunc }) => {

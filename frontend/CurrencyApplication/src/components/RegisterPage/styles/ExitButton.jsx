@@ -35,9 +35,6 @@ const CustomArrow = styled.a`
 			width: 28px;
 		}
 	}
-	@media (max-width: 768px) {
-		margin: 40px 0px 0 0;
-	}
 `
 
 export const ExitButton = () => {

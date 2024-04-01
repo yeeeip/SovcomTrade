@@ -32,6 +32,17 @@ const ChartSpan = styled.span`
 	display: flex;
 	justify-content: flex-end;
 `
+const ChartTitle = styled.span`
+	margin-top: 10px;
+	font-family: TT Travels;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 13.76px;
+	text-align: left;
+	color: #213a8b;
+	display: flex;
+`
+
 
 export let priceChange
 export let dayUpdateCourse
@@ -45,7 +56,7 @@ export const options = {
 	},
 }
 
-export function ChartYuan() {
+export function ChartYuan({interval, key}) {
 	const [chartData, setChartData] = useState({
 		labels: [],
 		datasets: [
@@ -72,9 +83,9 @@ export function ChartYuan() {
 					const month = date.getMonth() + 1
 					return `${day < 10 ? "0" + day : day}.${month < 10 ? "0" + month : month}`
 				}
-				const SITE_URL = "https://edd7-95-26-80-149.ngrok-free.app"
+				const SITE_URL = "https://089c-95-26-80-149.ngrok-free.app"
 				const start_date = new Date()
-					.subtractDays(9)
+					.subtractDays(interval)
 					.toLocaleDateString()
 					.split("")
 					.map((item) => (item === "." ? "/" : item))
@@ -84,6 +95,7 @@ export function ChartYuan() {
 					.split("")
 					.map((item) => (item === "." ? "/" : item))
 					.join("")
+				console.log(end_date)
 
 				const response = await axios({
 					method: "get",
@@ -126,8 +138,17 @@ export function ChartYuan() {
 	return (
 		<div>
 			<Line options={options} data={chartData} />
-			<ChartP style={{ color: priceChange >= 0 ? "green" : "red" }}>{priceChange && priceChange.toFixed(3)}</ChartP>
-			<ChartSpan>{`Последнее обновление курса: ${dayUpdateCourse}`}</ChartSpan>
+			<div style={{display:"flex", justifyContent:"space-between"}}>
+				<div>
+					<ChartTitle>Курсы по отношению к рублю</ChartTitle>
+				</div>
+				<div>
+					<ChartP style={{ color: priceChange >= 0 ? "green" : "red" }}>
+					{priceChange && (priceChange >= 0 ? "+" : "") + (priceChange && priceChange.toFixed(3))}
+					</ChartP>
+					<ChartSpan>{`Последнее обновление курса: ${dayUpdateCourse}`}</ChartSpan>
+				</div>
+			</div>
 		</div>
 	)
 }

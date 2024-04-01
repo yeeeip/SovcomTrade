@@ -46,6 +46,9 @@ const CustomHistoryList = styled.div`
 	width: 100%;
 	height: 100%;
 	gap: 50px 0;
+	@media (max-width: 1400px) {
+		gap: 35px 0;
+	}
 `
 const CustomDateTitle = styled.p`
 	font-size: 24px;
@@ -54,10 +57,23 @@ const CustomDateTitle = styled.p`
 	padding: 16px;
 	padding-bottom: 0px;
 	color: #1d1f2480;
+	@media (max-width: 1400px) {
+		font-size: 19px;
+	}
+`
+const CustomHistoryMainsBlockContainer = styled.div`
+	width: 100%;
+	display: flex;
+	align-items: end;
+	flex-direction: column;
+	gap: 60px 0;
+	@media (max-width: 1400px) {
+		gap: 30px 0;
+	}
 `
 
 export const History = () => {
-	const SITE_URL = "https://3e98-95-26-80-219.ngrok-free.app"
+	const SITE_URL = "https://089c-95-26-80-149.ngrok-free.app"
 	let [currentSort, setCurrentSort] = useState("Покупки")
 	let [currentCurrency, setCurrentCurrency] = useState("RUB")
 	let [orders, setOrders] = useState([])
@@ -101,11 +117,12 @@ export const History = () => {
 	const handleSortButton = (e) => {
 		setCurrentSort(e.target.textContent)
 	}
+	
 	return (
 		<div style={{ height: "100%" }}>
 			<Navbar />
 			<CustomHistoryMainBlock>
-				<div style={{ width: "100%", display: "flex", alignItems: "end", flexDirection: "column", gap: "60px 0" }}>
+				<CustomHistoryMainsBlockContainer>
 					<CustomButtonsBlock>
 						<Button content={"Юани (¥)"} active={currentCurrency === "CNY"} handlefunc={handleCurrencyButton} />
 						<Button content={"Дирхам (DH)"} active={currentCurrency === "AED"} handlefunc={handleCurrencyButton} />
@@ -150,7 +167,7 @@ export const History = () => {
 							}
 						})}
 					</CustomHistoryList>
-				</div>
+				</CustomHistoryMainsBlockContainer>
 			</CustomHistoryMainBlock>
 		</div>
 	)

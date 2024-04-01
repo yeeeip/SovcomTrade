@@ -21,6 +21,9 @@ const CustopSliderLine = styled.div`
 		margin-bottom: 16px;
 	}
 `
+const SliderProviderDiv = styled.div`
+	margin-bottom: 30px;
+`
 
 export const SliderProvider = ({ children, height, width }) => {
 	const [offset, setOffset] = useState(0)
@@ -42,7 +45,7 @@ export const SliderProvider = ({ children, height, width }) => {
 		}
 	}
 	return (
-		<div style={{ marginBottom: "30px" }}>
+		<SliderProviderDiv>
 			<CustomSliderProvider height={height} width={width}>
 				<CustopSliderLine offset={offset}>{children}</CustopSliderLine>
 			</CustomSliderProvider>
@@ -50,6 +53,6 @@ export const SliderProvider = ({ children, height, width }) => {
 				<NextButton handlefunc={handleUpButton} />
 				<PrevButton handlefunc={handleDownButton} />
 			</div>
-		</div>
+		</SliderProviderDiv>
 	)
 }

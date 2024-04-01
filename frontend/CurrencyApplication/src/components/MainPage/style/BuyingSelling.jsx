@@ -13,6 +13,10 @@ const CustomButton = styled.button`
 	font-size: 24px;
 	border: none;
 	cursor: pointer;
+	@media (max-width: 1400px) {
+		padding: 16px;
+		font-size: 20px;
+	}
 `
 
 const ButtonOpen = ({ title, handlefunc }) => {

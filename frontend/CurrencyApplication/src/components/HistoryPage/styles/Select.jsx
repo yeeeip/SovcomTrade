@@ -13,6 +13,10 @@ const CustomValue = styled.div`
 	display: flex;
 	gap: 0 10px;
 	align-items: center;
+	@media (max-width: 1400px) {
+		font-size: 17px;
+		font-weight: 550;
+	}
 `
 const CustomList = styled.div`
 	display: ${(props) => (props.isselecting ? "flex" : "none")};
@@ -57,6 +61,12 @@ const CustomArrow = styled.div`
 	& > *:nth-child(2) {
 		bottom: 17%;
 		transform: rotate(-45deg);
+	}
+	@media (max-width: 1400px) {
+		height: 12px;
+		& > * {
+			width: 10px;
+		}
 	}
 `
 export const Select = ({ title, data = [], width }) => {
