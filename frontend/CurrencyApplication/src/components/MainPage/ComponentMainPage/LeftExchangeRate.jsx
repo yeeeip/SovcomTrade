@@ -18,10 +18,27 @@ const Greeting = styled.h1`
 	margin-bottom: 30px;
 `
 const LeftExchangeRate = ({ handlecurrencymodal, handleoffermodal }) => {
-	let bankAccounts = useSelector((state) => state.login.bankAccounts) || []
+	let bankAccounts = useSelector((state) => state.login.bankAccounts) || [];
+	const GreetingDay = () => {
+		const myDate = new Date();
+		const hrs = myDate.getHours();
+		const mins = myDate.getMinutes();
+		if (hrs >= 5 && ((hrs == 5 && mins >= 30) || (hrs > 5 && hrs < 12))) {
+			return 'Доброе утро';
+		}else if (hrs >= 12 && hrs < 18) {
+			return 'Добрый день';
+		}else if (hrs >= 18 && hrs < 24) {
+			return 'Добрый вечер';
+		}else if (hrs >= 0 && hrs < 5) {
+			return 'Доброй ночи';
+		}else {
+			return 'Error';
+		}
+	} 
+
 	return (
 		<LeftExchangeRateDiv>
-			<Greeting>Добрый день</Greeting>
+			<Greeting>{GreetingDay()}</Greeting>
 
 			<ButtonOpen title={"Открыть счет  +"} handlefunc={handlecurrencymodal} />
 			<SliderProvider height={302}>

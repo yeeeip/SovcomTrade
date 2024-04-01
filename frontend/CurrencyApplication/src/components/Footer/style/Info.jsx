@@ -41,7 +41,7 @@ const Info = ({ title }) => {
 					<Line></Line>
 					<InfoOneA href='#'>Заявка на продажу</InfoOneA>
 					<Line></Line>
-					<InfoOneA href='#'>Заявка на продажу</InfoOneA>
+					<InfoOneA href='#'>Заявка на покупку</InfoOneA>
 				</InfoTwoDiv>
 				<InfoTwoDiv>
 					<InfoOneA href='#'>Операции</InfoOneA>

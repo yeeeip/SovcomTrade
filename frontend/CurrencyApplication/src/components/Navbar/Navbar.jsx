@@ -1,6 +1,6 @@
 import React, { useState } from "react"
 import styled from "styled-components"
-import SC from "./img/SC.png"
+import ST from "./img/ST.svg"
 import IconPersone from "./img/person.svg"
 import notif from "./img/notif.svg"
 import { Notification } from "../Notification/Notification"
@@ -84,7 +84,7 @@ const Navbar = () => {
 		<>
 			<NavbarDiv>
 				<div>
-					<img src={SC} />
+					<img src={ST} />
 				</div>
 				<Pages>
 					<Page href='/mainPage'>Главная</Page>
