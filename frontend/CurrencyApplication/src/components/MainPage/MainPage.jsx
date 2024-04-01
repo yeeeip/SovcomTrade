@@ -61,7 +61,6 @@ const MainPage = () => {
 				},
 			})
 				.then((response) => {
-					console.log(response)
 					dispatch(setBankAccounts(response.data))
 				})
 				.catch((err) => {
