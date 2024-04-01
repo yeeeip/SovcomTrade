@@ -89,9 +89,8 @@ const Navbar = () => {
 					<img src={ST} />
 				</div>
 				<Pages>
-					<Page href='/mainPage'>Главная</Page>
+					<Page href='/mainPage'>Мой кабинет</Page>
 					<Page href='/history'>Операции</Page>
-					<Page href='#'>Уведомления</Page>
 				</Pages>
 				<UserName>
 					<NotifImg src={notif} onClick={handleNotifButton} />

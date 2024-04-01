@@ -84,12 +84,8 @@ const MainPage = () => {
 			},
 		})
 			.then((res) => {
-				let temp = []
-				for (let i = 0; i < res.data.length; i += 2) {
-					temp.push([res.data[i], res.data[i + 1]])
-				}
-				console.log(res.data[0].news.newsUrl)
-				setNews(temp)
+				setNews(res.data)
+				console.log(news)
 			})
 			.catch((err) => {
 				console.error(err)
