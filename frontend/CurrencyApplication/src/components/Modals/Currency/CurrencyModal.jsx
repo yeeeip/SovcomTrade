@@ -5,6 +5,8 @@ import { Select } from "./style/Select"
 import { Option } from "./style/Option"
 import Button from "./style/Button"
 import { DoneComponent } from "./style/DoneComponent"
+import { useDispatch, useSelector } from "react-redux"
+import { setCurrencyOpen } from "../../../redux/currencyModalSlice"
 
 const CurrencyModalDivDiv = styled.div`
 	position: absolute;
@@ -85,10 +87,12 @@ const CustomExitButton = styled.div`
 		transform: rotate(-45deg);
 	}
 `
-export const CurrencyModal = ({ handleClose, isModalActive, updateCurr }) => {
+export const CurrencyModal = ({ updateCurr }) => {
 	const [isActive, setIsActive] = useState(false)
+	const currencyModalData = useSelector((state) => state.currencyModal)
+	const dispatch = useDispatch()
 	const [swap, setSwap] = useState(true)
-	const [selectedOption, setSelectedOption] = useState("Выберите курс")
+	const [selectedOption, setSelectedOption] = useState("Рубли")
 
 	const handleToggleMenu = () => {
 		setIsActive(!isActive)
@@ -102,12 +106,12 @@ export const CurrencyModal = ({ handleClose, isModalActive, updateCurr }) => {
 		setSwap(!swap)
 	}
 	return (
-		<CurrencyModalDivDiv isModalActive={isModalActive}>
-			{swap && (
+		<CurrencyModalDivDiv isModalActive={currencyModalData.currencyOpen}>
+			{currencyModalData.currencySwap && (
 				<CurrencyModalDiv>
 					<TextAndBack>
 						<TitleH2>Открыть счет</TitleH2>
-						<CustomExitButton onClick={handleClose}>
+						<CustomExitButton onClick={() => dispatch(setCurrencyOpen(false))}>
 							<span></span>
 							<span></span>
 						</CustomExitButton>
@@ -124,7 +128,7 @@ export const CurrencyModal = ({ handleClose, isModalActive, updateCurr }) => {
 					<Button href={"#"} title={"Открыть счет"} valueSelect={selectedOption} handlefunc={SwapModals} updateCurr={updateCurr} />
 				</CurrencyModalDiv>
 			)}
-			{!swap && <DoneComponent text={"Ваш счет успешно создан."} handleClose={handleClose} />}
+			{!currencyModalData.currencySwap && <DoneComponent text={"Ваш счет успешно создан."} />}
 		</CurrencyModalDivDiv>
 	)
 }

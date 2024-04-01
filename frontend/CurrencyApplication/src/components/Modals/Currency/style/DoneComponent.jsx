@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 import DoneImg from "../../img/done.svg"
+import { setCurrencyOpen, setCurrencySwap } from "../../../../redux/currencyModalSlice"
+import { useDispatch } from "react-redux"
 
 const CustomContainer = styled.div`
 	width: 100%;
@@ -33,16 +35,28 @@ const CustomButton = styled.button`
 	border-radius: 40px;
 	padding: 10px 12px;
 	color: #213a8b;
+	cursor: pointer;
 	font-family: "TT Travels";
 	font-size: 16px;
 	font-weight: 500;
 `
-export const DoneComponent = ({ text, handleClose }) => {
+export const DoneComponent = ({ text }) => {
+	const dispatch = useDispatch()
 	return (
 		<CustomContainer>
 			<CustomImg src={DoneImg} />
 			<CustomText>{text}</CustomText>
-			<CustomButton onClick={handleClose}>Выйти</CustomButton>
+			<CustomButton
+				onClick={() => {
+					dispatch(setCurrencyOpen(false))
+
+					setTimeout(() => {
+						dispatch(setCurrencySwap(true))
+					}, 500)
+				}}
+			>
+				Выйти
+			</CustomButton>
 		</CustomContainer>
 	)
 }

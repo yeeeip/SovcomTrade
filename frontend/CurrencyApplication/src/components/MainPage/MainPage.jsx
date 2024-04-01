@@ -1,7 +1,6 @@
 import styled from "styled-components"
 import Navbar from "../Navbar/Navbar.jsx"
 import LeftExchangeRate from "./ComponentMainPage/LeftExchangeRate.jsx"
-import Scrin from "./img/scrin.svg"
 import Recommendations from "./ComponentMainPage/Recommendations.jsx"
 import Footer from "../Footer/Footer.jsx"
 import { useEffect, useState } from "react"
@@ -12,6 +11,7 @@ import { OfferModal } from "../Modals/Offer/OfferModal.jsx"
 import { useNavigate } from "react-router-dom"
 import { CurrencyModal } from "../Modals/Currency/CurrencyModal.jsx"
 import { Chart } from "./ComponentMainPage/Chart.jsx"
+import { setOfferOpen } from "../../redux/offerModalSlice.js"
 
 const MainPageDiv = styled.div`
 	max-width: 1280px;
@@ -27,26 +27,19 @@ const RightChart = styled.div`
 `
 
 const MainPage = () => {
-	const [isOfferModalActive, setIsOfferModalActive] = useState(false)
 	const [news, setNews] = useState([])
 	const [varForUpdate, setvarForUpdate] = useState(0)
-	const [isCurrencyModalActive, setIsCurrencyModalActive] = useState(false)
 	let navigate = useNavigate()
-	const handleOfferButtonClick = () => {
-		setIsOfferModalActive(!isOfferModalActive)
-	}
-	const handleCurrencyButtonClick = () => {
-		setIsCurrencyModalActive(!isCurrencyModalActive)
-	}
+
 	const updateCurr = () => {
 		setvarForUpdate(Math.random())
 	}
-	const SITE_URL = "https://edd7-95-26-80-149.ngrok-free.app"
+	const SERVER_URL = process.env.REACT_APP_BACKEND_URL
 	const dispatch = useDispatch()
 	useEffect(() => {
 		axios({
 			method: "GET",
-			url: `${SITE_URL}/api/v1/lk/bank_accounts`,
+			url: `${SERVER_URL}/api/v1/lk/bank_accounts`,
 			headers: {
 				"ngrok-skip-browser-warning": true,
 				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -67,7 +60,7 @@ const MainPage = () => {
 	useEffect(() => {
 		axios({
 			method: "get",
-			url: `${SITE_URL}/api/v1/lk/recommendations`,
+			url: `${SERVER_URL}/api/v1/lk/recommendations`,
 			headers: {
 				"ngrok-skip-browser-warning": true,
 				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -87,12 +80,12 @@ const MainPage = () => {
 	}, [])
 	return (
 		<>
-			<OfferModal isModalActive={isOfferModalActive} handleClose={handleOfferButtonClick} />
-			<CurrencyModal isModalActive={isCurrencyModalActive} handleClose={handleCurrencyButtonClick} updateCurr={updateCurr} />
+			<OfferModal />
+			<CurrencyModal updateCurr={updateCurr} />
 			<Navbar />
 			<MainPageDiv>
 				<RateAndСhart>
-					<LeftExchangeRate handleoffermodal={handleOfferButtonClick} handlecurrencymodal={handleCurrencyButtonClick} />
+					<LeftExchangeRate />
 					<RightChart>
 						<Chart />
 					</RightChart>

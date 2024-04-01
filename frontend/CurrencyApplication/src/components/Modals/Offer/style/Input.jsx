@@ -15,10 +15,10 @@ const CustomInputField = styled.div`
 	flex-direction: column;
 `
 
-export const Input = ({ title, handlefunc, caution, errorMessage }) => {
+export const Input = ({ title, handlefunc, caution, errorMessage, typeInput }) => {
 	return (
 		<CustomInputField>
-			<CustomInput type='text' placeholder={title} onChange={handlefunc} caution={caution} />
+			<CustomInput type={typeInput || "text"} placeholder={!typeInput && title} onChange={handlefunc} caution={caution} />
 			{caution && <SmallGreyText style={{ color: "red" }}>{errorMessage}</SmallGreyText>}
 		</CustomInputField>
 	)

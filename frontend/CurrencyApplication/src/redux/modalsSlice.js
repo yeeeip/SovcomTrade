@@ -6,7 +6,7 @@ export const modalsSlice = createSlice({
 		currencyError: null,
 		offerCreditAccountError: null,
 		offerDebitAccountError: null,
-		offerCursError: null,
+		offerCourseError: null,
 		offerTimeError: null,
 		offerValueError: null,
 	},
@@ -20,8 +20,8 @@ export const modalsSlice = createSlice({
 		setOfferDebitAccountError: (state, action) => {
 			state.offerDebitAccountError = action.payload
 		},
-		setOfferCursError: (state, action) => {
-			state.offerCursError = action.payload
+		setOfferCourseError: (state, action) => {
+			state.offerCourseError = action.payload
 		},
 		setOfferTimeError: (state, action) => {
 			state.offerTimeError = action.payload
@@ -31,7 +31,7 @@ export const modalsSlice = createSlice({
 		},
 	},
 })
-export const { setCurrencyError, setOfferCreditAccountError, setOfferDebitAccountError, setOfferCursError, setOfferTimeError, setOfferValueError } =
+export const { setCurrencyError, setOfferCreditAccountError, setOfferDebitAccountError, setOfferCourseError, setOfferTimeError, setOfferValueError } =
 	modalsSlice.actions
 
 export default modalsSlice.reducer

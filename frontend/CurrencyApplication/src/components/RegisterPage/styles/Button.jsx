@@ -22,7 +22,7 @@ const CustomButton = styled.button`
 	padding: 30px;
 	width: 100%;
 	text-align: center;
-	background: #213A8B;
+	background: #213a8b;
 	border-radius: 20px;
 	cursor: pointer;
 	user-select: none;
@@ -49,7 +49,7 @@ const CustomLinkButton = styled.a`
 	padding: 30px;
 	width: 100%;
 	text-align: center;
-	background: #213A8B;
+	background: #213a8b;
 	text-decoration: none;
 	border-radius: 20px;
 	cursor: pointer;
@@ -57,7 +57,8 @@ const CustomLinkButton = styled.a`
 	@media (max-width: 1200px) {
 		font-size: 20px;
 		padding: 15px;
-	}@media (max-width: 900px) {
+	}
+	@media (max-width: 900px) {
 		font-size: 17px;
 		padding: 13px;
 	}
@@ -76,7 +77,7 @@ export const Button = ({ href, content, target }) => {
 	const secondName = useSelector((state) => state.register.secondName?.value)
 	const middleName = useSelector((state) => state.register.middleName?.value)
 	const dispatch = useDispatch()
-	const SERVER_URL = "https://edd7-95-26-80-149.ngrok-free.app"
+	const SERVER_URL = process.env.REACT_APP_BACKEND_URL
 	let navigate = useNavigate()
 	const handleButtonClick = () => {
 		switch (target) {

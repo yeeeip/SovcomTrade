@@ -83,10 +83,10 @@ export function ChartDirhams() {
 					.split("")
 					.map((item) => (item === "." ? "/" : item))
 					.join("")
-				const SITE_URL = "https://edd7-95-26-80-149.ngrok-free.app"
+				const SERVER_URL = process.env.REACT_APP_BACKEND_URL
 				const response = await axios({
 					method: "get",
-					url: `${SITE_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=AED`,
+					url: `${SERVER_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=AED`,
 					headers: {
 						"Content-Type": "application/json",
 						"ngrok-skip-browser-warning": true,
@@ -112,7 +112,7 @@ export function ChartDirhams() {
 				})
 			} catch (error) {
 				console.error("Error fetching data:", error)
-				if (err.response?.status === 401) {
+				if (error.response?.status === 401) {
 					alert("Ваша сессия истекла. Войдите снова")
 					navigate("/entry", { replace: true })
 				}
