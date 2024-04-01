@@ -10,4 +10,5 @@ public interface CurrencyOperationRepository extends JpaRepository<CurrencyOpera
 
     List<CurrencyOperation> findAllByUser(AppUser user);
 
+
 }

@@ -1,5 +1,6 @@
 package org.nuzhd.currencyapplication.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import org.nuzhd.currencyapplication.security.user.AppUser;
@@ -14,10 +15,11 @@ public class CurrencyOperation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @SequenceGenerator(name = "currency_operation_seq", allocationSize = 1)
+    @SequenceGenerator(name = "currency_operation_seq")
     private Long id;
 
     @ManyToOne(fetch = LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private AppUser user;
 
     @Enumerated(EnumType.ORDINAL)

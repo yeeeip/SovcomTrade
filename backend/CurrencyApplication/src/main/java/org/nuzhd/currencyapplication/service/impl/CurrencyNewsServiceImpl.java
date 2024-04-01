@@ -2,9 +2,10 @@ package org.nuzhd.currencyapplication.service.impl;
 
 import org.nuzhd.currencyapplication.model.Currency;
 import org.nuzhd.currencyapplication.model.CurrencyNews;
-import org.nuzhd.currencyapplication.service.CurrencyNewsRepository;
+import org.nuzhd.currencyapplication.repo.CurrencyNewsRepository;
 import org.nuzhd.currencyapplication.service.CurrencyNewsService;
 import org.nuzhd.currencyapplication.util.CurrencyNewsHTMLParser;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,6 +19,12 @@ public class CurrencyNewsServiceImpl implements CurrencyNewsService {
     public CurrencyNewsServiceImpl(CurrencyNewsHTMLParser parser, CurrencyNewsRepository newsRepository) {
         this.parser = parser;
         this.newsRepository = newsRepository;
+    }
+
+    @Scheduled(fixedDelay = 1000 * 60 * 10)
+    public void parseNews() {
+        parseForCurrencyAndSave(Currency.AED);
+        parseForCurrencyAndSave(Currency.CNY);
     }
 
     @Override

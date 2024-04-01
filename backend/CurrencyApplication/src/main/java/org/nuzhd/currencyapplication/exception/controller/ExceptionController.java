@@ -15,6 +15,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 @RestControllerAdvice
 public class ExceptionController extends ResponseEntityExceptionHandler {
@@ -82,11 +83,20 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(EqualAccountsException.class)
     public ResponseEntity<ProblemDetail> handleEqualAccounts(EqualAccountsException ex, Locale locale) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.BAD_REQUEST,
-                this.messageSource.getMessage("currency.operation.create.error.equal_accounts", new Object[0], locale
-                )
+        ProblemDetail problemDetail = ProblemDetail.forStatus(
+                HttpStatus.BAD_REQUEST
         );
+
+        problemDetail.setProperty("errors",
+                List.of(Map.of("field", "debit_account_id", "defaultMessage", this.messageSource.getMessage(
+                        "currency.operation.create.error.equal_accounts",
+                        new Object[0],
+                        locale
+                )), Map.of("field", "credit_account_id", "defaultMessage", this.messageSource.getMessage(
+                        "currency.operation.create.error.equal_accounts",
+                        new Object[0],
+                        locale
+                ))));
 
         return ResponseEntity
                 .badRequest()
@@ -95,12 +105,14 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(PastDateException.class)
     public ResponseEntity<ProblemDetail> handlePastDateException(PastDateException ex, Locale locale) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.BAD_REQUEST,
-                this.messageSource.getMessage("currency.operation.create.deadline_in_past",
-                        new Object[0], locale
-                )
+        ProblemDetail problemDetail = ProblemDetail.forStatus(
+                HttpStatus.BAD_REQUEST
         );
+
+        problemDetail.setProperty("errors",
+                List.of(Map.of("field", "deadline", "defaultMessage", this.messageSource.getMessage("currency.operation.create.deadline_in_past",
+                        new Object[0], locale
+                ))));
 
         return ResponseEntity
                 .badRequest()
@@ -221,13 +233,15 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NegativeCourseException.class)
     public ResponseEntity<ProblemDetail> handleNegativeCourse(NegativeCourseException ex, Locale locale) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.BAD_REQUEST,
-                this.messageSource.getMessage("currency.operation.course_not_negative",
+        ProblemDetail problemDetail = ProblemDetail.forStatus(
+                HttpStatus.BAD_REQUEST
+        );
+
+        problemDetail.setProperty("errors",
+                List.of(Map.of("field", "course", "defaultMessage", this.messageSource.getMessage("currency.operation.course_not_negative",
                         new Object[0],
                         locale
-                )
-        );
+                ))));
 
         return ResponseEntity
                 .status(400)
@@ -236,13 +250,15 @@ public class ExceptionController extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NegativePriceException.class)
     public ResponseEntity<ProblemDetail> handleNegativePrice(NegativePriceException ex, Locale locale) {
-        ProblemDetail problemDetail = ProblemDetail.forStatusAndDetail(
-                HttpStatus.BAD_REQUEST,
-                this.messageSource.getMessage("currency.operation.price.not_null",
+        ProblemDetail problemDetail = ProblemDetail.forStatus(
+                HttpStatus.BAD_REQUEST
+        );
+
+        problemDetail.setProperty("errors",
+                List.of(Map.of("price", "deadline", "defaultMessage", this.messageSource.getMessage("currency.operation.price_not_negative",
                         new Object[0],
                         locale
-                )
-        );
+                ))));
 
         return ResponseEntity
                 .status(400)

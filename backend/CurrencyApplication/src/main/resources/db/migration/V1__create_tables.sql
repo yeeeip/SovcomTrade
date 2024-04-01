@@ -1,9 +1,9 @@
-CREATE SEQUENCE app_user_seq INCREMENT 50;
-CREATE SEQUENCE bank_account_seq INCREMENT 50;
-CREATE SEQUENCE currency_operation_seq INCREMENT 50;
-CREATE SEQUENCE ai_recommendation_seq INCREMENT 50;
-CREATE SEQUENCE currency_news_seq INCREMENT 50;
-CREATE SEQUENCE email_confirmation_token_seq INCREMENT 50;
+CREATE SEQUENCE IF NOT EXISTS app_user_seq INCREMENT 50;
+CREATE SEQUENCE IF NOT EXISTS bank_account_seq INCREMENT 50;
+CREATE SEQUENCE IF NOT EXISTS currency_operation_seq INCREMENT 50;
+CREATE SEQUENCE IF NOT EXISTS ai_recommendation_seq INCREMENT 50;
+CREATE SEQUENCE IF NOT EXISTS currency_news_seq INCREMENT 50;
+CREATE SEQUENCE IF NOT EXISTS email_confirmation_token_seq INCREMENT 50;
 
 create table if not exists app_user(
     id bigserial unique,

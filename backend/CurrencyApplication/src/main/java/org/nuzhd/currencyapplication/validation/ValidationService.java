@@ -45,11 +45,11 @@ public class ValidationService {
             throw new EqualCurrencyException();
         }
 
-        if (request.course().compareTo(BigDecimal.ZERO) < 0) {
+        if (request.course().compareTo(BigDecimal.ZERO) < 0 || request.course().compareTo(BigDecimal.ZERO) == 0) {
             throw new NegativeCourseException();
         }
 
-        if (request.price().compareTo(BigDecimal.ZERO) < 0) {
+        if (request.price().compareTo(BigDecimal.ZERO) < 0 || request.price().compareTo(BigDecimal.ZERO) == 0) {
             throw new NegativePriceException();
         }
     }

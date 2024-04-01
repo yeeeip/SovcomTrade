@@ -32,7 +32,7 @@ public class CurrencyOperationServiceImpl implements CurrencyOperationService {
     }
 
     @Override
-    public CurrencyOperation requestOperation(CurrencyOperationCreateDTO createDTO, AppUser user) {
+    public CurrencyOperationResponseDTO requestOperation(CurrencyOperationCreateDTO createDTO, AppUser user) {
 
         validationService.validateCurrencyOperation(createDTO);
 
@@ -59,7 +59,17 @@ public class CurrencyOperationServiceImpl implements CurrencyOperationService {
                 )
         );
 
-        return operation;
+        CurrencyOperationResponseDTO dto = new CurrencyOperationResponseDTO(
+                operation.getId(),
+                operation.getDebitAccount(),
+                operation.getCreditAccount(),
+                operation.getCreatedAt(),
+                operation.getCode(),
+                operation.getProcessedAt(),
+                operation.getStatus()
+        );
+
+        return dto;
     }
 
     @Override

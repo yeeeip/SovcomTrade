@@ -19,9 +19,6 @@ spring:
         options:
           model: gpt-3.5-turbo
           temperature: 0.2
-    retry:
-      backoff:
-        initial-interval: 20000
   mail:
     host: smtp.gmail.com
     username: sovcomtrade6@gmail.com

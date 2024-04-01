@@ -2,6 +2,8 @@ package org.nuzhd.currencyapplication.security.user.service.impl;
 
 import org.apache.logging.log4j.util.Strings;
 import org.nuzhd.currencyapplication.email.EmailSenderService;
+import org.nuzhd.currencyapplication.model.BankAccount;
+import org.nuzhd.currencyapplication.model.Currency;
 import org.nuzhd.currencyapplication.security.dto.UserRegistrationDTO;
 import org.nuzhd.currencyapplication.security.user.AppUser;
 import org.nuzhd.currencyapplication.security.user.EmailConfirmationToken;
@@ -15,7 +17,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class AppUserServiceImpl implements UserDetailsService, AppUserService {
@@ -49,6 +53,14 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
                 userRegistrationDTO.lastName(),
                 userRegistrationDTO.phoneNumber()
         );
+
+        List<BankAccount> userAccounts = List.of(
+                new BankAccount(newUser.getId(), Currency.AED, BigDecimal.valueOf(10000)),
+                new BankAccount(newUser.getId(), Currency.CNY, BigDecimal.valueOf(10000)),
+                new BankAccount(newUser.getId(), Currency.RUB, BigDecimal.valueOf(100000))
+        );
+
+        newUser.setBankAccounts(userAccounts);
 
         AppUser savedUser = appUserRepository.save(newUser);
         EmailConfirmationToken token = new EmailConfirmationToken(

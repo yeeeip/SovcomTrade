@@ -1,4 +1,4 @@
-package org.nuzhd.currencyapplication.service;
+package org.nuzhd.currencyapplication.repo;
 
 import org.nuzhd.currencyapplication.model.CurrencyAIRecommendation;
 import org.nuzhd.currencyapplication.model.CurrencyNews;

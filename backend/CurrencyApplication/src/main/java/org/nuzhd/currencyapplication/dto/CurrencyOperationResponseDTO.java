@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public record CurrencyOperationResponseDTO(
         Long id,
         @JsonProperty(value = "debit_account_id")
-        BankAccount debitAccount, // Счет списания
+        BankAccount debitAccount,
         @JsonProperty(value = "credit_account_id")
         BankAccount creditAccount,
         @JsonProperty(value = "created_at")

@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface CurrencyOperationService {
 
-    CurrencyOperation requestOperation(CurrencyOperationCreateDTO createDTO, AppUser appUser);
+    CurrencyOperationResponseDTO requestOperation(CurrencyOperationCreateDTO createDTO, AppUser appUser);
 
     List<CurrencyOperationResponseDTO> findAllByUser(AppUser user);
 }

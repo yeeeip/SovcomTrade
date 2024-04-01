@@ -2,6 +2,7 @@ package org.nuzhd.currencyapplication.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
@@ -23,6 +24,7 @@ public record CurrencyOperationCreateDTO(
         BigDecimal price,
 
         @NotNull(message = "{currency.deadline_not_null}")
+        @DateTimeFormat()
         LocalDateTime deadline
 ) {
 }
