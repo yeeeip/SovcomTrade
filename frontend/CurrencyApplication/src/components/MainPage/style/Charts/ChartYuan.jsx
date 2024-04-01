@@ -3,7 +3,9 @@ import { Line } from "react-chartjs-2"
 import axios from "axios"
 import styled from "styled-components"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js"
-
+import { generalErrorValid, generalErrorChange } from "../../../../redux/registerSlice"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 const ChartP = styled.p`
@@ -57,6 +59,8 @@ export const options = {
 }
 
 export function ChartYuan({interval, key}) {
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	const [chartData, setChartData] = useState({
 		labels: [],
 		datasets: [
@@ -83,7 +87,7 @@ export function ChartYuan({interval, key}) {
 					const month = date.getMonth() + 1
 					return `${day < 10 ? "0" + day : day}.${month < 10 ? "0" + month : month}`
 				}
-				const SITE_URL = "https://089c-95-26-80-149.ngrok-free.app"
+				const SERVER_URL = process.env.REACT_APP_BACKEND_URL
 				const start_date = new Date()
 					.subtractDays(interval)
 					.toLocaleDateString()
@@ -99,7 +103,7 @@ export function ChartYuan({interval, key}) {
 
 				const response = await axios({
 					method: "get",
-					url: `${SITE_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=CNY`,
+					url: `${SERVER_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=CNY`,
 					headers: {
 						"Content-Type": "application/json",
 						"ngrok-skip-browser-warning": true,
@@ -125,8 +129,13 @@ export function ChartYuan({interval, key}) {
 				})
 			} catch (error) {
 				console.error("Error fetching data:", error)
-				if (err.response?.status === 401) {
-					alert("Ваша сессия истекла. Войдите снова")
+				if (error.response?.status === 401) {
+					dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+					dispatch(generalErrorValid(true))
+					setTimeout(() => {
+						dispatch(generalErrorChange(null))
+						dispatch(generalErrorValid(false))
+					}, 20000)
 					navigate("/entry", { replace: true })
 				}
 			}

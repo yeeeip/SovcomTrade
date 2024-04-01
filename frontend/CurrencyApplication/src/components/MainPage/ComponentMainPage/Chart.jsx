@@ -4,83 +4,83 @@ import { ChartDirhams } from "../style/Charts/ChartDirhams"
 import { ChartYuan } from "../style/Charts/ChartYuan"
 
 const ChartDiv = styled.div`
-    width: 100%;
+	width: 100%;
 `
 const ButtonDiv = styled.div`
-    display: flex;
+	display: flex;
 `
 const ButtonDirhamsActive = styled.a`
-    font-family: TT Travels;
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 20.64px;
-    text-align: left;
-    text-decoration: none;
+	font-family: TT Travels;
+	font-size: 24px;
+	font-weight: 400;
+	line-height: 20.64px;
+	text-align: left;
+	text-decoration: none;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 24px 20px 24px;
-    margin-bottom: 0px;
-    border-radius: 16px 16px 0px 16px;
-    background: #213A8B;
-    color: white;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px 24px 20px 24px;
+	margin-bottom: 0px;
+	border-radius: 16px 16px 0px 16px;
+	background: #213a8b;
+	color: white;
 `
 const ButtonDirhams = styled.a`
-    font-family: TT Travels;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 13.76px;
-    text-align: left;
-    text-decoration: none;
+	font-family: TT Travels;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 13.76px;
+	text-align: left;
+	text-decoration: none;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 20px 10px 20px;
-    margin-top: 16px;
-    border-radius: 16px 16px 0px 16px;
-    border: 2px solid #213A8B;
-    color: #213A8B;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 20px 10px 20px;
+	margin-top: 16px;
+	border-radius: 16px 16px 0px 16px;
+	border: 2px solid #213a8b;
+	color: #213a8b;
 `
 const ButtonYuanActive = styled.a`
-  font-family: TT Travels;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 13.76px;
-  text-align: left;
-  text-decoration: none;
+	font-family: TT Travels;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 13.76px;
+	text-align: left;
+	text-decoration: none;
 
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 10px 20px 10px 20px;
-  margin-top: 16px;
-  border-radius: 16px 16px 16px 0px;
-  border: 2px solid #213A8B;
-  color: #213A8B;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 10px 20px 10px 20px;
+	margin-top: 16px;
+	border-radius: 16px 16px 16px 0px;
+	border: 2px solid #213a8b;
+	color: #213a8b;
 `
 const ButtonYuan = styled.a`
-    font-family: TT Travels;
-    font-size: 24px;
-    font-weight: 400;
-    line-height: 20.64px;
-    text-align: left;
-    text-decoration: none;
+	font-family: TT Travels;
+	font-size: 24px;
+	font-weight: 400;
+	line-height: 20.64px;
+	text-align: left;
+	text-decoration: none;
 
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px 24px 20px 24px;
-    margin-bottom: 0px;
-    border-radius: 16px 16px 16px 0px;
-    background: #213A8B;
-    color: white;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 20px 24px 20px 24px;
+	margin-bottom: 0px;
+	border-radius: 16px 16px 16px 0px;
+	background: #213a8b;
+	color: white;
 `
 const ButtonTitleDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
 `
 const CustomSelect = styled.div`
 	position: relative;
