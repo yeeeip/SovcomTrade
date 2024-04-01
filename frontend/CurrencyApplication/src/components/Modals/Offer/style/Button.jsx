@@ -10,7 +10,7 @@ import {
 import { useDispatch } from "react-redux"
 import { setOfferSwap } from "../../../../redux/offerModalSlice"
 import { useNavigate } from "react-router-dom"
-
+import { generalErrorValid, generalErrorChange } from "../../../../redux/registerSlice"
 const BuyingSellingDiv = styled.div`
 	display: flex;
 	align-items: center;
@@ -68,7 +68,12 @@ const Button = ({ title, href, data }) => {
 				.catch((err) => {
 					console.log(err)
 					if (err.response.status === 401) {
-						alert("Ваша сессия истекла. Войдите снова")
+						dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+						dispatch(generalErrorValid(true))
+						setTimeout(() => {
+							dispatch(generalErrorChange(null))
+							dispatch(generalErrorValid(false))
+						}, 20000)
 						navigate("/entry", { replace: true })
 					}
 					let response = err.response.data

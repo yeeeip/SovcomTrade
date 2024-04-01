@@ -42,7 +42,7 @@ const CustomTitle = styled.p`
 	font-family: "TT Travels";
 	font-weight: 500;
 	font-size: 32px;
-	color: #213A8B;
+	color: #213a8b;
 	@media (max-width: 1100px) {
 		font-size: 30px;
 	}
@@ -112,11 +112,9 @@ const CustomLinkButton = styled.a`
 	cursor: pointer;
 `
 
-
 function Entry() {
 	const generalError = useSelector((state) => state.register.generalError)
 	const register = useSelector((state) => state.register)
-
 	return (
 		<CustomContainer>
 			<CustomBGImage />

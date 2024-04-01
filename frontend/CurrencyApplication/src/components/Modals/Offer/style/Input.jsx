@@ -19,7 +19,7 @@ export const Input = ({ title, handlefunc, caution, errorMessage, typeInput }) =
 	return (
 		<CustomInputField>
 			<CustomInput type={typeInput || "text"} placeholder={!typeInput && title} onChange={handlefunc} caution={caution} />
-			{caution && <SmallGreyText style={{ color: "red" }}>{errorMessage}</SmallGreyText>}
+			{caution && <SmallGreyText style={{ color: "red", marginTop: "5px" }}>{errorMessage}</SmallGreyText>}
 		</CustomInputField>
 	)
 }

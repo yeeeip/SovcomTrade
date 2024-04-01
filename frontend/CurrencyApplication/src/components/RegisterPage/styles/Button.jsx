@@ -185,11 +185,13 @@ export const Button = ({ href, content, target }) => {
 						dispatch(setFirstName(response.data.user.first_name))
 						dispatch(setLastName(response.data.user.last_name))
 						dispatch(setMiddleName(response.data.user.middle_name || ""))
+						sessionStorage.setItem("firstName", response.data.user.first_name)
+						sessionStorage.setItem("lastName", response.data.user.last_name)
 						sessionStorage.setItem("token", response.data.jwtToken)
-						sessionStorage.setItem("loginTime", new Date())
 						navigate("/mainPage", { replace: true })
 					})
 					.catch((err) => {
+						console.log(err)
 						if (!err.response?.data) {
 							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
 							dispatch(generalErrorValid(true))

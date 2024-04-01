@@ -102,9 +102,6 @@ export const CurrencyModal = ({ updateCurr }) => {
 		setSelectedOption(optionText)
 		setIsActive(false)
 	}
-	const SwapModals = () => {
-		setSwap(!swap)
-	}
 	return (
 		<CurrencyModalDivDiv isModalActive={currencyModalData.currencyOpen}>
 			{currencyModalData.currencySwap && (
@@ -125,7 +122,7 @@ export const CurrencyModal = ({ updateCurr }) => {
 							{selectedOption !== "Юань" && <Option title={"Юань"} handlefunc={() => handleSelectOption("Юань")}></Option>}
 						</Options>
 					)}
-					<Button href={"#"} title={"Открыть счет"} valueSelect={selectedOption} handlefunc={SwapModals} updateCurr={updateCurr} />
+					<Button href={"#"} title={"Открыть счет"} valueSelect={selectedOption} updateCurr={updateCurr} />
 				</CurrencyModalDiv>
 			)}
 			{!currencyModalData.currencySwap && <DoneComponent text={"Ваш счет успешно создан."} />}

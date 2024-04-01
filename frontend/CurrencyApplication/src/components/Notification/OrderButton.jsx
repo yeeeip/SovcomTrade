@@ -28,11 +28,11 @@ const CustomList = styled.div`
 	width: ${(props) => props.width + "px"};
 	top: 30px; /* position the top  edge of the element at the middle of the parent */
 	right: 0;
-	z-index: 50;
 	height: fit-content;
 	& > *:not(:last-child) {
 		border-bottom: 2px solid #1d1f241a;
 	}
+	z-index: 50;
 `
 const CustomOption = styled.div`
 	font-family: "TT Travels";
@@ -41,7 +41,7 @@ const CustomOption = styled.div`
 	padding: 16px 0;
 	text-align: center;
 `
-export const OrderButton = ({ created, expired }) => {
+export const OrderButton = ({ info }) => {
 	let [isOpen, setIsOpen] = useState(false)
 	const handleOpenButton = () => {
 		setIsOpen(!isOpen)
@@ -54,18 +54,7 @@ export const OrderButton = ({ created, expired }) => {
 				<span></span>
 			</CustomOrderButton>
 			<CustomList width={300} isopen={isOpen}>
-				<CustomOption>
-					Дата создания: {new Date(created).getDate() < 10 ? "0" + new Date(created).getDate() : new Date(created).getDate()}.
-					{new Date(created).getMonth() + 1 < 10 ? "0" + (new Date(created).getMonth() + 1) : new Date(created).getMonth() + 1}.
-					{new Date(created).getFullYear()}
-				</CustomOption>
-				{expired != null && (
-					<CustomOption>
-						Дата исполнения: {new Date(expired).getDate() < 10 ? "0" + new Date(expired).getDate() : new Date(expired).getDate()}.
-						{new Date(expired).getMonth() + 1 < 10 ? "0" + (new Date(expired).getMonth() + 1) : new Date(expired).getMonth() + 1}.
-						{new Date(expired).getFullYear()}
-					</CustomOption>
-				)}
+				<CustomOption>{info}</CustomOption>
 			</CustomList>
 		</div>
 	)

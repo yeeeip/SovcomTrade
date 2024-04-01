@@ -92,7 +92,7 @@ function Registration() {
 				<Button content={"Зарегистрироваться"} target={"register"} />
 				<CustomButtonBlock>
 					<SmallGreyText>Уже есть аккаунт? </SmallGreyText>
-					<SmallButton href={"#"} content={"Войти"} />
+					<SmallButton href={"/entry"} content={"Войти"} />
 				</CustomButtonBlock>
 			</CustomFormContainer>
 			<ExitButton />

@@ -12,7 +12,7 @@ import { useNavigate } from "react-router-dom"
 import { CurrencyModal } from "../Modals/Currency/CurrencyModal.jsx"
 import { Chart } from "./ComponentMainPage/Chart.jsx"
 import { setOfferOpen } from "../../redux/offerModalSlice.js"
-
+import { generalErrorValid, generalErrorChange } from "../../redux/registerSlice.js"
 const MainPageDiv = styled.div`
 	max-width: 1280px;
 	margin: 0 auto;
@@ -29,6 +29,7 @@ const RightChart = styled.div`
 const MainPage = () => {
 	const [news, setNews] = useState([])
 	const [varForUpdate, setvarForUpdate] = useState(0)
+	const loginData = useSelector((state) => state.login)
 	let navigate = useNavigate()
 
 	const updateCurr = () => {
@@ -37,6 +38,17 @@ const MainPage = () => {
 	const SERVER_URL = process.env.REACT_APP_BACKEND_URL
 	const dispatch = useDispatch()
 	useEffect(() => {
+		if (!(sessionStorage.getItem("firstName") !== null && sessionStorage.getItem("lastName") !== null && sessionStorage.getItem("token") !== null)) {
+			dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+			dispatch(generalErrorValid(true))
+			setTimeout(() => {
+				dispatch(generalErrorChange(null))
+				dispatch(generalErrorValid(false))
+			}, 20000)
+			navigate("/entry", { replace: true })
+
+			return
+		}
 		axios({
 			method: "GET",
 			url: `${SERVER_URL}/api/v1/lk/bank_accounts`,
@@ -52,7 +64,12 @@ const MainPage = () => {
 			.catch((err) => {
 				console.log(err)
 				if (err.response.status === 401) {
-					alert("Ваша сессия истекла. Войдите снова")
+					dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+					dispatch(generalErrorValid(true))
+					setTimeout(() => {
+						dispatch(generalErrorChange(null))
+						dispatch(generalErrorValid(false))
+					}, 20000)
 					navigate("/entry", { replace: true })
 				}
 			})

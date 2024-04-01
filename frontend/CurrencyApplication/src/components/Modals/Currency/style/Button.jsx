@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom"
 import axios from "axios"
 import { useDispatch } from "react-redux"
 import { setCurrencySwap } from "../../../../redux/currencyModalSlice"
+import { generalErrorValid, generalErrorChange } from "../../../../redux/registerSlice"
 const BuyingSellingDiv = styled.div`
 	display: flex;
 	align-items: center;
@@ -63,38 +64,14 @@ const Button = ({ title, valueSelect, updateCurr }) => {
 				.catch((err) => {
 					console.log(err)
 					if (err.response.status === 401) {
-						alert("Ваша сессия истекла. Войдите снова")
+						dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+						dispatch(generalErrorValid(true))
+						setTimeout(() => {
+							dispatch(generalErrorChange(null))
+							dispatch(generalErrorValid(false))
+						}, 20000)
 						navigate("/entry", { replace: true })
 					}
-					//let response = err.response.data
-					// response.errors.map((error) => {
-					// 	switch (error.field) {
-					// 		case "debit_account_id":
-					// 			dispatch(emailValid(error.defaultMessage))
-					// 			setTimeout(() => {
-					// 				dispatch(emailValid(true))
-					// 			}, 15000)
-					// 			break
-					// 		case "credit_account_id":
-					// 			dispatch(passwordValid(error.defaultMessage))
-					// 			setTimeout(() => {
-					// 				dispatch(passwordValid(true))
-					// 			}, 15000)
-					// 			break
-					// 		case "course":
-					// 			dispatch(secondPasswordValid(error.defaultMessage))
-					// 			setTimeout(() => {
-					// 				dispatch(secondPasswordValid(true))
-					// 			}, 15000)
-					// 			break
-					// 		case "deadline":
-					// 			dispatch(phoneValid(error.defaultMessage))
-					// 			setTimeout(() => {
-					// 				dispatch(phoneValid(true))
-					// 			}, 15000)
-					// 			break
-					// 	}
-					// })
 				})
 		} catch (err) {
 			console.error(err)

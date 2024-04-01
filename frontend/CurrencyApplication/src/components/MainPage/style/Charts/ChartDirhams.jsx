@@ -3,7 +3,9 @@ import { Line } from "react-chartjs-2"
 import axios from "axios"
 import styled from "styled-components"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js"
-
+import { generalErrorValid, generalErrorChange } from "../../../../redux/registerSlice"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 const ChartP = styled.p`
@@ -46,6 +48,8 @@ export const options = {
 }
 
 export function ChartDirhams() {
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	const [chartData, setChartData] = useState({
 		labels: [],
 		datasets: [
@@ -113,7 +117,12 @@ export function ChartDirhams() {
 			} catch (error) {
 				console.error("Error fetching data:", error)
 				if (error.response?.status === 401) {
-					alert("Ваша сессия истекла. Войдите снова")
+					dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+					dispatch(generalErrorValid(true))
+					setTimeout(() => {
+						dispatch(generalErrorChange(null))
+						dispatch(generalErrorValid(false))
+					}, 20000)
 					navigate("/entry", { replace: true })
 				}
 			}
