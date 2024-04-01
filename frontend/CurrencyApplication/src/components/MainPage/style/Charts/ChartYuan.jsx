@@ -72,7 +72,6 @@ export function ChartYuan() {
 					const month = date.getMonth() + 1
 					return `${day < 10 ? "0" + day : day}.${month < 10 ? "0" + month : month}`
 				}
-				const SITE_URL = "https://edd7-95-26-80-149.ngrok-free.app"
 				const start_date = new Date()
 					.subtractDays(9)
 					.toLocaleDateString()
@@ -87,7 +86,7 @@ export function ChartYuan() {
 
 				const response = await axios({
 					method: "get",
-					url: `${SITE_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=CNY`,
+					url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=CNY`,
 					headers: {
 						"Content-Type": "application/json",
 						"ngrok-skip-browser-warning": true,

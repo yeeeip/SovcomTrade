@@ -83,10 +83,10 @@ export function ChartDirhams() {
 					.split("")
 					.map((item) => (item === "." ? "/" : item))
 					.join("")
-				const SITE_URL = "https://edd7-95-26-80-149.ngrok-free.app"
+				
 				const response = await axios({
 					method: "get",
-					url: `${SITE_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=AED`,
+					url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=AED`,
 					headers: {
 						"Content-Type": "application/json",
 						"ngrok-skip-browser-warning": true,
