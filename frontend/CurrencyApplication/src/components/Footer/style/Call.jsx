@@ -1,5 +1,5 @@
 import styled from "styled-components"
-import SC from "../../Navbar/img/SC.png"
+import ST from "../../Navbar/img/ST.svg"
 import tg from "../img/Vector.svg"
 import vk from "../img/vk.svg"
 import odnocl from "../img/odnoclassniki.svg"
@@ -27,7 +27,7 @@ const CustomLinkContainer = styled.div`
 const Call = ({ title }) => {
 	return (
 		<CallDiv>
-			<img style={{ width: "50px", height: "27px" }} src={SC} />
+			<img style={{ width: "50px", height: "27px" }} src={ST} />
 			<div>
 				<CallDivLink href='#'>{title}</CallDivLink>
 				<CustomLinkContainer>
