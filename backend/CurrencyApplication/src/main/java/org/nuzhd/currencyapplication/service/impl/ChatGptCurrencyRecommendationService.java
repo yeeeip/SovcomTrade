@@ -44,7 +44,7 @@ public class ChatGptCurrencyRecommendationService implements AIRecommendationSer
         return aiRecommendationRepository.findAll();
     }
 
-//    @Scheduled(initialDelay = 10000, fixedDelay = 60000)
+    @Scheduled(initialDelay = 10000, fixedDelay = 80000)
     public void generateRecommendationsForCurrency() {
         List<CurrencyNews> foundNews = newsRepository.findNextThreeNotAnalyzed();
 
@@ -66,8 +66,6 @@ public class ChatGptCurrencyRecommendationService implements AIRecommendationSer
             ChatRequest request = new ChatRequest(model, temperature, List.of(systemMsg, userMsg));
             ChatResponse response = restTemplate.postForObject(apiUrl, request, ChatResponse.class);
 
-            news.setAnalyzed(true);
-
             if (response == null || response.getChoices() == null || response.getChoices().isEmpty()) {
                 rec = new CurrencyAIRecommendation(
                         news, "Не удалось сгенерировать рекомендацию"
@@ -79,6 +77,8 @@ public class ChatGptCurrencyRecommendationService implements AIRecommendationSer
                 );
             }
 
+            news.setAnalyzed(true);
+            newsRepository.save(news);
             aiRecommendationRepository.save(rec);
         }
 

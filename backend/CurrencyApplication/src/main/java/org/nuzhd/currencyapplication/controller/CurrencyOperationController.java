@@ -26,7 +26,7 @@ public class CurrencyOperationController {
     public ResponseEntity<CurrencyOperationResponseDTO> createOperation(@Valid @RequestBody CurrencyOperationCreateDTO request,
                                                                         Authentication authentication) {
         AppUser user = (AppUser) authentication.getPrincipal();
-        System.out.println(request);
+
         CurrencyOperationResponseDTO operation = operationService.requestOperation(request, user);
 
         return ResponseEntity
