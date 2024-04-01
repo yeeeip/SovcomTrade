@@ -21,7 +21,7 @@ public class CurrencyNewsServiceImpl implements CurrencyNewsService {
         this.newsRepository = newsRepository;
     }
 
-    @Scheduled(fixedDelay = 1000 * 60 * 10)
+    @Scheduled(fixedDelay = 1000 * 60 * 20)
     public void parseNews() {
         parseForCurrencyAndSave(Currency.AED);
         parseForCurrencyAndSave(Currency.CNY);
