@@ -19,7 +19,8 @@ const SlideDiv = styled.div`
 	width: 100%;
 	height: 512px;
 	flex-direction: column;
-	justify-content: center;
+	justify-content: start;
+
 	gap: 32px;
 `
 const CustomTitle = styled.div`
@@ -49,20 +50,25 @@ const Recommendations = ({ data = [] }) => {
 		console.log(temp)
 		setFilterValue(temp)
 	}
+
 	useEffect(() => {
 		let tempFiltered = []
 		for (let item of data) {
-			console.log(item)
 			if (item.news.title.includes(inputValue) && item.news.currency == filterValue) {
 				tempFiltered.push(item)
 			}
 		}
 		let temp = []
 		for (let i = 0; i < tempFiltered.length; i += 2) {
-			temp.push([tempFiltered[i], tempFiltered[i + 1]])
+			if (tempFiltered[i + 1]) {
+				temp.push([tempFiltered[i], tempFiltered[i + 1]])
+			} else {
+				temp.push([tempFiltered[i]])
+			}
 		}
 		setFilteredData(temp)
-	}, [inputValue, filterValue])
+	}, [inputValue, filterValue, data])
+
 	return (
 		<RecommendationsDiv>
 			<RecommendationsInput title={"Рекомендации по продаже/покупке валют"} handlefunc={handleInputValueChange} handlefilter={handleFilterValueChange} />
@@ -79,12 +85,14 @@ const Recommendations = ({ data = [] }) => {
 									titleTwo={item[0].news.shortDesc}
 									dopInfo={item[0].forecast}
 								/>
-								<Slide
-									href={`${item[1].news.newsUrl}`}
-									titleOne={item[1].news.title}
-									titleTwo={item[1].news.shortDesc}
-									dopInfo={item[1].forecast}
-								/>
+								{item[1] && (
+									<Slide
+										href={`${item[1].news.newsUrl}`}
+										titleOne={item[1].news.title}
+										titleTwo={item[1].news.shortDesc}
+										dopInfo={item[1].forecast}
+									/>
+								)}
 							</SlideDiv>
 						)
 					})}

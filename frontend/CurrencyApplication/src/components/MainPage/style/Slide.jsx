@@ -7,7 +7,7 @@ import { useState } from "react"
 const SlideDiv = styled.div`
 	position: relative;
 	width: 100%;
-	height: 100%;
+	height: 240px;
 	border-radius: 16px;
 	overflow: hidden;
 	cursor: pointer;

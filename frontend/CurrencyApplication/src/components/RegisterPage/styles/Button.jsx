@@ -92,162 +92,160 @@ export const Button = ({ href, content, target }) => {
 				} catch (err) {}
 				break
 			case "registration":
-				console.log({
-					email: email || "",
-					password: password || "",
-					firstName: firstName || "",
-					lastName: secondName || "",
-					middleName: middleName || "",
-					phoneNumber: phone || "",
-					confirmPassword: secondPassword || "",
-				})
-				axios({
-					method: "post",
-					mode: "no-cors",
-					url: `${SERVER_URL}/api/v1/auth/register`,
-					headers: {
-						"Content-Type": "application/json",
-					},
-					data: JSON.stringify({
-						email: email || "",
-						password: password || "",
-						firstName: firstName || "",
-						lastName: secondName || "",
-						middleName: middleName || "",
-						phoneNumber: phone || "",
-						confirmPassword: secondPassword || "",
-					}),
-				})
-					.then((response) => {
-						navigate("/", { replace: true })
-						dispatch(setMessage(`Подтвердите почту. Письмо отправлено на ${email}`))
-						setTimeout(() => {
-							dispatch(setMessage(null))
-						}, 15000)
+				try {
+					axios({
+						method: "post",
+						mode: "no-cors",
+						url: `${SERVER_URL}/api/v1/auth/register`,
+						headers: {
+							"Content-Type": "application/json",
+						},
+						data: JSON.stringify({
+							email: email || "",
+							password: password || "",
+							firstName: firstName || "",
+							lastName: secondName || "",
+							middleName: middleName || "",
+							phoneNumber: phone || "",
+							confirmPassword: secondPassword || "",
+						}),
 					})
-					.catch((err) => {
-						console.log(err)
-						let response = err.response.data
-						if (response.status != 400) {
-							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
-							dispatch(generalErrorValid(true))
+						.then((response) => {
+							navigate("/", { replace: true })
+							dispatch(setMessage(`Подтвердите почту. Письмо отправлено на ${email}`))
 							setTimeout(() => {
-								dispatch(generalErrorChange(null))
-								dispatch(generalErrorValid(false))
-							}, 5000)
-						}
-						if (!response.errors) {
-							dispatch(generalErrorChange(response.detail))
-							dispatch(generalErrorValid(true))
-							return
-						}
-						response.errors.map((error) => {
-							switch (error.field) {
-								case "email":
-									dispatch(emailValid(error.defaultMessage))
-									setTimeout(() => {
-										dispatch(emailValid(true))
-									}, 15000)
-									break
-								case "password":
-									dispatch(passwordValid(error.defaultMessage))
-									setTimeout(() => {
-										dispatch(passwordValid(true))
-									}, 15000)
-									break
-								case "confirmPassword":
-									dispatch(secondPasswordValid(error.defaultMessage))
-									setTimeout(() => {
-										dispatch(secondPasswordValid(true))
-									}, 15000)
-									break
-								case "phoneNumber":
-									dispatch(phoneValid(error.defaultMessage))
-									setTimeout(() => {
-										dispatch(phoneValid(true))
-									}, 15000)
-									break
-								case "firstName":
-									dispatch(firstNameValid(error.defaultMessage))
-									setTimeout(() => {
-										dispatch(firstNameValid(true))
-									}, 15000)
-									break
-								case "lastName":
-									dispatch(secondNameValid(error.defaultMessage))
-									setTimeout(() => {
-										dispatch(secondNameValid(true))
-									}, 15000)
-									break
-							}
+								dispatch(setMessage(null))
+							}, 15000)
 						})
-					})
-
+						.catch((err) => {
+							console.log(err)
+							let response = err.response.data
+							if (response.status != 400) {
+								dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
+								dispatch(generalErrorValid(true))
+								setTimeout(() => {
+									dispatch(generalErrorChange(null))
+									dispatch(generalErrorValid(false))
+								}, 5000)
+							}
+							if (!response.errors) {
+								dispatch(generalErrorChange(response.detail))
+								dispatch(generalErrorValid(true))
+								return
+							}
+							response.errors.map((error) => {
+								switch (error.field) {
+									case "email":
+										dispatch(emailValid(error.defaultMessage))
+										setTimeout(() => {
+											dispatch(emailValid(true))
+										}, 15000)
+										break
+									case "password":
+										dispatch(passwordValid(error.defaultMessage))
+										setTimeout(() => {
+											dispatch(passwordValid(true))
+										}, 15000)
+										break
+									case "confirmPassword":
+										dispatch(secondPasswordValid(error.defaultMessage))
+										setTimeout(() => {
+											dispatch(secondPasswordValid(true))
+										}, 15000)
+										break
+									case "phoneNumber":
+										dispatch(phoneValid(error.defaultMessage))
+										setTimeout(() => {
+											dispatch(phoneValid(true))
+										}, 15000)
+										break
+									case "firstName":
+										dispatch(firstNameValid(error.defaultMessage))
+										setTimeout(() => {
+											dispatch(firstNameValid(true))
+										}, 15000)
+										break
+									case "lastName":
+										dispatch(secondNameValid(error.defaultMessage))
+										setTimeout(() => {
+											dispatch(secondNameValid(true))
+										}, 15000)
+										break
+								}
+							})
+						})
+				} catch (err) {
+					console.log(err)
+				}
 				break
 			case "login":
-				axios({
-					method: "post",
-					mode: "no-cors",
-					url: `${SERVER_URL}/api/v1/auth/login`,
-					headers: {
-						"Content-Type": "application/json",
-					},
-					data: JSON.stringify({
-						email: email || "",
-						password: password || "",
-					}),
-				})
-					.then((response) => {
-						dispatch(setFirstName(response.data.user.first_name))
-						dispatch(setLastName(response.data.user.last_name))
-						dispatch(setMiddleName(response.data.user.middle_name || ""))
-						sessionStorage.setItem("firstName", response.data.user.first_name)
-						sessionStorage.setItem("lastName", response.data.user.last_name)
-						sessionStorage.setItem("token", response.data.jwtToken)
-						navigate("/mainPage", { replace: true })
+				try {
+					axios({
+						method: "post",
+						mode: "no-cors",
+						url: `${SERVER_URL}/api/v1/auth/login`,
+						headers: {
+							"Content-Type": "application/json",
+						},
+						data: JSON.stringify({
+							email: email || "",
+							password: password || "",
+						}),
 					})
-					.catch((err) => {
-						console.log(err)
-						if (!err.response?.data) {
-							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
-							dispatch(generalErrorValid(true))
-							setTimeout(() => {
-								dispatch(generalErrorChange(null))
-								dispatch(generalErrorValid(false))
-							}, 5000)
-							return
-						}
-						let response = err.response.data
-						if (response.status != 400) {
-							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
-							dispatch(generalErrorValid(true))
-							setTimeout(() => {
-								dispatch(generalErrorChange(null))
-								dispatch(generalErrorValid(false))
-							}, 5000)
-						}
-						if (!response.errors) {
-							dispatch(generalErrorChange(response.detail))
-							dispatch(generalErrorValid(true))
-							return
-						}
-						response.errors.map((error) => {
-							switch (error.field) {
-								case "email":
-									dispatch(emailValid(error.defaultMessage))
-									setTimeout(() => {
-										dispatch(emailValid(true))
-									}, 15000)
-									break
-								case "password":
-									dispatch(passwordValid(error.defaultMessage))
-									setTimeout(() => {
-										dispatch(passwordValid(true))
-									}, 15000)
-									break
-							}
+						.then((response) => {
+							dispatch(setFirstName(response.data.user.first_name))
+							dispatch(setLastName(response.data.user.last_name))
+							dispatch(setMiddleName(response.data.user.middle_name || ""))
+							sessionStorage.setItem("firstName", response.data.user.first_name)
+							sessionStorage.setItem("lastName", response.data.user.last_name)
+							sessionStorage.setItem("token", response.data.jwtToken)
+							navigate("/mainPage", { replace: true })
 						})
-					})
+						.catch((err) => {
+							console.log(err)
+							if (!err.response?.data) {
+								dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
+								dispatch(generalErrorValid(true))
+								setTimeout(() => {
+									dispatch(generalErrorChange(null))
+									dispatch(generalErrorValid(false))
+								}, 5000)
+								return
+							}
+							let response = err.response.data
+							if (response.status != 400) {
+								dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
+								dispatch(generalErrorValid(true))
+								setTimeout(() => {
+									dispatch(generalErrorChange(null))
+									dispatch(generalErrorValid(false))
+								}, 5000)
+							}
+							if (!response.errors) {
+								dispatch(generalErrorChange(response.detail))
+								dispatch(generalErrorValid(true))
+								return
+							}
+							response.errors.map((error) => {
+								switch (error.field) {
+									case "email":
+										dispatch(emailValid(error.defaultMessage))
+										setTimeout(() => {
+											dispatch(emailValid(true))
+										}, 15000)
+										break
+									case "password":
+										dispatch(passwordValid(error.defaultMessage))
+										setTimeout(() => {
+											dispatch(passwordValid(true))
+										}, 15000)
+										break
+								}
+							})
+						})
+				} catch (err) {
+					console.log(err)
+				}
 				break
 		}
 	}

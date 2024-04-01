@@ -110,7 +110,6 @@ export function ChartDirhams({ interval, key }) {
 					},
 				})
 				const data = response.data
-				console.log(data)
 				const labels = data.rates.map((entry) => formDate(entry.time))
 				const values = data.rates.map((entry) => entry.cur_unit_rate)
 
@@ -129,7 +128,7 @@ export function ChartDirhams({ interval, key }) {
 				})
 			} catch (error) {
 				console.error("Error fetching data:", error)
-				if (error.response?.status === 401) {
+				if (error?.response?.status === 401) {
 					dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
 					dispatch(generalErrorValid(true))
 					setTimeout(() => {

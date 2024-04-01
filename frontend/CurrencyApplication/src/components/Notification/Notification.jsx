@@ -121,21 +121,24 @@ export const Notification = ({ active, handlefunc }) => {
 	let [data, setData] = useState([])
 	const SERVER_URL = process.env.REACT_APP_BACKEND_URL
 	useEffect(() => {
-		axios({
-			method: "get",
-			url: `${SERVER_URL}/api/v1/lk/notifications`,
-			headers: {
-				"ngrok-skip-browser-warning": true,
-				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-			},
-		})
-			.then((res) => {
-				console.log(res)
-				setData(res.data)
+		try {
+			axios({
+				method: "get",
+				url: `${SERVER_URL}/api/v1/lk/notifications`,
+				headers: {
+					"ngrok-skip-browser-warning": true,
+					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+				},
 			})
-			.catch((err) => {
-				console.error(err)
-			})
+				.then((res) => {
+					setData(res.data)
+				})
+				.catch((err) => {
+					console.error(err)
+				})
+		} catch (err) {
+			console.log(err)
+		}
 	}, [])
 	return (
 		<CustomNotification active={active}>
