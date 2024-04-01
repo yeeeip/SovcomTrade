@@ -13,6 +13,8 @@ import { CurrencyModal } from "../Modals/Currency/CurrencyModal.jsx"
 import { Chart } from "./ComponentMainPage/Chart.jsx"
 import { setOfferOpen } from "../../redux/offerModalSlice.js"
 import { generalErrorValid, generalErrorChange } from "../../redux/registerSlice.js"
+import axiosRetry from "axios-retry"
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay })
 const MainPageDiv = styled.div`
 	max-width: 1280px;
 	margin: 0 auto;
@@ -45,7 +47,7 @@ const MainPage = () => {
 				dispatch(generalErrorChange(null))
 				dispatch(generalErrorValid(false))
 			}, 20000)
-			navigate("/entry", { replace: true })
+			navigate("/", { replace: true })
 
 			return
 		}
@@ -70,7 +72,7 @@ const MainPage = () => {
 						dispatch(generalErrorChange(null))
 						dispatch(generalErrorValid(false))
 					}, 20000)
-					navigate("/entry", { replace: true })
+					navigate("/", { replace: true })
 				}
 			})
 	}, [varForUpdate])
@@ -85,7 +87,6 @@ const MainPage = () => {
 		})
 			.then((res) => {
 				setNews(res.data)
-				console.log(news)
 			})
 			.catch((err) => {
 				console.error(err)

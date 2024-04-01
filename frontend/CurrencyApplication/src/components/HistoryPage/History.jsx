@@ -9,7 +9,9 @@ import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { generalErrorValid, generalErrorChange } from "../../redux/registerSlice"
 import { useDispatch, useSelector } from "react-redux"
-
+import { Loading } from "../Loading"
+import axiosRetry from "axios-retry"
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay })
 const CustomHistoryMainBlock = styled.div`
 	padding: 64px 320px;
 	min-width: 100%;
@@ -70,7 +72,7 @@ export const History = () => {
 	useEffect(() => {
 		console.log(loginData)
 		if (!(sessionStorage.getItem("firstName") !== null && sessionStorage.getItem("lastName") !== null && sessionStorage.getItem("token") !== null)) {
-			navigate("/entry", { replace: true })
+			navigate("/", { replace: true })
 			dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
 			dispatch(generalErrorValid(true))
 			setTimeout(() => {
@@ -99,7 +101,7 @@ export const History = () => {
 						dispatch(generalErrorChange(null))
 						dispatch(generalErrorValid(false))
 					}, 20000)
-					navigate("/entry", { replace: true })
+					navigate("/", { replace: true })
 				}
 			})
 	}, [])
@@ -139,7 +141,7 @@ export const History = () => {
 						<Select title={"Март"} data={["Текущая неделя", "Март", "3 месяца", "2024 год", "Указать период"]} width={170} />
 					</CustomHistoryHeader>
 					<CustomHistoryList>
-						<CustomDateTitle>Сегодня</CustomDateTitle>
+						{!orders.length && <Loading />}
 						{orders.map((item) => {
 							if (
 								(item.code === "BUY_FOREIGN_RUB" || item.code === "CONVERSION") &&

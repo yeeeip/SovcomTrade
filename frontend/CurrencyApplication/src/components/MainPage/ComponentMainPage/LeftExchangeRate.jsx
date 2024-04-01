@@ -4,6 +4,7 @@ import BuyingSelling from "../style/BuyingSelling"
 import ButtonOpen from "../style/ButtonOpen"
 import { useSelector } from "react-redux"
 import { SliderProvider } from "../style/Slider/SliderProvider"
+import { Loading } from "../../Loading"
 
 const LeftExchangeRateDiv = styled.div`
 	margin-top: 50px;
@@ -28,11 +29,14 @@ const LeftExchangeRate = () => {
 			<Greeting>Добрый день</Greeting>
 
 			<ButtonOpen title={"Открыть счет  +"} />
-			<SliderProvider height={302}>
-				{bankAccounts.map((item) => {
-					return <CurrencyCell key={item.id} currency={item.currency} balance={item.bigDecimal} />
-				})}
-			</SliderProvider>
+			{!bankAccounts.length && <Loading />}
+			{bankAccounts.length && (
+				<SliderProvider height={302}>
+					{bankAccounts.map((item) => {
+						return <CurrencyCell key={item.id} currency={item.currency} balance={item.bigDecimal} />
+					})}
+				</SliderProvider>
+			)}
 
 			<BuyingSelling title={"Покупка / продажа"} />
 		</LeftExchangeRateDiv>

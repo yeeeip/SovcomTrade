@@ -3,6 +3,7 @@ import RecommendationsInput from "../style/RecommendationsInput"
 import Slide from "../style/Slide"
 import { RecomendationSliderProvider } from "../style/newsSlider/RecomendationSliderProvider"
 import { useEffect, useState } from "react"
+import { Loading } from "../../Loading"
 
 const RecommendationsDiv = styled.div`
 	width: 100%;
@@ -65,7 +66,8 @@ const Recommendations = ({ data = [] }) => {
 	return (
 		<RecommendationsDiv>
 			<RecommendationsInput title={"Рекомендации по продаже/покупке валют"} handlefunc={handleInputValueChange} handlefilter={handleFilterValueChange} />
-			{filteredData.length < 1 && <CustomTitle>Новостей по заданным фильтрам нет</CustomTitle>}
+			{!filteredData.length && <Loading />}
+			{filteredData.length == 1 && <CustomTitle>Новостей по заданным фильтрам нет</CustomTitle>}
 			{filteredData.length > 1 && (
 				<RecomendationSliderProvider width={1280} height={512}>
 					{filteredData.map((item, index) => {

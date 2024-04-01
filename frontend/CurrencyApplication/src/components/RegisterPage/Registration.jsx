@@ -89,10 +89,10 @@ function Registration() {
 
 				<SliderProvider data={data} height={550} width={windowWidth * 0.6 - 300} />
 
-				<Button content={"Зарегистрироваться"} target={"register"} />
+				<Button content={"Зарегистрироваться"} target={"registration"} />
 				<CustomButtonBlock>
 					<SmallGreyText>Уже есть аккаунт? </SmallGreyText>
-					<SmallButton href={"/entry"} content={"Войти"} />
+					<SmallButton href={"/"} content={"Войти"} />
 				</CustomButtonBlock>
 			</CustomFormContainer>
 			<ExitButton />

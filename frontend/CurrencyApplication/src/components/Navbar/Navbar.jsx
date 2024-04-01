@@ -103,7 +103,7 @@ const Navbar = () => {
 							sessionStorage.setItem("token", null)
 							sessionStorage.setItem("firstName", null)
 							sessionStorage.setItem("lastName", null)
-							navigate("/entry", { replace: true })
+							navigate("/", { replace: true })
 						}}
 					>
 						{isHoverName ? "Выйти" : sessionStorage.getItem("firstName")}

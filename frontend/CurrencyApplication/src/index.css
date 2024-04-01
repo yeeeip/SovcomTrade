@@ -146,3 +146,9 @@ body,
 	background: #f1f7ff;
 	height: 100%;
 }
+@keyframes loading {
+	to {
+		opacity: 0.1;
+		transform: translate3d(0, -1rem, 0);
+	}
+}
