@@ -132,6 +132,12 @@ export const Input = ({ title, target, caution, errorMessage }) => {
 	if (target === "phone") {
 		props["value"] = phoneNumber
 	}
+	if (target === "password") {
+		props["type"] = "password"
+	}
+	if (target === "secondPassword") {
+		props["type"] = "password"
+	}
 	return (
 		<CustomInputField>
 			<CustomTitle caution={caution}>{title}</CustomTitle>

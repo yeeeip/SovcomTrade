@@ -155,7 +155,7 @@ export function ChartYuan({ interval, key }) {
 					<ChartP style={{ color: priceChange >= 0 ? "green" : "red" }}>
 						{priceChange && (priceChange >= 0 ? "+" : "") + (priceChange && priceChange.toFixed(3))}
 					</ChartP>
-					<ChartSpan>{`Последнее обновление курса: ${dayUpdateCourse}`}</ChartSpan>
+					<ChartSpan>{`Последнее обновление курса: ${dayUpdateCourse === undefined ? " " : dayUpdateCourse}`}</ChartSpan>
 				</div>
 			</div>
 		</div>
