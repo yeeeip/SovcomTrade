@@ -150,7 +150,6 @@ export const Notification = ({ active, handlefunc }) => {
 				</CustomExitButton>
 			</CustomNotifHeader>
 			<CustomNotifList>
-				{!data.length && <Loading />}
 				{data.map((item, index) => {
 					let stateText = null
 					let currencyIcon = null
@@ -196,7 +195,27 @@ export const Notification = ({ active, handlefunc }) => {
 					)
 				})}
 				{data.length === 0 && <CustomInfoText>Уведомлений нет</CustomInfoText>}
-				{data.length !== 0 && <CustomNotifDelete>Удалить все уведомления</CustomNotifDelete>}
+				{data.length !== 0 && (
+					<CustomNotifDelete
+						onClick={() => {
+							try {
+								axios({
+									method: "DELETE",
+									url: `${SERVER_URL}/api/v1/lk/notifications`,
+									headers: {
+										Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+									},
+								}).then((res) => {
+									setData([])
+								})
+							} catch (err) {
+								console.log(err)
+							}
+						}}
+					>
+						Удалить все уведомления
+					</CustomNotifDelete>
+				)}
 			</CustomNotifList>
 		</CustomNotification>
 	)

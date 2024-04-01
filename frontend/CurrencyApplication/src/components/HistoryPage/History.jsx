@@ -59,7 +59,12 @@ const CustomDateTitle = styled.p`
 	padding-bottom: 0px;
 	color: #1d1f2480;
 `
-
+const CustomInfoTitle = styled.p`
+	font-family: "TT Travels";
+	font-size: 24px;
+	font-weight: 500;
+	color: #213a8b;
+`
 export const History = () => {
 	const SERVER_URL = process.env.REACT_APP_BACKEND_URL
 	let [currentSort, setCurrentSort] = useState("Покупки")
@@ -70,7 +75,6 @@ export const History = () => {
 	const loginData = useSelector((state) => state.login)
 
 	useEffect(() => {
-		console.log(loginData)
 		if (!(sessionStorage.getItem("firstName") !== null && sessionStorage.getItem("lastName") !== null && sessionStorage.getItem("token") !== null)) {
 			navigate("/", { replace: true })
 			dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
@@ -145,7 +149,7 @@ export const History = () => {
 						<Select title={"Март"} data={["Текущая неделя", "Март", "3 месяца", "2024 год", "Указать период"]} width={170} />
 					</CustomHistoryHeader>
 					<CustomHistoryList>
-						{!orders.length && <Loading />}
+						{!orders.length && <CustomInfoTitle>Уведомлений нет</CustomInfoTitle>}
 						{orders.map((item) => {
 							if (
 								(item.code === "BUY_FOREIGN_RUB" || item.code === "CONVERSION") &&

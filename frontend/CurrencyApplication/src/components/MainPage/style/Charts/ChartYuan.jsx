@@ -100,7 +100,6 @@ export function ChartYuan({ interval, key }) {
 					.split("")
 					.map((item) => (item === "." ? "/" : item))
 					.join("")
-				console.log(end_date)
 
 				const response = await axios({
 					method: "get",
@@ -130,7 +129,7 @@ export function ChartYuan({ interval, key }) {
 				})
 			} catch (error) {
 				console.error("Error fetching data:", error)
-				if (error.response?.status === 401) {
+				if (error?.response?.status === 401) {
 					dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
 					dispatch(generalErrorValid(true))
 					setTimeout(() => {
