@@ -1,4 +1,7 @@
 import styled from "styled-components"
+import { setCurrencyOpen, setCurrencySwap } from "../../../redux/currencyModalSlice"
+import { useDispatch } from "react-redux"
+import { setOfferOpen, setOfferSwap } from "../../../redux/offerModalSlice"
 
 const BuyingSellingA = styled.button`
 	width: 100%;
@@ -14,10 +17,26 @@ const BuyingSellingA = styled.button`
 	border: 3px solid #213a8b99;
 	margin-bottom: 16px;
 	cursor: pointer;
+	@media (max-width: 1400px) {
+		padding: 16px;
+		font-size: 20px;
+	}
 `
 
-const BuyingSelling = ({ title, handlefunc }) => {
-	return <BuyingSellingA onClick={handlefunc}>{title}</BuyingSellingA>
+const BuyingSelling = ({ title }) => {
+	const dispatch = useDispatch()
+	return (
+		<BuyingSellingA
+			onClick={() => {
+				dispatch(setCurrencyOpen(true))
+				dispatch(setCurrencySwap(true))
+				dispatch(setOfferOpen(false))
+				dispatch(setOfferSwap(true))
+			}}
+		>
+			{title}
+		</BuyingSellingA>
+	)
 }
 
 export default BuyingSelling

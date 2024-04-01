@@ -22,7 +22,7 @@ const CustomButton = styled.button`
 	padding: 30px;
 	width: 100%;
 	text-align: center;
-	background: #213A8B;
+	background: #213a8b;
 	border-radius: 20px;
 	cursor: pointer;
 	user-select: none;
@@ -49,7 +49,7 @@ const CustomLinkButton = styled.a`
 	padding: 30px;
 	width: 100%;
 	text-align: center;
-	background: #213A8B;
+	background: #213a8b;
 	text-decoration: none;
 	border-radius: 20px;
 	cursor: pointer;
@@ -57,7 +57,8 @@ const CustomLinkButton = styled.a`
 	@media (max-width: 1200px) {
 		font-size: 20px;
 		padding: 15px;
-	}@media (max-width: 900px) {
+	}
+	@media (max-width: 900px) {
 		font-size: 17px;
 		padding: 13px;
 	}
@@ -76,6 +77,7 @@ export const Button = ({ href, content, target }) => {
 	const secondName = useSelector((state) => state.register.secondName?.value)
 	const middleName = useSelector((state) => state.register.middleName?.value)
 	const dispatch = useDispatch()
+	const SERVER_URL = process.env.REACT_APP_BACKEND_URL
 	let navigate = useNavigate()
 	const handleButtonClick = () => {
 		switch (target) {
@@ -91,7 +93,7 @@ export const Button = ({ href, content, target }) => {
 				axios({
 					method: "post",
 					mode: "no-cors",
-					url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/register`,
+					url: `${SERVER_URL}/api/v1/auth/register`,
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -170,7 +172,7 @@ export const Button = ({ href, content, target }) => {
 				axios({
 					method: "post",
 					mode: "no-cors",
-					url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/auth/login`,
+					url: `${SERVER_URL}/api/v1/auth/login`,
 					headers: {
 						"Content-Type": "application/json",
 					},
@@ -183,11 +185,13 @@ export const Button = ({ href, content, target }) => {
 						dispatch(setFirstName(response.data.user.first_name))
 						dispatch(setLastName(response.data.user.last_name))
 						dispatch(setMiddleName(response.data.user.middle_name || ""))
+						sessionStorage.setItem("firstName", response.data.user.first_name)
+						sessionStorage.setItem("lastName", response.data.user.last_name)
 						sessionStorage.setItem("token", response.data.jwtToken)
-						sessionStorage.setItem("loginTime", new Date())
 						navigate("/mainPage", { replace: true })
 					})
 					.catch((err) => {
+						console.log(err)
 						if (!err.response?.data) {
 							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))
 							dispatch(generalErrorValid(true))

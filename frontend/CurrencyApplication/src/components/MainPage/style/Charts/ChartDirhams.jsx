@@ -3,7 +3,9 @@ import { Line } from "react-chartjs-2"
 import axios from "axios"
 import styled from "styled-components"
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from "chart.js"
-
+import { generalErrorValid, generalErrorChange } from "../../../../redux/registerSlice"
+import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom"
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 const ChartP = styled.p`
@@ -32,6 +34,16 @@ const ChartSpan = styled.span`
 	display: flex;
 	justify-content: flex-end;
 `
+const ChartTitle = styled.span`
+	margin-top: 10px;
+	font-family: TT Travels;
+	font-size: 16px;
+	font-weight: 400;
+	line-height: 13.76px;
+	text-align: left;
+	color: #213a8b;
+	display: flex;
+`
 
 export let priceChange
 export let dayUpdateCourse
@@ -45,7 +57,9 @@ export const options = {
 	},
 }
 
-export function ChartDirhams() {
+export function ChartDirhams({interval, key}) {
+	const dispatch = useDispatch()
+	const navigate = useNavigate()
 	const [chartData, setChartData] = useState({
 		labels: [],
 		datasets: [
@@ -73,7 +87,7 @@ export function ChartDirhams() {
 					return `${day < 10 ? "0" + day : day}.${month < 10 ? "0" + month : month}`
 				}
 				const start_date = new Date()
-					.subtractDays(9)
+					.subtractDays(interval)
 					.toLocaleDateString()
 					.split("")
 					.map((item) => (item === "." ? "/" : item))
@@ -83,10 +97,10 @@ export function ChartDirhams() {
 					.split("")
 					.map((item) => (item === "." ? "/" : item))
 					.join("")
-				
+				const SERVER_URL = process.env.REACT_APP_BACKEND_URL
 				const response = await axios({
 					method: "get",
-					url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=AED`,
+					url: `${SERVER_URL}/api/v1/daily_rates?start_date=${start_date}&end_date=${end_date}&cur=AED`,
 					headers: {
 						"Content-Type": "application/json",
 						"ngrok-skip-browser-warning": true,
@@ -94,6 +108,7 @@ export function ChartDirhams() {
 					},
 				})
 				const data = response.data
+				console.log(data)
 				const labels = data.rates.map((entry) => formDate(entry.time))
 				const values = data.rates.map((entry) => entry.cur_unit_rate)
 
@@ -112,8 +127,13 @@ export function ChartDirhams() {
 				})
 			} catch (error) {
 				console.error("Error fetching data:", error)
-				if (err.response?.status === 401) {
-					alert("Ваша сессия истекла. Войдите снова")
+				if (error.response?.status === 401) {
+					dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+					dispatch(generalErrorValid(true))
+					setTimeout(() => {
+						dispatch(generalErrorChange(null))
+						dispatch(generalErrorValid(false))
+					}, 20000)
 					navigate("/entry", { replace: true })
 				}
 			}
@@ -125,10 +145,17 @@ export function ChartDirhams() {
 	return (
 		<div>
 			<Line options={options} data={chartData} />
-			<ChartP style={{ color: priceChange >= 0 ? "green" : "red" }}>
-				{priceChange && (priceChange >= 0 ? "+" : "") + (priceChange && priceChange.toFixed(3))}
-			</ChartP>
-			<ChartSpan>{`Последнее обновление курса: ${dayUpdateCourse}`}</ChartSpan>
+			<div style={{display:"flex", justifyContent:"space-between"}}>
+				<div>
+					<ChartTitle>Курсы по отношению к рублю</ChartTitle>
+				</div>
+				<div>
+					<ChartP style={{ color: priceChange >= 0 ? "green" : "red" }}>
+					{priceChange && (priceChange >= 0 ? "+" : "") + (priceChange && priceChange.toFixed(3))}
+					</ChartP>
+					<ChartSpan>{`Последнее обновление курса: ${dayUpdateCourse}`}</ChartSpan>
+				</div>
+			</div>
 		</div>
 	)
 }

@@ -7,6 +7,8 @@ import { Order } from "./styles/Order"
 import { Select } from "./styles/Select"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { generalErrorValid, generalErrorChange } from "../../redux/registerSlice"
+import { useDispatch, useSelector } from "react-redux"
 
 const CustomHistoryMainBlock = styled.div`
 	padding: 64px 320px;
@@ -57,15 +59,29 @@ const CustomDateTitle = styled.p`
 `
 
 export const History = () => {
+	const SERVER_URL = process.env.REACT_APP_BACKEND_URL
 	let [currentSort, setCurrentSort] = useState("Покупки")
 	let [currentCurrency, setCurrentCurrency] = useState("RUB")
 	let [orders, setOrders] = useState([])
 	let navigate = useNavigate()
+	const dispatch = useDispatch()
+	const loginData = useSelector((state) => state.login)
 
 	useEffect(() => {
+		console.log(loginData)
+		if (!(sessionStorage.getItem("firstName") !== null && sessionStorage.getItem("lastName") !== null && sessionStorage.getItem("token") !== null)) {
+			navigate("/entry", { replace: true })
+			dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+			dispatch(generalErrorValid(true))
+			setTimeout(() => {
+				dispatch(generalErrorChange(null))
+				dispatch(generalErrorValid(false))
+			}, 20000)
+			return
+		}
 		axios({
 			method: "GET",
-			url: `${process.env.REACT_APP_BACKEND_URL}/api/v1/lk/operations`,
+			url: `${SERVER_URL}/api/v1/lk/operations`,
 			headers: {
 				"ngrok-skip-browser-warning": true,
 				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
@@ -77,7 +93,12 @@ export const History = () => {
 			.catch((err) => {
 				console.log(err)
 				if (err.response.status === 401) {
-					alert("Ваша сессия истекла. Войдите снова")
+					dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+					dispatch(generalErrorValid(true))
+					setTimeout(() => {
+						dispatch(generalErrorChange(null))
+						dispatch(generalErrorValid(false))
+					}, 20000)
 					navigate("/entry", { replace: true })
 				}
 			})

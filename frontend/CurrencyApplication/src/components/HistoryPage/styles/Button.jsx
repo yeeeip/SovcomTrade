@@ -10,7 +10,11 @@ const CustomButton = styled.button`
 	padding: 14px;
 	border-radius: 25px;
 	cursor: pointer;
-   transition:all .25s;
+    transition:all .25s;
+	@media (max-width: 1400px) {
+		font-size: 17px;
+		padding: 10px;
+	}
 `
 
 export const Button = ({ content, handlefunc, active }) => {

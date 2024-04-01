@@ -1,6 +1,8 @@
 import React from "react"
 import styled from "styled-components"
 import DoneImg from "../../img/done.svg"
+import { setOfferOpen, setOfferSwap } from "../../../../redux/offerModalSlice"
+import { useDispatch } from "react-redux"
 
 const CustomContainer = styled.div`
 	width: 100%;
@@ -36,14 +38,26 @@ const CustomButton = styled.button`
 	color: #213a8b;
 	font-family: "TT Travels";
 	font-size: 16px;
+	cursor: pointer;
 	font-weight: 500;
 `
-export const DoneComponent = ({ text, handleClose }) => {
+export const DoneComponent = ({ text }) => {
+	const dispatch = useDispatch()
 	return (
 		<CustomContainer>
 			<CustomImg src={DoneImg} />
 			<CustomText>{text}</CustomText>
-			<CustomButton onClick={handleClose}>Выйти</CustomButton>
+			<CustomButton
+				onClick={() => {
+					dispatch(setOfferOpen(false))
+
+					setTimeout(() => {
+						dispatch(setOfferSwap(true))
+					}, 500)
+				}}
+			>
+				Выйти
+			</CustomButton>
 		</CustomContainer>
 	)
 }

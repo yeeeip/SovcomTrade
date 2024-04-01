@@ -4,6 +4,7 @@ import ST from "./img/ST.svg"
 import IconPersone from "./img/person.svg"
 import notif from "./img/notif.svg"
 import { Notification } from "../Notification/Notification"
+import { useNavigate } from "react-router-dom"
 
 const NavbarDiv = styled.div`
 	display: flex;
@@ -44,6 +45,7 @@ const Page = styled.a`
 const UserName = styled.div`
 	display: flex;
 	align-items: center;
+	gap: 0 20px;
 	&img {
 		width: 40px;
 		height: 40px;
@@ -61,7 +63,6 @@ const Name = styled.a`
 	font-size: 16px;
 `
 const NameImg = styled.img`
-	margin: 0 10px;
 	width: 35px;
 	height: 35px;
 `
@@ -71,7 +72,6 @@ const Line = styled.div`
 	background: rgba(21, 25, 28, 0.25);
 `
 const NotifImg = styled.img`
-	margin: 0 20px;
 	width: 30px;
 	height: 30px;
 	cursor: pointer;
@@ -80,6 +80,8 @@ const NotifImg = styled.img`
 const Navbar = () => {
 	const [isNotifAcive, setIsNotifActive] = useState(false)
 	const handleNotifButton = () => setIsNotifActive(!isNotifAcive)
+	const [isHoverName, setIsHoverName] = useState(false)
+	const navigate = useNavigate()
 	return (
 		<>
 			<NavbarDiv>
@@ -87,13 +89,25 @@ const Navbar = () => {
 					<img src={ST} />
 				</div>
 				<Pages>
-					<Page href='/mainPage'>Главная</Page>
+					<Page href='/mainPage'>Мой кабинет</Page>
 					<Page href='/history'>Операции</Page>
-					<Page href='#'>Уведомления</Page>
 				</Pages>
 				<UserName>
 					<NotifImg src={notif} onClick={handleNotifButton} />
-					<Name href='#'>Имя</Name>
+					<Name
+						href='#'
+						onMouseEnter={() => setIsHoverName(true)}
+						onMouseLeave={() => setIsHoverName(false)}
+						onClick={() => {
+							if (!isHoverName) return
+							sessionStorage.setItem("token", null)
+							sessionStorage.setItem("firstName", null)
+							sessionStorage.setItem("lastName", null)
+							navigate("/entry", { replace: true })
+						}}
+					>
+						{isHoverName ? "Выйти" : sessionStorage.getItem("firstName")}
+					</Name>
 					<NameImg src={IconPersone} />
 				</UserName>
 			</NavbarDiv>

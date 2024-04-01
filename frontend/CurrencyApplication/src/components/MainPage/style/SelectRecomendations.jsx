@@ -1,5 +1,7 @@
 import React, { useState } from "react"
 import styled from "styled-components"
+import filter from "../img/filter.svg"
+
 const CustomSelect = styled.div`
 	position: relative;
 `
@@ -13,10 +15,6 @@ const CustomValue = styled.div`
 	display: flex;
 	gap: 0 10px;
 	align-items: center;
-	@media (max-width: 1400px) {
-		font-size: 17px;
-		font-weight: 550;
-	}
 `
 const CustomList = styled.div`
 	display: ${(props) => (props.isselecting ? "flex" : "none")};
@@ -42,55 +40,22 @@ const CustomOption = styled.div`
 	text-align: center;
 	cursor: pointer;
 	user-select: none;
+	z-index: 100;
 `
-const CustomArrow = styled.div`
-	width: 12px;
-	height: 18px;
-	position: relative;
-	& > * {
-		position: absolute;
-		left: 0;
-		background: #213a8b99;
-		width: 14px;
-		height: 2px;
-	}
-	& > *:nth-child(1) {
-		top: 17%;
-		transform: rotate(45deg);
-	}
-	& > *:nth-child(2) {
-		bottom: 17%;
-		transform: rotate(-45deg);
-	}
-	@media (max-width: 1400px) {
-		height: 12px;
-		& > * {
-			width: 10px;
-		}
-	}
-`
-export const Select = ({ title, data = [], width }) => {
+
+export const SelectRecomendations = ({ title, data = [], width, handlefunc }) => {
 	let [isSelecting, setIsSelecting] = useState(false)
-	let [currentValue, setCurrentValue] = useState(title)
 	const handleOpenButton = () => {
 		setIsSelecting(!isSelecting)
 	}
 	const handleSelect = (e) => {
 		setIsSelecting(!isSelecting)
-		setCurrentValue(e.target.textContent)
+		handlefunc(e.target.textContent)
 	}
 	return (
 		<CustomSelect>
 			<CustomValue onClick={handleOpenButton}>
-				<CustomArrow style={{ transform: "rotate(180deg)" }}>
-					<span></span>
-					<span></span>
-				</CustomArrow>
-				{currentValue}
-				<CustomArrow>
-					<span></span>
-					<span></span>
-				</CustomArrow>
+				<img src={filter} alt='' style={{ width: "44px", height: "44px" }} />
 			</CustomValue>
 			<CustomList isselecting={isSelecting} width={width}>
 				{data.map((item, index) => {

@@ -5,7 +5,7 @@ const CustomButton = styled.button`
 	background: none;
 	position: absolute;
 	top: ${(props) => Math.round(props.boxheight / 2) - 25 + "px"};
-	right: -100px;
+	left: 100%;
 	border-radius: 50%;
 	width: 50px;
 	height: 50px;
@@ -27,14 +27,6 @@ const CustomButton = styled.button`
 	}
 	@media (max-width: 1100px) {
 		top: 205px;
-		@media (max-width: 1100px) {
-			top: 180px;
-			width: 40px;
-			height: 40px;
-		* {
-			width: 20px;
-		}
-	}
 	}
 `
 export const NextButton = ({ handlefunc, boxheight }) => {

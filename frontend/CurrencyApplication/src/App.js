@@ -12,33 +12,10 @@ function App() {
 	return (
 		<BrowserRouter basename='/'>
 			<Routes>
-				<Route
-					path='/'
-					element={
-						<>
-							<Button href={"/registration"} content={"registration"} />
-							<br />
-							<Button href={"/recovery"} content={"recovery"} />
-							<br />
-							<Button href={"/mainPage"} content={"mainPage"} />
-							<br />
-							<Button href={"/entry"} content={"entry"} />
-							<br />
-							<Button href={"/сurrencyModal"} content={"сurrencyModal"} />
-							<br />
-							<Button href={"/offerModal"} content={"offerModal"} />
-							<br />
-							<Button href={"/history"} content={"history"} />
-							<br />
-						</>
-					}
-				/>
+				<Route path='/' element={<Entry />} />
 				<Route path='registration' element={<Registration />} />
 				<Route path='recovery' element={<Recovery />} />
 				<Route path='mainPage' element={<MainPage />} />
-				<Route path='entry' element={<Entry />} />
-				<Route path='сurrencyModal' element={<CurrencyModal />} />
-				<Route path='offerModal' element={<OfferModal />} />
 				<Route path='history' element={<History />} />
 			</Routes>
 		</BrowserRouter>

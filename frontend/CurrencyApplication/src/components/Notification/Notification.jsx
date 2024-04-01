@@ -1,20 +1,23 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import styled from "styled-components"
 import rub from "../HistoryPage/img/rub.png"
 import dh from "../HistoryPage/img/dh.png"
 import y from "../HistoryPage/img/y.png"
+import axios from "axios"
+import { OrderButton } from "./OrderButton"
 const CustomNotification = styled.div`
 	position: fixed;
 	top: 0;
-	right: 0;
+	right: ${(props) => (props.active ? "0" : "-100%")};
 	width: 40%;
 	height: 100%;
 	background: #fdfdfd;
 	border: 2px solid #213a8b33;
-	display: ${(props) => (props.active ? "flex" : "none")};
+	display: flex;
 	flex-direction: column;
 	padding: 0 16px;
 	z-index: 50;
+	transition: all 0.5s;
 `
 const CustomNotifHeader = styled.div`
 	display: flex;
@@ -37,6 +40,7 @@ const CustomNotif = styled.div`
 	position: relative;
 	display: flex;
 	align-items: center;
+	justify-content: space-between;
 	gap: 0 20px;
 	padding: 16px;
 	border: 2px solid #213a8b33;
@@ -109,7 +113,27 @@ const CustomInfoText = styled.p`
 	color: #213a8b;
 	text-align: center;
 `
-export const Notification = ({ active, handlefunc, data = [1] }) => {
+
+export const Notification = ({ active, handlefunc }) => {
+	let [data, setData] = useState([])
+	const SERVER_URL = process.env.REACT_APP_BACKEND_URL
+	useEffect(() => {
+		axios({
+			method: "get",
+			url: `${SERVER_URL}/api/v1/lk/notifications`,
+			headers: {
+				"ngrok-skip-browser-warning": true,
+				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+			},
+		})
+			.then((res) => {
+				console.log(res)
+				setData(res.data)
+			})
+			.catch((err) => {
+				console.error(err)
+			})
+	}, [])
 	return (
 		<CustomNotification active={active}>
 			<CustomNotifHeader>
@@ -121,14 +145,46 @@ export const Notification = ({ active, handlefunc, data = [1] }) => {
 			</CustomNotifHeader>
 			<CustomNotifList>
 				{data.map((item, index) => {
+					let stateText = null
+					let currencyIcon = null
+					switch (item.operation.debit_account_id.currency) {
+						case "RUB":
+							currencyIcon = rub
+							break
+						case "AED":
+							currencyIcon = dh
+							break
+						case "CNY":
+							currencyIcon = y
+							break
+					}
+
+					switch (item.operation.status) {
+						case "ACTIVE":
+							stateText = "Активна"
+							break
+						case "SUCCESSFUL":
+							stateText = "Исполнена"
+							break
+						case "EXPIRED":
+							stateText = "Просрочена"
+							break
+					}
 					return (
 						<CustomNotif>
-							<CustomNotifImg src={rub} />
+							<CustomNotifImg src={currencyIcon} />
 							<CustomNotifInfo>
-								<CustomNotifID>Операция от 20.03.2024</CustomNotifID>
-								<CustomNotifStatus>Состояние: одобрена</CustomNotifStatus>
+								<CustomNotifID>
+									Операция от {new Date(item.createdAt).getDate()}.
+									{new Date(item.createdAt).getMonth() + 1 > 10
+										? new Date(item.createdAt).getMonth()
+										: "0" + (new Date(item.createdAt).getMonth() + 1)}
+									.{new Date(item.createdAt).getFullYear()}
+								</CustomNotifID>
+								<CustomNotifStatus>Состояние: {stateText}</CustomNotifStatus>
 							</CustomNotifInfo>
-							<CustomNotifStatusThing />
+							<OrderButton info={item.info} />
+							<CustomNotifStatusThing state={item.operation.status} />
 						</CustomNotif>
 					)
 				})}

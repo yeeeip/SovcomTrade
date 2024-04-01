@@ -5,7 +5,7 @@ const CustomButton = styled.button`
 	background: none;
 	position: absolute;
 	top: ${(props) => Math.round(props.boxheight / 2) - 25 + "px"};
-	left: -100px;
+	right: 100%;
 	border-radius: 50%;
 	width: 50px;
 	height: 50px;

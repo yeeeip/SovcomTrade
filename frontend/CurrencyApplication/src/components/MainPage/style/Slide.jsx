@@ -65,19 +65,19 @@ const Slide = ({ titleOne, titleTwo, href, dopInfo }) => {
 	const [swap, setSwap] = useState(true)
 	const handleSwapButton = () => setSwap(!swap)
 	return (
-		<SlideDiv onClick={() => { window.open(`${href}`, '_blank') }}onMouseLeave={handleSwapButton}>
+		<SlideDiv
+			onClick={() => {
+				window.open(`${href}`, "_blank")
+			}}
+			onMouseLeave={handleSwapButton}
+		>
 			<SlideBg />
 			<SlideInfo swap={swap} onMouseEnter={handleSwapButton}>
 				<SlideH1>{titleOne}</SlideH1>
 				<SlideSpan>{titleTwo}</SlideSpan>
 			</SlideInfo>
 			<SlideDopInfo swap={swap}>
-				<SlideSpan>
-					{titleTwo}
-					{titleTwo}
-					{titleTwo}
-					{titleTwo}
-				</SlideSpan>
+				<SlideSpan>{dopInfo}</SlideSpan>
 			</SlideDopInfo>
 		</SlideDiv>
 	)
