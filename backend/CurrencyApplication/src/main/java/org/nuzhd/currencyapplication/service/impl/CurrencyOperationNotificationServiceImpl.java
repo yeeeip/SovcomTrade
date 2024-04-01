@@ -19,6 +19,11 @@ public class CurrencyOperationNotificationServiceImpl implements CurrencyOperati
     }
 
     @Override
+    public void deleteAllByUserId(Long userId) {
+        notificationRepository.deleteAllByUserId(userId);
+    }
+
+    @Override
     public List<CurrencyOperationNotificationResponseDTO> findAllByUser(AppUser user) {
         List<CurrencyOperationNotification> notifications = notificationRepository.findAllByUser(user);
 

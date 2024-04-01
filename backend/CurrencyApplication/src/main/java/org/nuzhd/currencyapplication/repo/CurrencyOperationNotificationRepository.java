@@ -10,4 +10,5 @@ public interface CurrencyOperationNotificationRepository extends JpaRepository<C
 
     List<CurrencyOperationNotification> findAllByUser(AppUser user);
 
+    void deleteAllByUserId(Long userId);
 }

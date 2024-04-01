@@ -9,5 +9,5 @@ import java.util.List;
 public interface CurrencyOperationNotificationService {
 
     List<CurrencyOperationNotificationResponseDTO> findAllByUser(AppUser user);
-
+    void deleteAllByUserId(Long userId);
 }

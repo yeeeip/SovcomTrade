@@ -1,13 +1,8 @@
 package org.nuzhd.currencyapplication.email;
 
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -16,13 +11,14 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 public class EmailSenderServiceImpl implements EmailSenderService {
 
     private static final Logger log = LoggerFactory.getLogger(EmailSenderServiceImpl.class);
-    private final JavaMailSender javaMailSender;
 
     @Value("${application.base-path}")
     private String basePath;
 
-    public EmailSenderServiceImpl(JavaMailSender javaMailSender) {
-        this.javaMailSender = javaMailSender;
+    private final Test test;
+
+    public EmailSenderServiceImpl(Test test) {
+        this.test = test;
     }
 
     @Override
@@ -53,24 +49,7 @@ public class EmailSenderServiceImpl implements EmailSenderService {
                 basePath +
                 "/auth/confirm?token=" + token);
 
-        sendEmail(to, content);
+        test.sendEmail(to, content);
     }
 
-    @Async
-    protected void sendEmail(String to, String email) {
-        try {
-            MimeMessage msg = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(msg, "utf-8");
-
-            helper.setText(email, true);
-            helper.setTo(to);
-            helper.setSubject("Подтверждение почты");
-            helper.setFrom("sovcomtrade6@gmil.com");
-
-            javaMailSender.send(msg);
-        } catch (MessagingException e) {
-            log.error("Failed to send email", e);
-            throw new IllegalStateException("Failed to send email");
-        }
-    }
 }

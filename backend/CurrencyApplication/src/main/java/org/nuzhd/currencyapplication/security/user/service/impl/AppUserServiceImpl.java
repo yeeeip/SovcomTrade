@@ -1,9 +1,11 @@
 package org.nuzhd.currencyapplication.security.user.service.impl;
 
+import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.util.Strings;
 import org.nuzhd.currencyapplication.email.EmailSenderService;
 import org.nuzhd.currencyapplication.model.BankAccount;
 import org.nuzhd.currencyapplication.model.Currency;
+import org.nuzhd.currencyapplication.repo.BankAccountRepository;
 import org.nuzhd.currencyapplication.security.dto.UserRegistrationDTO;
 import org.nuzhd.currencyapplication.security.user.AppUser;
 import org.nuzhd.currencyapplication.security.user.EmailConfirmationToken;
@@ -33,14 +35,18 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
 
     private final EmailSenderService emailSenderService;
 
-    public AppUserServiceImpl(AppUserRepository appUserRepository, EmailConfirmationTokenService tokenService, PasswordEncoder encoder, ValidationService validationService, EmailSenderService emailSenderService) {
+    private final BankAccountRepository bankAccountRepository;
+
+    public AppUserServiceImpl(AppUserRepository appUserRepository, EmailConfirmationTokenService tokenService, PasswordEncoder encoder, ValidationService validationService, EmailSenderService emailSenderService, BankAccountRepository bankAccountRepository) {
         this.appUserRepository = appUserRepository;
         this.tokenService = tokenService;
         this.encoder = encoder;
         this.validationService = validationService;
         this.emailSenderService = emailSenderService;
+        this.bankAccountRepository = bankAccountRepository;
     }
 
+    @Transactional
     @Override
     public AppUser createUser(UserRegistrationDTO userRegistrationDTO) {
 
@@ -53,16 +59,15 @@ public class AppUserServiceImpl implements UserDetailsService, AppUserService {
                 userRegistrationDTO.lastName(),
                 userRegistrationDTO.phoneNumber()
         );
+        AppUser savedUser = appUserRepository.save(newUser);
 
         List<BankAccount> userAccounts = List.of(
                 new BankAccount(newUser.getId(), Currency.AED, BigDecimal.valueOf(10000)),
                 new BankAccount(newUser.getId(), Currency.CNY, BigDecimal.valueOf(10000)),
                 new BankAccount(newUser.getId(), Currency.RUB, BigDecimal.valueOf(100000))
         );
+        bankAccountRepository.saveAll(userAccounts);
 
-        newUser.setBankAccounts(userAccounts);
-
-        AppUser savedUser = appUserRepository.save(newUser);
         EmailConfirmationToken token = new EmailConfirmationToken(
                 tokenService.generateToken(),
                 LocalDateTime.now().plusMinutes(30),
