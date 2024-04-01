@@ -5,6 +5,9 @@ import dh from "../HistoryPage/img/dh.png"
 import y from "../HistoryPage/img/y.png"
 import axios from "axios"
 import { OrderButton } from "./OrderButton"
+import { Loading } from "../Loading"
+import axiosRetry from "axios-retry"
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay })
 const CustomNotification = styled.div`
 	position: fixed;
 	top: 0;
@@ -144,6 +147,7 @@ export const Notification = ({ active, handlefunc }) => {
 				</CustomExitButton>
 			</CustomNotifHeader>
 			<CustomNotifList>
+				{!data.length && <Loading />}
 				{data.map((item, index) => {
 					let stateText = null
 					let currencyIcon = null

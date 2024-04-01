@@ -9,6 +9,7 @@
 		"@testing-library/user-event": "^13.5.0",
 		"@types/styled-components": "^5.1.34",
 		"axios": "^1.6.8",
+		"axios-retry": "^4.1.0",
 		"chart.js": "^4.4.2",
 		"react": "^18.2.0",
 		"react-chartjs-2": "^5.2.0",

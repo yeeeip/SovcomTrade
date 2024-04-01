@@ -8,6 +8,7 @@ export const loginSlice = createSlice({
 		firstName: null,
 		lastName: null,
 		middleName: null,
+		message: null,
 	},
 	reducers: {
 		setBankAccounts: (state, action) => {
@@ -25,8 +26,11 @@ export const loginSlice = createSlice({
 		setToken: (state, action) => {
 			state.token = action.payload
 		},
+		setMessage: (state, action) => {
+			state.message = action.payload
+		},
 	},
 })
-export const { setBankAccounts, setFirstName, setLastName, setMiddleName, setToken } = loginSlice.actions
+export const { setBankAccounts, setFirstName, setLastName, setMiddleName, setToken, setMessage } = loginSlice.actions
 
 export default loginSlice.reducer

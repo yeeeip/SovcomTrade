@@ -13,7 +13,9 @@ import {
 } from "../../../redux/registerSlice"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
-import { setFirstName, setLastName, setMiddleName, setBankAccounts } from "../../../redux/loginSlice"
+import { setFirstName, setLastName, setMiddleName, setBankAccounts, setMessage } from "../../../redux/loginSlice"
+import axiosRetry from "axios-retry"
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay })
 const CustomButton = styled.button`
 	font-family: "TT Travels";
 	font-weight: 500;
@@ -89,7 +91,16 @@ export const Button = ({ href, content, target }) => {
 					}).then()
 				} catch (err) {}
 				break
-			case "register":
+			case "registration":
+				console.log({
+					email: email || "",
+					password: password || "",
+					firstName: firstName || "",
+					lastName: secondName || "",
+					middleName: middleName || "",
+					phoneNumber: phone || "",
+					confirmPassword: secondPassword || "",
+				})
 				axios({
 					method: "post",
 					mode: "no-cors",
@@ -108,9 +119,14 @@ export const Button = ({ href, content, target }) => {
 					}),
 				})
 					.then((response) => {
-						navigate("/login", { replace: true })
+						navigate("/", { replace: true })
+						dispatch(setMessage(`Подтвердите почту. Письмо отправлено на ${email}`))
+						setTimeout(() => {
+							dispatch(setMessage(null))
+						}, 15000)
 					})
 					.catch((err) => {
+						console.log(err)
 						let response = err.response.data
 						if (response.status != 400) {
 							dispatch(generalErrorChange("Что-то пошло не так. Попробуйте ещё раз"))

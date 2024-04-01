@@ -4,6 +4,8 @@ import axios from "axios"
 import { useDispatch } from "react-redux"
 import { setCurrencySwap } from "../../../../redux/currencyModalSlice"
 import { generalErrorValid, generalErrorChange } from "../../../../redux/registerSlice"
+import axiosRetry from "axios-retry"
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay })
 const BuyingSellingDiv = styled.div`
 	display: flex;
 	align-items: center;
@@ -70,7 +72,7 @@ const Button = ({ title, valueSelect, updateCurr }) => {
 							dispatch(generalErrorChange(null))
 							dispatch(generalErrorValid(false))
 						}, 20000)
-						navigate("/entry", { replace: true })
+						navigate("/", { replace: true })
 					}
 				})
 		} catch (err) {

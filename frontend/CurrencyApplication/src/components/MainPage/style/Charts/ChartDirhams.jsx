@@ -6,6 +6,8 @@ import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement
 import { generalErrorValid, generalErrorChange } from "../../../../redux/registerSlice"
 import { useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
+import axiosRetry from "axios-retry"
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay })
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 const ChartP = styled.p`
@@ -57,7 +59,7 @@ export const options = {
 	},
 }
 
-export function ChartDirhams({interval, key}) {
+export function ChartDirhams({ interval, key }) {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
 	const [chartData, setChartData] = useState({
@@ -134,7 +136,7 @@ export function ChartDirhams({interval, key}) {
 						dispatch(generalErrorChange(null))
 						dispatch(generalErrorValid(false))
 					}, 20000)
-					navigate("/entry", { replace: true })
+					navigate("/", { replace: true })
 				}
 			}
 		}
@@ -145,13 +147,13 @@ export function ChartDirhams({interval, key}) {
 	return (
 		<div>
 			<Line options={options} data={chartData} />
-			<div style={{display:"flex", justifyContent:"space-between"}}>
+			<div style={{ display: "flex", justifyContent: "space-between" }}>
 				<div>
 					<ChartTitle>Курсы по отношению к рублю</ChartTitle>
 				</div>
 				<div>
 					<ChartP style={{ color: priceChange >= 0 ? "green" : "red" }}>
-					{priceChange && (priceChange >= 0 ? "+" : "") + (priceChange && priceChange.toFixed(3))}
+						{priceChange && (priceChange >= 0 ? "+" : "") + (priceChange && priceChange.toFixed(3))}
 					</ChartP>
 					<ChartSpan>{`Последнее обновление курса: ${dayUpdateCourse}`}</ChartSpan>
 				</div>

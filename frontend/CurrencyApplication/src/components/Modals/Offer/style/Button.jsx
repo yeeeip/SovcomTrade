@@ -11,6 +11,8 @@ import { useDispatch } from "react-redux"
 import { setOfferSwap } from "../../../../redux/offerModalSlice"
 import { useNavigate } from "react-router-dom"
 import { generalErrorValid, generalErrorChange } from "../../../../redux/registerSlice"
+import axiosRetry from "axios-retry"
+axiosRetry(axios, { retryDelay: axiosRetry.exponentialDelay })
 const BuyingSellingDiv = styled.div`
 	display: flex;
 	align-items: center;
@@ -74,7 +76,7 @@ const Button = ({ title, href, data }) => {
 							dispatch(generalErrorChange(null))
 							dispatch(generalErrorValid(false))
 						}, 20000)
-						navigate("/entry", { replace: true })
+						navigate("/", { replace: true })
 					}
 					let response = err.response.data
 

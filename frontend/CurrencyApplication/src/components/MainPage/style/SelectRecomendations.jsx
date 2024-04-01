@@ -24,6 +24,7 @@ const CustomList = styled.div`
 	background: #fdfdfd;
 	border-radius: 16px;
 	position: absolute;
+	z-index: 10000;
 	width: ${(props) => props.width + "px"};
 	top: 30px; /* position the top  edge of the element at the middle of the parent */
 	right: 0;
@@ -40,7 +41,6 @@ const CustomOption = styled.div`
 	text-align: center;
 	cursor: pointer;
 	user-select: none;
-	z-index: 100;
 `
 
 export const SelectRecomendations = ({ title, data = [], width, handlefunc }) => {

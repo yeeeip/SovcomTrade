@@ -114,6 +114,7 @@ const CustomLinkButton = styled.a`
 
 function Entry() {
 	const generalError = useSelector((state) => state.register.generalError)
+	const loginMessage = useSelector((state) => state.login.message)
 	const register = useSelector((state) => state.register)
 	return (
 		<CustomContainer>
@@ -122,7 +123,8 @@ function Entry() {
 			<CustomFormContainer>
 				<CustomTitleDiv>
 					<CustomTitle>Вход</CustomTitle>
-					{generalError.valid && <CustomTitle style={{ color: "red" }}>{generalError.value}</CustomTitle>}
+					{generalError.valid && <CustomTitle style={{ color: "#DA5155" }}>{generalError.value}</CustomTitle>}
+					{loginMessage && <CustomTitle style={{ color: "#61D6C0" }}>{loginMessage}</CustomTitle>}
 				</CustomTitleDiv>
 				<Input
 					target={"email"}
@@ -139,7 +141,7 @@ function Entry() {
 				<Button href={"#"} content={"Войти"} target={"login"} />
 				<CustomButtonBlock>
 					<SmallButton href={"/recovery"} content={"Забыли пароль?"} />
-					<SmallButton href={"/register"} content={"Зарегистрироваться"} />
+					<SmallButton href={"/registration"} content={"Зарегистрироваться"} />
 				</CustomButtonBlock>
 			</CustomFormContainer>
 			<ExitButton />
