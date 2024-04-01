@@ -51,46 +51,54 @@ const MainPage = () => {
 
 			return
 		}
-		axios({
-			method: "GET",
-			url: `${SERVER_URL}/api/v1/lk/bank_accounts`,
-			headers: {
-				"ngrok-skip-browser-warning": true,
-				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-			},
-		})
-			.then((response) => {
-				console.log(response)
-				dispatch(setBankAccounts(response.data))
+		try {
+			axios({
+				method: "GET",
+				url: `${SERVER_URL}/api/v1/lk/bank_accounts`,
+				headers: {
+					"ngrok-skip-browser-warning": true,
+					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+				},
 			})
-			.catch((err) => {
-				console.log(err)
-				if (err.response.status === 401) {
-					dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
-					dispatch(generalErrorValid(true))
-					setTimeout(() => {
-						dispatch(generalErrorChange(null))
-						dispatch(generalErrorValid(false))
-					}, 20000)
-					navigate("/", { replace: true })
-				}
-			})
+				.then((response) => {
+					console.log(response)
+					dispatch(setBankAccounts(response.data))
+				})
+				.catch((err) => {
+					console.log(err)
+					if (err.response.status === 401) {
+						dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+						dispatch(generalErrorValid(true))
+						setTimeout(() => {
+							dispatch(generalErrorChange(null))
+							dispatch(generalErrorValid(false))
+						}, 20000)
+						navigate("/", { replace: true })
+					}
+				})
+		} catch (err) {
+			console.log(err)
+		}
 	}, [varForUpdate])
 	useEffect(() => {
-		axios({
-			method: "get",
-			url: `${SERVER_URL}/api/v1/lk/recommendations`,
-			headers: {
-				"ngrok-skip-browser-warning": true,
-				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-			},
-		})
-			.then((res) => {
-				setNews(res.data)
+		try {
+			axios({
+				method: "get",
+				url: `${SERVER_URL}/api/v1/lk/recommendations`,
+				headers: {
+					"ngrok-skip-browser-warning": true,
+					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+				},
 			})
-			.catch((err) => {
-				console.error(err)
-			})
+				.then((res) => {
+					setNews(res.data)
+				})
+				.catch((err) => {
+					console.error(err)
+				})
+		} catch (err) {
+			console.log(err)
+		}
 	}, [])
 	return (
 		<>

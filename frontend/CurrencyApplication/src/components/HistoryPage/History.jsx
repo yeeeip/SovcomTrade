@@ -81,29 +81,33 @@ export const History = () => {
 			}, 20000)
 			return
 		}
-		axios({
-			method: "GET",
-			url: `${SERVER_URL}/api/v1/lk/operations`,
-			headers: {
-				"ngrok-skip-browser-warning": true,
-				Authorization: `Bearer ${sessionStorage.getItem("token")}`,
-			},
-		})
-			.then((response) => {
-				setOrders(response.data)
+		try {
+			axios({
+				method: "GET",
+				url: `${SERVER_URL}/api/v1/lk/operations`,
+				headers: {
+					"ngrok-skip-browser-warning": true,
+					Authorization: `Bearer ${sessionStorage.getItem("token")}`,
+				},
 			})
-			.catch((err) => {
-				console.log(err)
-				if (err.response.status === 401) {
-					dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
-					dispatch(generalErrorValid(true))
-					setTimeout(() => {
-						dispatch(generalErrorChange(null))
-						dispatch(generalErrorValid(false))
-					}, 20000)
-					navigate("/", { replace: true })
-				}
-			})
+				.then((response) => {
+					setOrders(response.data)
+				})
+				.catch((err) => {
+					console.log(err)
+					if (err.response.status === 401) {
+						dispatch(generalErrorChange("Ваша сессия истекла. Войдите снова"))
+						dispatch(generalErrorValid(true))
+						setTimeout(() => {
+							dispatch(generalErrorChange(null))
+							dispatch(generalErrorValid(false))
+						}, 20000)
+						navigate("/", { replace: true })
+					}
+				})
+		} catch (err) {
+			console.log(err)
+		}
 	}, [])
 	const handleCurrencyButton = (e) => {
 		setCurrentCurrency(e.target.textContent)
