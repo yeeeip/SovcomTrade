@@ -12,7 +12,7 @@ SPRING_DATASOURCE_DB_NAME=currency_app_db
 SPRING_DATASOURCE_USERNAME=postgres
 SPRING_DATASOURCE_PASSWORD=password
 JWT_SECRET_KEY=jwtkey
-OPENAI_KEY=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
+OPENAI_KEY=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
 ```
 
 Вы можете поменять значения на свои **(кроме OPENAI_KEY, а то все сломается!!!)**, либо же просто скопировать данные.
