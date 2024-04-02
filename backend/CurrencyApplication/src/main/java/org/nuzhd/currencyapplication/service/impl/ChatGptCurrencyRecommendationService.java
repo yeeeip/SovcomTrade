@@ -44,7 +44,7 @@ public class ChatGptCurrencyRecommendationService implements AIRecommendationSer
         return aiRecommendationRepository.findAll();
     }
 
-//    @Scheduled(initialDelay = 10000, fixedDelay = 80000)
+    @Scheduled(initialDelay = 10000, fixedDelay = 80000)
     public void generateRecommendationsForCurrency() {
         List<CurrencyNews> foundNews = newsRepository.findNextThreeNotAnalyzed();
 
